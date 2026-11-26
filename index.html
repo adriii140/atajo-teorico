@@ -123,11 +123,11 @@ img{display:block}
 .itvbar.tl2{display:block;width:100%;gap:0;height:auto;overflow:visible;border-radius:0;margin-top:8px}
 .tl2 .trk{position:relative;width:auto;height:26px;margin-right:10px}
 .tl2 .trk span{position:absolute;top:0;bottom:0;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
-.tl2 .trk i{position:absolute;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px rgba(0,0,0,.25);z-index:1}
+.tl2 .tks i{position:absolute;top:-5px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;border:2px solid var(--cell,#1c1c1e);box-sizing:border-box;width:10px;height:10px;margin-left:-5px;z-index:1}
 .tl2 .trk span+i,.tl2 .trk i{pointer-events:none}
 .tl2 .arr{position:absolute;right:-10px;top:50%;margin-top:-6px;border:6px solid transparent;border-left:8px solid var(--l3,#8e8e93);border-right:0}
-.tl2 .tks{position:relative;height:18px;margin:4px 10px 0 0;border-top:1px solid var(--sep,rgba(128,128,128,.35))}
-.tl2 .tks em{position:absolute;top:2px;transform:translateX(-50%);font-style:normal;font-size:11px;color:var(--l2,#8e8e93);white-space:nowrap}
+.tl2 .tks{position:relative;height:20px;margin:8px 10px 0 0;border-top:1px solid var(--sep,rgba(128,128,128,.35))}
+.tl2 .tks em{position:absolute;top:6px;transform:translateX(-50%);font-style:normal;font-size:11px;color:var(--l2,#8e8e93);white-space:nowrap}
 .tl2 .tks em:first-child{transform:none}
 .tl2 .tks em::before{content:"";position:absolute;left:50%;top:-6px;width:1px;height:5px;background:var(--l2,#8e8e93)}
 .tl2 .tks em:first-child::before{left:0}
@@ -770,8 +770,8 @@ const si=k=>`<img class="si" src="${IMG.src(k)}" alt="" loading="lazy">`;
 const sv=k=>k?`<span class="sv"><img src="${IMG.src(k)}" alt="${k.replace(/\D/g,"")} km/h" loading="lazy"></span>`:`<span class="sv"><span class="no">Prohibido</span></span>`;
 const kv=(k,v,img)=>`<div class="kv${img?" ic":""}">${img?(img.startsWith("e:")?`<span class="ico" style="background:var(--fill)"><img src="${IMG.src(img)}" alt=""></span>`:si(img)):""}<span class="k">${k}</span><span class="val">${v}</span></div>`;
 const pts=(n,col,items)=>`<div class="ptsh"><span class="ptag" style="background:${col}">${n}</span><b>${n==="2–6"?"De 2 a 6 puntos":"Quitan "+n+" puntos"}</b></div><div class="group">${items.map(t=>`<div class="kv ptrow"><span class="dot" style="background:${col}"></span><span class="k">${t}</span></div>`).join("")}</div>`;
-const itv=(name,segs)=>{const M=12,P={ex:0,bi:2,an:1,se:.5},x=v=>(v/M*100).toFixed(2)+"%";let dots=[];segs.forEach(([a,b,c])=>{const p=P[c];if(!p)return;for(let t=a===0?p:a;t<b-1e-9&&t<M;t+=p)dots.push(t)});const bs=[...new Set(segs.map(z=>z[0]).concat([segs[segs.length-1][1]]))].filter(v=>v<M);
-return `<div class="kv" style="display:block"><span class="k" style="display:block;font-weight:600">${name}</span><div class="itvbar tl2"><div class="trk">${segs.map(([a,b,c,l])=>`<span class="${c}" style="left:${x(a)};width:calc(${x(b-a)} - 2px)">${l}</span>`).join("")}${dots.map(t=>`<i style="left:${x(t)}"></i>`).join("")}<b class="arr"></b></div><div class="tks">${bs.map(v=>`<em style="left:${x(v)}">${v===0?"Nuevo":v+" años"}</em>`).join("")}</div></div></div>`};
+const itv=(name,segs)=>{const M=12,P={ex:0,bi:2,an:1,se:.5},x=v=>(v/M*100).toFixed(2)+"%";let dots=[];segs.forEach(([a,b,c])=>{const p=P[c];if(!p)return;for(let t=a===0?p:a;t<b-1e-9&&t<M;t+=p)dots.push([t,c])});const bs=[...new Set(segs.map(z=>z[0]).concat([segs[segs.length-1][1]]))].filter(v=>v<M);
+return `<div class="kv" style="display:block"><span class="k" style="display:block;font-weight:600">${name}</span><div class="itvbar tl2"><div class="trk">${segs.map(([a,b,c,l])=>`<span class="${c}" style="left:${x(a)};width:calc(${x(b-a)} - 2px)">${l}</span>`).join("")}<b class="arr"></b></div><div class="tks">${dots.map(([t,c])=>`<i class="${c}" style="left:${x(t)}"></i>`).join("")}${bs.map(v=>`<em style="left:${x(v)}">${v===0?"Nuevo":v+" años"}</em>`).join("")}</div></div></div>`};
 $("#view").innerHTML=`${lt("Chuleta")}
 <div class="group"><div class="kv"><span class="k"><b style="font-weight:600">Modo tapar</b><small>Oculta las cifras. Dilas en voz alta y toca para comprobar.</small></span><label class="sw"><input type="checkbox" id="tapar" aria-label="Modo tapar"><span></span></label></div></div>
 <div id="cheat">
@@ -794,7 +794,7 @@ $("#view").innerHTML=`${lt("Chuleta")}
 
 <h2 class="gh">ITV</h2>
 <div class="group">${itv("Turismo y autocaravana",[[0,4,"ex","Sin ITV"],[4,10,"bi","Cada 2 años"],[10,12,"an","Anual"]])}${itv("Moto, quad y cuadriciclo",[[0,4,"ex","Sin ITV"],[4,12,"bi","Cada 2 años"]])}${itv("Ciclomotor",[[0,3,"ex","Sin ITV"],[3,12,"bi","Cada 2 años"]])}${itv("Furgoneta y mercancías hasta 3.500 kg",[[0,2,"ex","Sin"],[2,6,"bi","Cada 2"],[6,10,"an","Anual"],[10,12,"se","6 m"]])}${itv("Camión de más de 3.500 kg",[[0,10,"an","Anual"],[10,12,"se","6 m"]])}${itv("Autobús, taxi y ambulancia",[[0,5,"an","Anual"],[5,12,"se","Cada 6 meses"]])}${itv("Caravana remolcada de más de 750 kg",[[0,6,"ex","Sin ITV"],[6,12,"bi","Cada 2 años"]])}</div>
-<p class="gf">Cada punto blanco es una ITV, contando los años desde la matriculación. Gris: sin ITV. Verde: cada 2 años. Naranja: anual. Rojo: cada 6 meses. Responsable: el titular. Si es desfavorable, 2 meses para reparar.</p>
+<p class="gf">Cada punto de la línea es una ITV, contando los años desde la matriculación. Gris: sin ITV. Verde: cada 2 años. Naranja: anual. Rojo: cada 6 meses. Responsable: el titular. Si es desfavorable, 2 meses para reparar.</p>
 
 <h2 class="gh">Alcohol</h2>
 <div class="group">${kv("General","0,25 aire · 0,5 sangre","e:wine-glass")}${kv("Novel (2 años) y profesional","0,15 aire · 0,3 sangre","e:identification-card")}${kv("Menores de edad","0,0","e:child")}${kv("Entre 0,25 y 0,50 en aire","500 € · 4 puntos")}${kv("Más de 0,50 en aire","1.000 € · 6 puntos")}${kv("Delito","más de 0,60 aire")}${kv("Entre las dos pruebas","10 minutos")}${kv("Drogas: basta con dar positivo","1.000 € · 6 puntos","e:pill")}${kv("Negarse a la prueba","delito")}</div>
