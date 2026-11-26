@@ -120,6 +120,23 @@ img{display:block}
 .media.photo{background:#000}.media.photo img{width:100%;height:100%;object-fit:cover}.media{position:relative}.cred{position:absolute;right:8px;bottom:6px;font-size:10.5px;color:#fff;background:rgba(0,0,0,.45);padding:2px 7px;border-radius:6px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ico.ph img{width:100%;height:100%;object-fit:cover}
 .tsub{display:block;font-size:12px;color:var(--l2,#8e8e93);margin-top:3px;font-weight:400}
+.tl2{display:block;height:auto;overflow:visible;border-radius:0;margin-top:8px}
+.tl2 .trk{position:relative;height:26px;margin-right:10px}
+.tl2 .trk span{position:absolute;top:0;bottom:0;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
+.tl2 .trk i{position:absolute;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px rgba(0,0,0,.25);z-index:1}
+.tl2 .trk span+i,.tl2 .trk i{pointer-events:none}
+.tl2 .arr{position:absolute;right:-10px;top:50%;margin-top:-6px;border:6px solid transparent;border-left:8px solid var(--l3,#8e8e93);border-right:0}
+.tl2 .tks{position:relative;height:18px;margin:4px 10px 0 0;border-top:1px solid var(--sep,rgba(128,128,128,.35))}
+.tl2 .tks em{position:absolute;top:2px;transform:translateX(-50%);font-style:normal;font-size:11px;color:var(--l2,#8e8e93);white-space:nowrap}
+.tl2 .tks em:first-child{transform:none}
+.tl2 .tks em::before{content:"";position:absolute;left:50%;top:-6px;width:1px;height:5px;background:var(--l2,#8e8e93)}
+.tl2 .tks em:first-child::before{left:0}
+#cheat.hide .tl2:not(.shown) .trk span,#cheat.hide .tl2:not(.shown) .tks{filter:blur(7px) saturate(.2);opacity:.6}
+.ptsh{display:flex;align-items:center;gap:10px;margin:22px 20px 8px}
+.ptsh .ptag{min-width:30px;height:30px;font-size:14px;border-radius:8px;padding:0 6px}
+.ptsh b{font-size:17px;font-weight:600}
+.ptrow{align-items:center;gap:12px}
+.ptrow .dot{width:8px;height:8px;border-radius:50%;flex:none}
 /* hoja de respuesta */
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;transform:translateY(110%);visibility:hidden;transition:transform .34s cubic-bezier(.2,.9,.25,1),visibility 0s .34s}
 .sheet.show{transform:none;visibility:visible;transition:transform .34s cubic-bezier(.2,.9,.25,1)}
@@ -737,7 +754,7 @@ ${f?`<button class="cell ic" id="tofails">${ico("e:warning","#ff9500")}<span cla
 <div class="group">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,ok=cs.filter(c=>{const x=st(c.id);return x.b>=1&&!x.f}).length,p=prog(cs)*100;return `<button class="cell ic" data-t="${esc(t)}">${ico(TI[t],TINT[t])}<span class="t"><b>${esc(t)}${NEW.has(t)&&t.startsWith("Reforma")?' <span style="color:var(--red);font-size:13px;font-weight:600">· Nuevo</span>':""}</b><span class="minibar"><i style="width:${p}%"></i></span><small class="tsub">${ok} acertadas · ${mm} dominadas</small></span><span class="v">${ok}/${cs.length}</span>${CHEV}</button>`}).join("")}</div>
 <h2 class="gh">Más</h2>
 <div class="group"><button class="cell ic" id="how">${ico("e:light-bulb","#ffcc00")}<span class="t"><b>Cómo funciona el método</b></span>${CHEV}</button><button class="cell ic" id="install">${ico("e:mobile-phone","#007aff")}<span class="t"><b>Instalar en el iPhone</b></span>${CHEV}</button><button class="cell ic" id="credits">${ico("e:memo","#8e8e93")}<span class="t"><b>Fuentes y créditos</b></span>${CHEV}</button></div>
-<p class="foot">Normativa vigente a 26/11/2026, incluida la reforma del Reglamento General de Circulación (Real Decreto 518/2026, en vigor desde el 1/10/2026). El examen teórico es el mismo en toda España. No sustituye al material de tu autoescuela. <span style="opacity:.6">· Versión 15</span></p>`;
+<p class="foot">Normativa vigente a 26/11/2026, incluida la reforma del Reglamento General de Circulación (Real Decreto 518/2026, en vigor desde el 1/10/2026). El examen teórico es el mismo en toda España. No sustituye al material de tu autoescuela. <span style="opacity:.6">· Versión 16</span></p>`;
 $("#start").onclick=()=>startSess(null);$("#toexam").onclick=()=>go("exam");$("#how").onclick=howModal;$("#install").onclick=installModal;$("#credits").onclick=creditsModal;
 const tf=$("#tofails");if(tf)tf.onclick=()=>startSess("__fails");
 $("#view").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>startSess(b.dataset.t))},
@@ -752,8 +769,9 @@ cheat(){
 const si=k=>`<img class="si" src="${IMG.src(k)}" alt="" loading="lazy">`;
 const sv=k=>k?`<span class="sv"><img src="${IMG.src(k)}" alt="${k.replace(/\D/g,"")} km/h" loading="lazy"></span>`:`<span class="sv"><span class="no">Prohibido</span></span>`;
 const kv=(k,v,img)=>`<div class="kv${img?" ic":""}">${img?(img.startsWith("e:")?`<span class="ico" style="background:var(--fill)"><img src="${IMG.src(img)}" alt=""></span>`:si(img)):""}<span class="k">${k}</span><span class="val">${v}</span></div>`;
-const pts=(n,col,items)=>`<div class="kv ic" style="align-items:flex-start"><span class="ptag" style="background:${col}">${n}</span><span class="k">${items.join("<br>")}</span></div>`;
-const itv=(name,segs,note)=>`<div class="kv" style="display:block"><span class="k" style="display:block;font-weight:600">${name}</span><div class="itvbar">${segs.map(s=>`<span class="${s[1]}" style="flex:${s[0]}">${s[2]}</span>`).join("")}</div>${note?`<span class="k" style="display:block"><small>${note}</small></span>`:""}</div>`;
+const pts=(n,col,items)=>`<div class="ptsh"><span class="ptag" style="background:${col}">${n}</span><b>${n==="2–6"?"De 2 a 6 puntos":"Quitan "+n+" puntos"}</b></div><div class="group">${items.map(t=>`<div class="kv ptrow"><span class="dot" style="background:${col}"></span><span class="k">${t}</span></div>`).join("")}</div>`;
+const itv=(name,segs)=>{const M=12,P={ex:0,bi:2,an:1,se:.5},x=v=>(v/M*100).toFixed(2)+"%";let dots=[];segs.forEach(([a,b,c])=>{const p=P[c];if(!p)return;for(let t=a===0?p:a;t<b-1e-9&&t<M;t+=p)dots.push(t)});const bs=[...new Set(segs.map(z=>z[0]).concat([segs[segs.length-1][1]]))].filter(v=>v<M);
+return `<div class="kv" style="display:block"><span class="k" style="display:block;font-weight:600">${name}</span><div class="itvbar tl2"><div class="trk">${segs.map(([a,b,c,l])=>`<span class="${c}" style="left:${x(a)};width:calc(${x(b-a)} - 2px)">${l}</span>`).join("")}${dots.map(t=>`<i style="left:${x(t)}"></i>`).join("")}<b class="arr"></b></div><div class="tks">${bs.map(v=>`<em style="left:${x(v)}">${v===0?"Nuevo":v+" años"}</em>`).join("")}</div></div></div>`};
 $("#view").innerHTML=`${lt("Chuleta")}
 <div class="group"><div class="kv"><span class="k"><b style="font-weight:600">Modo tapar</b><small>Oculta las cifras. Dilas en voz alta y toca para comprobar.</small></span><label class="sw"><input type="checkbox" id="tapar" aria-label="Modo tapar"><span></span></label></div></div>
 <div id="cheat">
@@ -775,8 +793,8 @@ $("#view").innerHTML=`${lt("Chuleta")}
 <p class="gf">Son los símbolos del salpicadero. El de cruce y el de posición son verdes, el de largas azul, la antiniebla trasera ámbar y la emergencia roja.</p><div class="memo"><b>Largas</b>: lejos y a oscuras. <b>Cruce</b>: cuando hay alguien (otro coche, túnel, ciudad). <b>Antiniebla trasera</b>: solo lo peor de lo peor.</div>
 
 <h2 class="gh">ITV</h2>
-<div class="group">${itv("Turismo y autocaravana",[[4,"ex","Libre 4 años"],[6,"bi","Cada 2"],[2,"an","Anual"]],"Libre 4 años, cada 2 hasta los 10 y después cada año")}${itv("Moto, quad y cuadriciclo",[[4,"ex","Libre 4"],[8,"bi","Cada 2 años"]])}${itv("Ciclomotor",[[3,"ex","Libre 3"],[9,"bi","Cada 2 años"]])}${itv("Furgoneta y mercancías hasta 3.500 kg",[[2,"ex","2"],[4,"bi","Cada 2"],[4,"an","Anual"],[2,"se","6 m"]],"Libre 2, cada 2 hasta los 6, anual hasta los 10 y después cada 6 meses")}${itv("Camión de más de 3.500 kg",[[10,"an","Anual"],[2,"se","6 m"]],"Anual desde el principio y semestral a partir de los 10")}${itv("Autobús, taxi y ambulancia",[[5,"an","Anual"],[7,"se","Cada 6 meses"]])}${itv("Caravana remolcada de más de 750 kg",[[6,"ex","Libre 6 años"],[6,"bi","Cada 2"]])}</div>
-<p class="gf">Gris: libre. Verde: cada 2 años. Naranja: anual. Rojo: cada 6 meses. Responsable: el titular. Si es desfavorable, 2 meses para reparar.</p>
+<div class="group">${itv("Turismo y autocaravana",[[0,4,"ex","Sin ITV"],[4,10,"bi","Cada 2 años"],[10,12,"an","Anual"]])}${itv("Moto, quad y cuadriciclo",[[0,4,"ex","Sin ITV"],[4,12,"bi","Cada 2 años"]])}${itv("Ciclomotor",[[0,3,"ex","Sin ITV"],[3,12,"bi","Cada 2 años"]])}${itv("Furgoneta y mercancías hasta 3.500 kg",[[0,2,"ex","Sin"],[2,6,"bi","Cada 2"],[6,10,"an","Anual"],[10,12,"se","6 m"]])}${itv("Camión de más de 3.500 kg",[[0,10,"an","Anual"],[10,12,"se","6 m"]])}${itv("Autobús, taxi y ambulancia",[[0,5,"an","Anual"],[5,12,"se","Cada 6 meses"]])}${itv("Caravana remolcada de más de 750 kg",[[0,6,"ex","Sin ITV"],[6,12,"bi","Cada 2 años"]])}</div>
+<p class="gf">Cada punto blanco es una ITV, contando los años desde la matriculación. Gris: sin ITV. Verde: cada 2 años. Naranja: anual. Rojo: cada 6 meses. Responsable: el titular. Si es desfavorable, 2 meses para reparar.</p>
 
 <h2 class="gh">Alcohol</h2>
 <div class="group">${kv("General","0,25 aire · 0,5 sangre","e:wine-glass")}${kv("Novel (2 años) y profesional","0,15 aire · 0,3 sangre","e:identification-card")}${kv("Menores de edad","0,0","e:child")}${kv("Entre 0,25 y 0,50 en aire","500 € · 4 puntos")}${kv("Más de 0,50 en aire","1.000 € · 6 puntos")}${kv("Delito","más de 0,60 aire")}${kv("Entre las dos pruebas","10 minutos")}${kv("Drogas: basta con dar positivo","1.000 € · 6 puntos","e:pill")}${kv("Negarse a la prueba","delito")}</div>
@@ -784,7 +802,7 @@ $("#view").innerHTML=`${lt("Chuleta")}
 
 <h2 class="gh">Puntos</h2>
 <div class="group">${kv("Novel","8")}${kv("Tras 2 años sin perder puntos","12")}${kv("3 años más sin infracciones","14")}${kv("Máximo","15")}</div>
-<div class="group" style="margin-top:12px">${pts(6,"var(--red)",["Móvil en la mano","Drogas en el organismo","Negarse a las pruebas","Temeraria, sentido contrario o carreras","Tirar colillas u objetos","Adelantar a un ciclista en peligro o sin 1,5 m","Alcohol de más de 0,50 en aire (0,30 novel)"])}${pts(4,"var(--orange)",["Semáforo en rojo, STOP o ceda el paso","Sin distancia de seguridad","Sin cinturón, casco o sillita","Adelantar en peligro o sin visibilidad","Marcha atrás en autopista o autovía","No obedecer a un agente","Alcohol de 0,25 a 0,50 en aire"])}${pts(3,"#d4a000",["Auriculares o manipular el móvil","Detector de radar","Cambio de sentido prohibido"])}${pts("2–6","var(--indigo)",["Exceso de velocidad, según cuánto"])}</div>
+<div>${pts(6,"var(--red)",["Móvil en la mano","Drogas en el organismo","Negarse a las pruebas","Temeraria, sentido contrario o carreras","Tirar colillas u objetos","Adelantar a un ciclista en peligro o sin 1,5 m","Alcohol de más de 0,50 en aire (0,30 novel)"])}${pts(4,"var(--orange)",["Semáforo en rojo, STOP o ceda el paso","Sin distancia de seguridad","Sin cinturón, casco o sillita","Adelantar en peligro o sin visibilidad","Marcha atrás en autopista o autovía","No obedecer a un agente","Alcohol de 0,25 a 0,50 en aire"])}${pts(3,"#d4a000",["Auriculares o manipular el móvil","Detector de radar","Cambio de sentido prohibido"])}${pts("2–6","var(--indigo)",["Exceso de velocidad, según cuánto"])}</div>
 <div class="group" style="margin-top:12px">${kv("Curso de recuperación parcial","hasta 4 puntos")}${kv("Curso de conducción segura sin haber perdido","+2")}${kv("Sin infracciones (3 si fue muy grave)","2 años → 12")}${kv("Sin puntos","6 meses sin carné")}</div>
 <div class="memo"><b>6</b> = lo que mata. <b>4</b> = lo que no respetas. <b>3</b> = lo que te distrae.</div>
 
