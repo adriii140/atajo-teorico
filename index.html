@@ -691,7 +691,10 @@ const st=id=>S.c[id]||{b:0,d:0};
 const isM=c=>st(c.id).b>=4;
 const mastered=()=>BK.filter(isM).length;
 const due=()=>cards().filter(c=>st(c.id).b>0&&st(c.id).d<=Date.now()).length;
-const fails=()=>BK.filter(c=>st(c.id).b==1);
+const fails=()=>BK.filter(c=>st(c.id).f===true);
+const lvl=c=>Math.min(4,st(c.id).b);
+const prog=list=>list.length?list.reduce((a,c)=>a+lvl(c),0)/(4*list.length):0;
+const learning=()=>BK.filter(c=>{const x=st(c.id);return x.b>=1&&x.b<4}).length;
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const track=(t,ok)=>{const r=S.t[t]||{ok:0,n:0};r.n++;if(ok)r.ok++;S.t[t]=r};
 const vib=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}};
@@ -712,20 +715,20 @@ const lt=(t,right="")=>`<div class="lt"><h1>${t}</h1>${right}</div>`;
 const fecha=()=>{const t=new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"});return t.charAt(0).toUpperCase()+t.slice(1)};
 
 const R={
-home(){const n=BK.length,m=mastered(),pct=Math.round(m/n*100),dd=due(),f=fails().length;
+home(){const n=BK.length,m=mastered(),pg=prog(BK),pct=Math.round(pg*100),lr=learning(),dd=due(),f=fails().length;
 const last=S.ex.slice(-3),apt=last.length==3&&last.every(e=>e.f<=3);
-const rd=apt&&pct>=80?["#34c759","Semáforo en verde: lista para pedir fecha","Tres simulacros aptos seguidos y más del 80 % dominado."]:pct>=80?["#ff9500","Semáforo en ámbar: casi lista","Ya dominas lo necesario. Haz simulacros hasta aprobar tres seguidos."]:["#ff3b30","Semáforo en rojo: todavía no","Llega al 80 % de dominio y después empieza con los simulacros."];
+const rd=apt&&pct>=80?["#34c759","Semáforo en verde: lista para pedir fecha","Tres simulacros aptos seguidos y más del 80 % de progreso."]:pct>=80?["#ff9500","Semáforo en ámbar: casi lista","Ya dominas lo necesario. Haz simulacros hasta aprobar tres seguidos."]:["#ff3b30","Semáforo en rojo: todavía no","Llega al 80 % de progreso y después empieza con los simulacros."];
 $("#view").innerHTML=`${lt("Estudiar",`<span class="chip"><img src="img/e/fire.webp" alt="">${S.streak} ${S.streak==1?"día":"días"}</span>`)}
 <p class="gf" style="margin:-4px 20px 12px">${fecha()}</p>
-<section class="sum">${ringSVG(m/n,S.dn/GOAL)}<div><p class="k">Dominadas</p><p class="n g">${m}<small>/${n}</small></p><p class="k">Hoy</p><p class="n c" style="margin:0">${Math.min(S.dn,99)}<small>/${GOAL}</small></p></div></section>
+<section class="sum">${ringSVG(pg,S.dn/GOAL)}<div><p class="k">Progreso</p><p class="n g">${pct}<small> %</small></p><p class="k">Hoy</p><p class="n c" style="margin:0 0 6px">${Math.min(S.dn,99)}<small>/${GOAL}</small></p><p class="k" style="font-weight:400">${m} dominadas · ${lr} en progreso</p></div></section>
 <div class="pad"><button class="btn" id="start">${dd?`Repasar ahora · ${Math.min(dd,10)} pendientes`:"Empezar sesión de 10 preguntas"}</button></div>
 <h2 class="gh">Para el examen</h2>
 <div class="group"><button class="cell" id="toexam"><span class="tl" aria-label="Semáforo de preparación"><i style="background:${rd[0]=="#ff3b30"?"#ff3b30":"#ff3b3033"}"></i><i style="background:${rd[0]=="#ff9500"?"#ff9500":"#ff950033"}"></i><i style="background:${rd[0]=="#34c759"?"#34c759":"#34c75933"}"></i></span><span class="t"><b style="font-weight:600">${rd[1]}</b><small>${rd[2]}</small></span>${CHEV}</button>
 ${S.ex.length?`<div class="hist" aria-label="Últimos simulacros">${S.ex.slice(-10).map(e=>`<span style="background:${e.f<=3?"var(--green)":"var(--red)"}">${e.f}</span>`).join("")}</div>`:""}
 ${f?`<button class="cell ic" id="tofails">${ico("e:warning","#ff9500")}<span class="t"><b>Corregir mis fallos</b></span><span class="v">${f}</span>${CHEV}</button>`:""}</div>
-<p class="gf">Llevas el ${pct} % del temario dominado. Una pregunta cuenta como dominada cuando la aciertas varias veces seguidas en días distintos.</p>
+<p class="gf">Cada acierto sube un nivel la pregunta y llena el anillo verde. Una pregunta queda dominada al acertarla 4 veces: dos el primer día, otra al día siguiente y otra unos días después. Si la fallas, vuelve a empezar.</p>
 <h2 class="gh">Temas</h2>
-<div class="group">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,p=mm/cs.length*100;return `<button class="cell ic" data-t="${esc(t)}">${ico(TI[t],TINT[t])}<span class="t"><b>${esc(t)}${NEW.has(t)&&t.startsWith("Reforma")?' <span style="color:var(--red);font-size:13px;font-weight:600">· Nuevo</span>':""}</b><span class="minibar"><i style="width:${p}%"></i></span></span><span class="v">${mm}/${cs.length}</span>${CHEV}</button>`}).join("")}</div>
+<div class="group">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,p=prog(cs)*100;return `<button class="cell ic" data-t="${esc(t)}">${ico(TI[t],TINT[t])}<span class="t"><b>${esc(t)}${NEW.has(t)&&t.startsWith("Reforma")?' <span style="color:var(--red);font-size:13px;font-weight:600">· Nuevo</span>':""}</b><span class="minibar"><i style="width:${p}%"></i></span></span><span class="v">${mm}/${cs.length}</span>${CHEV}</button>`}).join("")}</div>
 <h2 class="gh">Más</h2>
 <div class="group"><button class="cell ic" id="how">${ico("e:light-bulb","#ffcc00")}<span class="t"><b>Cómo funciona el método</b></span>${CHEV}</button><button class="cell ic" id="install">${ico("e:mobile-phone","#007aff")}<span class="t"><b>Instalar en el iPhone</b></span>${CHEV}</button><button class="cell ic" id="credits">${ico("e:memo","#8e8e93")}<span class="t"><b>Fuentes y créditos</b></span>${CHEV}</button></div>
 <p class="foot">Normativa vigente a 26/11/2026, incluida la reforma del Reglamento General de Circulación (Real Decreto 518/2026, en vigor desde el 1/10/2026). El examen teórico es el mismo en toda España. No sustituye al material de tu autoescuela.</p>`;
@@ -811,7 +814,7 @@ $("#rs").onclick=()=>{const v=$("#bk").value.trim();try{if(!v.startsWith("ATAJO1
 };
 
 function modal(title,html){const m=$("#modal");$("#modalc").innerHTML=`<div class="mt"><span></span><b>${title}</b><button id="mx">OK</button></div>${html}`;m.hidden=false;$("#mx").onclick=()=>m.hidden=true;m.onclick=e=>{if(e.target==m)m.hidden=true}}
-function howModal(){modal("Cómo funciona",`<div class="prose"><h4>Recordar, no releer</h4><p>Cada pregunta te obliga a sacar la respuesta de memoria antes de verla. Ese esfuerzo es lo que la fija.</p><h4>Repasar justo antes de olvidar</h4><p>Cada acierto aleja la pregunta: mañana, en 3 días, en una semana, en dos. Cada fallo la trae de vuelta enseguida.</p><h4>Poco y a diario</h4><p>El anillo azul es tu objetivo del día: 10 preguntas. El verde, todo lo que ya dominas.</p><h4>El plan</h4><p>Sesión diaria hasta el 80 % de dominio. Después, un simulacro al día. Con tres aptos seguidos, a pedir fecha.</p><h4>Trampas típicas</h4><p>Desconfía de «siempre» y «nunca», lee hasta el final por si hay un «no» escondido y, si dudas, elige la opción que más protege a peatones y ciclistas.</p></div>`)}
+function howModal(){modal("Cómo funciona",`<div class="prose"><h4>Recordar, no releer</h4><p>Cada pregunta te obliga a sacar la respuesta de memoria antes de verla. Ese esfuerzo es lo que la fija.</p><h4>Repasar justo antes de olvidar</h4><p>Cada acierto aleja la pregunta: mañana, en 3 días, en una semana, en dos. Cada fallo la trae de vuelta enseguida.</p><h4>Poco y a diario</h4><p>El anillo azul es tu objetivo del día: 10 preguntas. El verde es tu progreso: sube con cada acierto. Una pregunta está dominada cuando la aciertas 4 veces en días distintos.</p><h4>El plan</h4><p>Sesión diaria hasta el 80 % de dominio. Después, un simulacro al día. Con tres aptos seguidos, a pedir fecha.</p><h4>Trampas típicas</h4><p>Desconfía de «siempre» y «nunca», lee hasta el final por si hay un «no» escondido y, si dudas, elige la opción que más protege a peatones y ciclistas.</p></div>`)}
 function installModal(){modal("Instalar",`<div class="prose"><h4>En iPhone (Safari)</h4><p>Pulsa el botón Compartir y elige «Añadir a pantalla de inicio». Se abrirá a pantalla completa, como una app.</p><h4>En Android (Chrome)</h4><p>Menú de los tres puntos y «Añadir a pantalla de inicio» o «Instalar aplicación».</p><h4>Por qué conviene</h4><p>Instalada, funciona sin conexión y el móvil conserva mejor tu progreso. Safari puede borrar los datos de una web que no se abre en una semana; instalada, no.</p></div>`)}
 function creditsModal(){const fs=[...new Set(Object.values(IMG.SFILE))];modal("Fuentes y créditos",`<div class="prose"><h4>Señales de tráfico</h4><p>Imágenes oficiales del catálogo español alojadas en Wikimedia Commons, en dominio público o con licencias libres de sus autores. Toca cualquiera para ver su ficha y licencia.</p></div><div class="group" style="margin-top:10px">${fs.map(f=>`<a class="cell" style="color:inherit;text-decoration:none;min-height:44px" href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(f)}" target="_blank" rel="noopener"><span class="t"><b style="font-size:14px">${esc(f.replace(/_/g," "))}</b></span>${CHEV}</a>`).join("")}</div><div class="prose"><h4>Ilustraciones</h4><p>Fluent Emoji de Microsoft, licencia MIT.</p><h4>Normativa</h4><p>Reglamento General de Circulación (con la reforma del Real Decreto 518/2026), Ley de Tráfico y Seguridad Vial, Real Decreto 920/2017 (ITV) y notas oficiales de la DGT, a 26/11/2026.</p></div>`)}
 
@@ -847,12 +850,12 @@ sheet(`<div class="res-h" style="color:${right?"var(--green)":"var(--red)"}">${r
 $("#nx").onclick=()=>grade(right);setTimeout(()=>{try{$("#nx").focus({preventScroll:true})}catch(e){}},60);document.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();grade(right)}}}
 function grade(right){document.onkeydown=null;const it=sess.q[sess.i],s=st(it.c.id);
 if(!it.miss&&!it.c.flash)S.dn++;
-if(right){if(!it.miss){s.b=Math.min(5,s.b+1);sess.ok++}else s.b=Math.max(2,s.b);s.d=Date.now()+IV[s.b]*DAY}
-else{s.b=1;s.d=Date.now();if(!it.miss)sess.q.splice(Math.min(sess.i+4,sess.q.length),0,{c:it.c,miss:true})}
+if(right){if(!it.miss){s.b=Math.min(5,s.b+1);sess.ok++}else s.b=Math.max(1,s.b);if(!it.miss)s.f=false;s.d=Date.now()+IV[s.b]*DAY}
+else{s.b=1;s.f=true;s.d=Date.now();if(!it.miss)sess.q.splice(Math.min(sess.i+4,sess.q.length),0,{c:it.c,miss:true})}
 S.c[it.c.id]=s;save();sess.i++;showCard()}
 function endSess(){bumpStreak();save();sh.classList.remove("show");const m=mastered(),n=BK.length,t=sess.topic;
-play.innerHTML=mhead(1,1,"","Listo")+`<div class="qwrap" style="padding-bottom:40px"><div class="result"><div class="ring">${ringSVG(m/n,S.dn/GOAL,160)}</div><h2>${sess.ok} de ${sess.tot} a la primera</h2><p>${S.dn>=GOAL?"Objetivo de hoy cumplido.":`Te faltan ${GOAL-S.dn} para el objetivo de hoy.`} Racha de ${S.streak} ${S.streak==1?"día":"días"}.</p></div>
-<div class="group" style="margin:18px 0 0"><div class="cell"><span class="t"><b>Dominadas</b></span><span class="v">${m} de ${n}</span></div><div class="cell"><span class="t"><b>Pendientes para hoy</b></span><span class="v">${due()}</span></div><div class="cell"><span class="t"><b>Fallos por corregir</b></span><span class="v">${fails().length}</span></div></div>
+play.innerHTML=mhead(1,1,"","Listo")+`<div class="qwrap" style="padding-bottom:40px"><div class="result"><div class="ring">${ringSVG(prog(BK),S.dn/GOAL,160)}</div><h2>${sess.ok} de ${sess.tot} a la primera</h2><p>${S.dn>=GOAL?"Objetivo de hoy cumplido.":`Te faltan ${GOAL-S.dn} para el objetivo de hoy.`} Racha de ${S.streak} ${S.streak==1?"día":"días"}.</p></div>
+<div class="group" style="margin:18px 0 0"><div class="cell"><span class="t"><b>Progreso total</b></span><span class="v">${Math.round(prog(BK)*100)} %</span></div><div class="cell"><span class="t"><b>Dominadas</b></span><span class="v">${m} de ${n}</span></div><div class="cell"><span class="t"><b>En progreso</b></span><span class="v">${learning()}</span></div><div class="cell"><span class="t"><b>Pendientes para hoy</b></span><span class="v">${due()}</span></div><div class="cell"><span class="t"><b>Fallos por corregir</b></span><span class="v">${fails().length}</span></div></div>
 <div style="display:grid;gap:10px;margin-top:18px"><button class="btn" id="again">Otras 10 preguntas</button><button class="btn gray" id="home">Volver</button></div></div>`;
 $("#px").onclick=()=>go(cur);$("#again").onclick=()=>startSess(t);$("#home").onclick=()=>go(cur)}
 function startExam(){const q=shuffle(BK.map((x,i)=>i)).slice(0,30);exam={q,ord:q.map(()=>shuffle([0,1,2])),i:0,ans:[],end:Date.now()+30*60e3,done:false};openPlay();timerId=setInterval(tick,1000);showQ()}
@@ -864,7 +867,7 @@ const pick=(o,b)=>{if(exam.lock)return;exam.lock=true;if(b)b.classList.add("sel"
 $("#opts").onclick=e=>{const b=e.target.closest(".opt");if(b)pick(+b.dataset.o,b)};
 document.onkeydown=e=>{const k="abc".indexOf(e.key.toLowerCase());if(k>=0)pick(exam.ord[exam.i][k],$("#opts").children[k])}}
 function finishExam(){if(exam.done)return;exam.done=true;clearInterval(timerId);document.onkeydown=null;const wrong=[];
-exam.q.forEach((qi,k)=>{const c=BK[qi],ok=exam.ans[k]==c.a;if(k<exam.ans.length)track(c.t,ok);if(!ok){wrong.push({c,a:exam.ans[k]});S.c[c.id]={b:1,d:Date.now()}}});
+exam.q.forEach((qi,k)=>{const c=BK[qi],ok=exam.ans[k]==c.a;if(k<exam.ans.length)track(c.t,ok);if(!ok){wrong.push({c,a:exam.ans[k]});S.c[c.id]={b:1,d:Date.now(),f:true}}});
 S.ex.push({d:Date.now(),f:wrong.length});S.ex=S.ex.slice(-30);bumpStreak();save();const ok=wrong.length<=3;
 play.innerHTML=mhead(1,1,"","Listo")+`<div style="max-width:620px;margin:0 auto;padding-bottom:calc(40px + var(--safe-b))"><div class="result"><div class="ring">${ringSVG((30-wrong.length)/30,null,160)}</div><h2 style="color:${ok?"var(--green)":"var(--red)"}">${ok?"Apto":"No apto"}</h2><p>${30-wrong.length} de 30 correctas · ${wrong.length} ${wrong.length==1?"fallo":"fallos"} (máximo 3)</p></div>
 <div style="display:grid;gap:10px;margin:18px 16px 0">${wrong.length?`<button class="btn" id="fx">Corregir estos fallos</button>`:""}<button class="btn gray" id="hm">Volver</button></div>
