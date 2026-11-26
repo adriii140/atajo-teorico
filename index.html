@@ -78,6 +78,64 @@ input,textarea{font:inherit;font-size:16px;width:100%;padding:10px 12px;border-r
 .bl{animation:bl 1s steps(1) infinite}.bl2{animation:bl 1s steps(1) infinite .5s}@keyframes bl{50%{opacity:.12}}
 .exrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.exdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}.exdot.ok{background:var(--ok)}.exdot.ko{background:var(--red)}
 .topic{border-bottom:1px solid var(--line);padding:6px 0}.topic>span:first-child{flex:1;font-weight:600}
+
+.cheat-top{border-top:6px solid var(--blue)}
+.ck{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,4vw,24px);margin-bottom:16px;border-top:8px solid var(--acc)}
+.ck h3{margin:0 0 12px;font-size:21px}.ck h4{margin:18px 0 8px;font-size:16px}
+.c-speed{--acc:#c8102e}.c-light{--acc:#1e88e5}.c-itv{--acc:#2e7d32}.c-alc{--acc:#f59e0b}.c-pts{--acc:#7b1fa2}.c-dist{--acc:#00897b}.c-perm{--acc:#0050b5}.c-mult{--acc:#546e7a}
+.sg{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#fff;border:7px solid #c8102e;color:#111;font-size:19px;font-weight:800;line-height:1;flex:none}
+.sg3{font-size:15px;letter-spacing:-.5px}
+.sg-b{background:#0050b5;border:3px solid #fff;box-shadow:0 0 0 2px #0050b5;color:#fff}
+.spd{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr);gap:8px 10px;align-items:center}
+.spd>div{display:flex;justify-content:center}.spd>.spd-v{justify-content:flex-start;font-size:14.5px;line-height:1.3;display:block}
+.spd-h{font-size:13px;font-weight:700;color:var(--mut);text-align:center}
+.spd>div:nth-child(3n+4),.spd>div:nth-child(3n+5),.spd>div:nth-child(3n+6){border-top:1px dashed var(--line);padding-top:8px}
+.no{font-size:13px;color:var(--mut);font-weight:700}
+.mnemo{margin:14px 0 4px;padding:10px 14px;border-radius:10px;background:color-mix(in srgb,var(--acc) 12%,var(--card));border-left:5px solid var(--acc);font-size:15px}
+.minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:12px}
+.minis>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px}
+.lbl{font-size:13.5px;line-height:1.3}
+.pill{background:color-mix(in srgb,var(--acc) 16%,var(--card));border-radius:999px;padding:4px 10px;font-weight:800;font-size:13.5px;text-align:right}
+.city{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.cv{display:grid;justify-items:center;gap:6px;text-align:center;font-size:13.5px;padding:10px;border-radius:12px;background:light-dark(#f3f5f8,#222a33)}
+.street{width:100%;height:30px;border-radius:6px;background:#4b5158;position:relative}
+.street::after{content:"";position:absolute;inset:13px 8px auto;height:3px;background:repeating-linear-gradient(90deg,#fff 0 10px,transparent 10px 18px)}
+.s1{background:#d9c7a8}.s1::after{display:none}.s3::before{content:"";position:absolute;inset:6px 8px auto;height:2px;background:#fff;box-shadow:0 16px 0 #fff}.s4{background:#3b4046}
+.lights{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.lt{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;background:light-dark(#0f1a2e,#0b1220);color:#e8eef8}
+.lt svg{width:64px;flex:none;background:#000a;border-radius:8px;padding:4px}.lt p{margin:4px 0 0;font-size:14px;line-height:1.4}.lt b{color:#fff}
+.lt .v{color:#ffd54f}
+.itv{margin-bottom:12px}.itv-n{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.itv-bar,.legend{display:flex;gap:2px}.itv-bar{height:30px;border-radius:8px;overflow:hidden}
+.seg{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;min-width:0;white-space:nowrap;overflow:hidden}
+.seg i{font-style:normal;padding:0 4px;overflow:hidden;text-overflow:ellipsis}
+.ex{background:#9e9e9e}.bi{background:#43a047}.an{background:#f59e0b}.se{background:#d81e2c}
+.itv-axis{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:6px}
+.itv-x{font-size:13px;margin-top:3px}.legend{flex-wrap:wrap;gap:6px;margin:6px 0}.legend .seg{padding:3px 8px;border-radius:6px}
+.alc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.al{border-radius:14px;padding:12px;display:grid;justify-items:center;text-align:center;color:#111}
+.al b{font-size:32px;line-height:1.05}.al small{font-size:12.5px;margin-bottom:4px}.al .lbl{font-weight:700;margin-bottom:4px}
+.al.g{background:#ffe082}.al.n{background:#ffb74d}.al.z{background:#ef9a9a}
+.ladder{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.st{border-radius:12px;padding:8px 12px;display:grid;justify-items:center;color:#fff;min-width:56px}.st b{font-size:28px;line-height:1}.st span{font-size:11.5px}
+.s8{background:#ba68c8}.s12{background:#8e24aa}.s14{background:#6a1b9a}.s15{background:#4a148c}.ar{font-size:12px;color:var(--mut)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.pg{border-radius:14px;padding:12px 12px 12px 64px;position:relative;min-height:70px}
+.pg ul{margin:0;padding-left:16px;font-size:14px;line-height:1.45}.pn{position:absolute;left:10px;top:10px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff}
+.p6{background:color-mix(in srgb,#d81e2c 12%,var(--card))}.p6 .pn{background:#d81e2c}
+.p4{background:color-mix(in srgb,#f57c00 12%,var(--card))}.p4 .pn{background:#f57c00}
+.p3{background:color-mix(in srgb,#fbc02d 16%,var(--card))}.p3 .pn{background:#f9a825}
+.pv{background:color-mix(in srgb,#7b1fa2 12%,var(--card))}.pv .pn{background:#7b1fa2;font-size:15px}
+.dist,.ages{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.ds,.ages>div{border-radius:12px;padding:10px 12px;background:color-mix(in srgb,var(--acc) 10%,var(--card));border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);display:grid;gap:2px}
+.ds b,.ages b{font-size:24px;line-height:1.1;color:var(--acc)}.ds span,.ages span{font-size:13.5px;line-height:1.3}
+:root[data-theme=dark] .ds b,:root[data-theme=dark] .ages b{filter:brightness(1.6)}
+.permB .pb{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:14px;align-items:center}
+.pbg{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}.pbg>div{display:grid;border-left:4px solid var(--acc);padding-left:8px}.pbg b{font-size:20px}.pbg span{font-size:13px}
+@media(max-width:600px){.permB .pb{grid-template-columns:1fr}.permB svg{max-width:200px}.sg{width:46px;height:46px;font-size:17px;border-width:6px}.spd>.spd-v{font-size:13.5px}}
+#ch.hide .v:not(.shown){color:transparent!important;background:repeating-linear-gradient(45deg,var(--line) 0 6px,color-mix(in srgb,var(--line) 50%,transparent) 6px 12px)!important;border-radius:6px;cursor:pointer;-webkit-text-fill-color:transparent;filter:none}
+#ch.hide .sg .v:not(.shown){display:inline-block;min-width:28px}
+#ch.hide .seg .v:not(.shown){background:#0003!important}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -92,7 +150,7 @@ input,textarea{font:inherit;font-size:16px;width:100%;padding:10px 12px;border-r
 <nav id="nav">
 <button class="tab" data-v="home">Hoy</button>
 <button class="tab" data-v="exam">Simulacro 30/3</button>
-<button class="tab" data-v="cheat">Chuleta de números</button>
+<button class="tab" data-v="cheat">Chuleta</button>
 <button class="tab" data-v="mine">Mis fallos</button>
 <button class="tab" data-v="how">El método</button>
 </nav>
@@ -135,7 +193,7 @@ const B2=[
 // ===== Puntos y permisos =====
 ["Puntos y permisos","Llevas 3 años sin sanciones con 12 puntos. ¿Qué ocurre?",["Pasas a 14 puntos","Pasas a 15 puntos","Nada"],0,"3 años sin sanciones: +2 (14). Otros 3 años más: +1 (15).","12 → 14 → 15, cada tres años."],
 ["Puntos y permisos","Si pierdes puntos pero no cometes infracciones durante 2 años (y no eran muy graves), ¿qué pasa?",["Recuperas los 12 puntos","Recuperas 2 puntos","Nada, solo con curso"],0,"2 años sin infracciones devuelven el saldo inicial de 12. Si alguna fue muy grave, son 3 años.",""],
-["Puntos y permisos","Un curso de recuperación parcial de puntos permite recuperar como máximo...",["2 puntos","6 puntos","12 puntos"],1,"Hasta 6 puntos, y como mucho una vez cada 2 años (cada año para profesionales).",""],
+["Puntos y permisos","Un curso de recuperación parcial de puntos permite recuperar como máximo...",["2 puntos","4 puntos","12 puntos"],1,"Hasta 4 puntos (desde la orden de 2024), y como mucho una vez cada 2 años (cada año para profesionales).","Trampa: antes eran 6, muchos tests antiguos lo tienen mal."],
 ["Puntos y permisos","Pierdes todos los puntos. ¿Cuánto tiempo mínimo estarás sin poder obtener de nuevo el permiso?",["1 mes","6 meses","5 años"],1,"6 meses (3 para profesionales), con curso de reeducación y examen. Si reincides en 3 años, 12 meses.",""],
 ["Puntos y permisos","Conducir con el permiso perdido por pérdida total de puntos es...",["Infracción leve","Delito","Infracción grave"],1,"Conducir sin permiso por pérdida de puntos, o sin haberlo obtenido nunca, es delito.",""],
 ["Puntos y permisos","Conducir con el permiso caducado (vencido) es...",["Delito","Infracción administrativa","Legal hasta 6 meses"],1,"Es una infracción con multa, no delito. Pero hay que renovarlo antes de conducir.",""],
@@ -203,7 +261,7 @@ const B2=[
 ["Maniobras","Vas a salir de la autopista. ¿Dónde empiezas a reducir la velocidad?",["En el carril de deceleración","En el carril de la autopista antes de la salida","Después de la salida"],0,"Reduce ya dentro del carril de deceleración para no frenar al tráfico.",""],
 ["Maniobras","En el carril de aceleración debes...",["Ajustar tu velocidad a la de la vía y entrar cediendo el paso","Detenerte siempre al final","Entrar sin mirar"],0,"Se usa para alcanzar una velocidad adecuada e incorporarte sin obligar a frenar a nadie.",""],
 ["Maniobras","Te pasas la salida que querías en una autovía. ¿Qué haces?",["Marcha atrás por el arcén","Seguir hasta la siguiente salida","Cambio de sentido en la mediana"],1,"Marcha atrás y cambios de sentido están prohibidos en autopistas y autovías.",""],
-["Maniobras","Hacer marcha atrás en autopista o autovía supone...",["4 puntos","6 puntos","Nada si es poco"],1,"Infracción muy grave: 6 puntos.",""],
+["Maniobras","Hacer marcha atrás en autopista o autovía supone...",["4 puntos","6 puntos","Nada si es poco"],0,"Marcha atrás en autopista o autovía: 4 puntos. Circular en sentido contrario, en cambio, son 6.",""],
 ["Maniobras","Para girar a la izquierda en una calle de doble sentido, te colocas...",["Junto al eje central de la calzada","Pegado a la derecha","En el centro del carril"],0,"Arrímate al centro de la calzada (sin invadir el contrario) para girar a la izquierda.",""],
 ["Maniobras","Para girar a la izquierda en una calle de sentido único, te colocas...",["Pegado al borde izquierdo","Pegado al borde derecho","En medio"],0,"En sentido único, al borde izquierdo de la calzada.",""],
 ["Maniobras","En una glorieta, ¿por qué carril debes salir?",["Desde el carril derecho","Desde cualquier carril","Desde el izquierdo"],0,"Para salir hay que estar en el carril exterior (derecho). Si no puedes, da otra vuelta.","Glorieta: sales siempre desde fuera."],
@@ -666,8 +724,147 @@ $("#chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const t=b
 $("#view").querySelectorAll("[data-weak]").forEach(b=>b.onclick=()=>{S.sel=[b.dataset.weak];save();startSess()});
 $("#start").onclick=startSess;$("#toexam").onclick=()=>go("exam")},
 exam(){$("#view").innerHTML=`<div class="card"><h2>Simulacro como el real</h2><p>30 preguntas al azar de todo el banco, 30 minutos, apto con 3 fallos como máximo. Sin pistas hasta el final. Las que falles pasan a tus repasos.</p><button class="big" id="go">Empezar simulacro</button></div>`;$("#go").onclick=startExam},
-cheat(){const G=[["Velocidades (turismo)",[["Autopista / autovía","120"],["Mínima en autopista","60"],["Carretera convencional","90"],["Ciudad, 2+ carriles por sentido","50"],["Ciudad, 1 carril por sentido","30"],["Plataforma única","20"],["Margen para adelantar","0"],["Adelantar ciclista fuera de poblado","límite − 20"],["Ciclomotor","45"],["Patinete (VMP)","25"]]],["Alcohol",[["General, aire","0,25 mg/l"],["General, sangre","0,5 g/l"],["Novel y profesional, aire","0,15 mg/l"],["Novel y profesional, sangre","0,3 g/l"],["Menores de edad","0,0"],["Delito (aire)","> 0,60 mg/l"],["Entre 2 pruebas","10 min"],["Drogas","presencia = 6 pts"]]],["Puntos",[["Novel empieza con","8"],["Conductor estándar","12"],["Máximo","15"],["Móvil en la mano","6"],["Sentido contrario, colilla, ciclista sin 1,5 m","6"],["Rojo, STOP, ceda, distancia","4"],["Cinturón, casco, sillita","4"],["Auriculares","3"],["Curso parcial recupera","6"],["Sin puntos: sin carné","6 meses"]]],["Distancias y tiempos",[["Separación lateral con ciclista","1,5 m"],["Detrás de una bici en ciudad","5 m"],["Vehículo parado en tu carril","1,5 m y − 20"],["Marcha atrás máxima","15 m"],["Túnel (turismo)","100 m / 4 s"],["Camión largo fuera de poblado","50 m"],["Distancia normal","2 s"],["Parada máxima","2 min"],["Descanso","2 h / 200 km"],["Moto por arcén habilitado","30 km/h"]]],["Edades",[["AM (ciclomotor)","15"],["Patinete (VMP)","15"],["A1","16"],["B y A2","18"],["Pasajero de moto","12 (7 con padre/madre)"],["Bici: casco en ciudad","< 16"]]],["Permiso, vehículo y multas",[["Permiso B, MMA","3.500 kg"],["Plazas con B","9"],["Remolque ligero","750 kg"],["Placa L","1 año"],["Novel (alcohol, puntos)","2 años"],["Teórico aprobado vale","2 años"],["Renovar B","10 años (5 desde 65)"],["Neumático mínimo","1,6 mm"],["ITV coche nuevo","4 / 2 / 1"],["Sillita hasta","135 cm"],["Multas leve / grave / muy grave","100 / 200 / 500 €"],["Pronto pago","50 % en 20 días"],["Sin baliza V16","80 €"]]]];
-$("#view").innerHTML=`<div class="card"><h2>Chuleta de números</h2><p class="mut">Más de la mitad de las preguntas difíciles son un número. Estos son todos los que necesitas, ya con la reforma de octubre de 2026.</p>${G.map(g=>`<h3>${g[0]}</h3><table>${g[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`).join("")}</div>`},
+cheat(){
+const sg=(n,c="r")=>`<span class="sg sg-${c}${String(n).length>2?" sg3":""}"><b class="v">${n}</b></span>`;
+const V=(t)=>`<b class="v">${t}</b>`;
+const light=(k)=>({
+pos:`<svg viewBox="0 0 60 40"><circle cx="14" cy="20" r="9" fill="#ffd54f"/></svg>`,
+cruce:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#4fc3f7"/><g stroke="#4fc3f7" stroke-width="4" stroke-linecap="round"><path d="M26 14 L42 22 M26 22 L42 28 M26 30 L42 34"/></g></svg>`,
+largo:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#1e88e5"/><g stroke="#1e88e5" stroke-width="4" stroke-linecap="round"><path d="M26 10 H56 M26 20 H56 M26 30 H56"/></g></svg>`,
+nieblaD:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#26a69a"/><g stroke="#26a69a" stroke-width="4" stroke-linecap="round"><path d="M26 12 L44 16 M26 20 L44 22 M26 28 L44 28"/></g><path d="M48 8 V32" stroke="#26a69a" stroke-width="3" stroke-dasharray="3 3"/></svg>`,
+nieblaT:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#e53935"/><g stroke="#e53935" stroke-width="4" stroke-linecap="round"><path d="M26 12 L44 16 M26 20 L44 22 M26 28 L44 28"/></g><path d="M48 8 V32" stroke="#e53935" stroke-width="3" stroke-dasharray="3 3"/></svg>`,
+emer:`<svg viewBox="0 0 60 40"><path d="M30 4 L52 36 H8 Z" fill="none" stroke="#fb8c00" stroke-width="5" stroke-linejoin="round"/><path d="M30 14 L42 31 H18 Z" fill="none" stroke="#fb8c00" stroke-width="3"/></svg>`
+})[k];
+const itv=(name,segs,note)=>`<div class="itv"><div class="itv-n">${name}</div><div class="itv-bar">${segs.map(s=>`<span class="seg ${s[1]}" style="flex:${s[0]}"><i class="v">${s[2]}</i></span>`).join("")}</div>${note?`<div class="mut itv-x">${note}</div>`:""}</div>`;
+$("#view").innerHTML=`<div class="card cheat-top"><h2>Chuleta de memoria</h2><p class="mut" style="margin:0">Todo lo que se aprende de memoria, con la normativa a noviembre de 2026. Activa <b>Modo tapar</b>: las cifras se ocultan y tienes que decirlas antes de tocar para verlas. Así se memoriza de verdad.</p>
+<div class="row" style="margin-top:12px"><button class="big" id="tapar" style="width:auto" aria-pressed="false">Modo tapar: no</button><button class="ghost" id="destap">Destapar todo</button></div></div>
+<div id="ch">
+
+<section class="ck c-speed"><h3>Velocidades máximas fuera de poblado</h3>
+<div class="spd">
+<div class="spd-h"></div><div class="spd-h">Autopista y autovía</div><div class="spd-h">Carretera convencional</div>
+<div class="spd-v"><b>Turismo, moto, autocaravana ≤ 3.500 kg, pick-up</b></div><div>${sg(120)}</div><div>${sg(90)}</div>
+<div class="spd-v"><b>Autobús, derivado de turismo, mixto adaptable</b></div><div>${sg(100)}</div><div>${sg(90)}</div>
+<div class="spd-v"><b>Camión, furgón y furgoneta, autocaravana &gt; 3.500 kg, articulado, cualquier coche con remolque</b></div><div>${sg(90)}</div><div>${sg(80)}</div>
+<div class="spd-v"><b>Ciclomotor</b> y cuadriciclo ligero</div><div class="no">Prohibido</div><div>${sg(45)}</div>
+<div class="spd-v"><b>Bicicleta</b> (autovía: arcén, desde 14 años)</div><div>${sg(45)}</div><div>${sg(45)}</div>
+<div class="spd-v"><b>Vehículo de 3 ruedas y cuadriciclo</b></div><div class="no">—</div><div>${sg(70)}</div>
+</div>
+<div class="mnemo">Truco: en autovía <b>12 · 10 · 9</b>, en carretera <b>9 · 9 · 8</b> (coche, autobús, camión). El autobús solo se distingue en autovía.</div>
+<div class="minis">
+<div><span class="lbl">Bus con viajeros de pie o derivado con mercancías peligrosas</span>${sg(80)}</div>
+<div><span class="lbl">Vía sin pavimentar, cualquier vehículo</span>${sg(30)}</div>
+<div><span class="lbl">Mínima en autopista y autovía</span>${sg(60,"b")}</div>
+<div><span class="lbl">Mínima en otras vías</span><span class="pill v">la mitad de la genérica</span></div>
+<div><span class="lbl">Margen para adelantar</span><span class="pill v">0, ya no hay +20</span></div>
+<div><span class="lbl">Adelantar a un ciclista fuera de poblado</span><span class="pill v">límite − 20</span></div>
+</div>
+<h4>En ciudad</h4>
+<div class="city">
+<div class="cv"><div class="street s1"></div>${sg(20)}<span>Plataforma única (acera y calzada al mismo nivel). Prioridad del peatón.</span></div>
+<div class="cv"><div class="street s2"></div>${sg(30)}<span>Un carril por sentido</span></div>
+<div class="cv"><div class="street s3"></div>${sg(50)}<span>Dos o más carriles por sentido</span></div>
+<div class="cv"><div class="street s4"></div>${sg(80)}<span>Autopista o autovía dentro de poblado</span></div>
+</div>
+<p class="mut">Ciclomotor 45 y patinete (VMP) 25, en cualquier vía por la que puedan circular. Con señal, manda la señal.</p>
+</section>
+
+<section class="ck c-light"><h3>Luces: cuál, cuándo y dónde</h3>
+<div class="lights">
+<div class="lt">${light("pos")}<div><b>Posición</b><p>Siempre que lleves cualquier otra luz. Y con el coche parado de noche en vía poco iluminada.</p></div></div>
+<div class="lt">${light("cruce")}<div><b>Cruce (corto alcance)</b><p>De noche en <b class="v">ciudad iluminada</b> y en carretera al cruzarte o seguir a otro. <b class="v">Siempre</b> en túneles y carriles reversibles o adicionales, también de día. Las <b>motos</b>, siempre encendida.</p></div></div>
+<div class="lt">${light("largo")}<div><b>Largas (largo alcance)</b><p>De noche en <b class="v">carretera sin iluminar</b> y sin nadie delante. <b>Prohibidas</b> en ciudad iluminada. Ráfagas para avisar de un adelantamiento.</p></div></div>
+<div class="lt">${light("nieblaD")}<div><b>Antiniebla delantera</b><p>Niebla, lluvia o nieve intensas, humo o polvo. También en <b class="v">tramos estrechos con muchas curvas</b> señalizados.</p></div></div>
+<div class="lt">${light("nieblaT")}<div><b>Antiniebla trasera</b><p>Solo en condiciones <b class="v">especialmente desfavorables</b>: niebla espesa, lluvia muy intensa, nieve. <b>Nunca con lluvia normal</b>: deslumbra al de detrás.</p></div></div>
+<div class="lt">${light("emer")}<div><b>Emergencia</b><p>Vehículo <b class="v">inmovilizado</b> que supone peligro. Junto con la baliza <b>V16</b> en el techo (los triángulos ya no valen desde enero de 2026).</p></div></div>
+</div>
+<div class="mnemo">Truco: <b>largas = lejos y a oscuras</b>, <b>cruce = cuando hay alguien</b> (otro coche, túnel, ciudad), <b>antiniebla trasera = solo lo peor de lo peor</b>.</div>
+</section>
+
+<section class="ck c-itv"><h3>ITV: cuándo pasa cada vehículo</h3>
+<div class="itv-axis"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12 años</span></div>
+${itv("Turismo y autocaravana",[[4,"ex","Libre 4 años"],[6,"bi","Cada 2"],[2,"an","Anual"]],"4 · 2 · 1: libre 4 años, cada 2 hasta los 10, luego cada año")}
+${itv("Moto, quad, cuadriciclo",[[4,"ex","Libre 4"],[8,"bi","Cada 2 años, siempre"]])}
+${itv("Ciclomotor",[[3,"ex","Libre 3"],[9,"bi","Cada 2 años, siempre"]])}
+${itv("Furgoneta y mercancías ≤ 3.500 kg",[[2,"ex","2"],[4,"bi","Cada 2"],[4,"an","Anual"],[2,"se","6 m"]],"Libre 2 · cada 2 hasta 6 · anual hasta 10 · luego cada 6 meses")}
+${itv("Camión de más de 3.500 kg",[[10,"an","Anual"],[2,"se","6 m"]],"Anual desde el principio; semestral a partir de los 10")}
+${itv("Autobús, taxi, ambulancia",[[5,"an","Anual"],[7,"se","Cada 6 meses"]],"Anual hasta los 5; semestral después")}
+${itv("Caravana remolcada de más de 750 kg",[[6,"ex","Libre 6 años"],[6,"bi","Cada 2"]])}
+<div class="legend"><span class="seg ex">libre</span><span class="seg bi">cada 2 años</span><span class="seg an">anual</span><span class="seg se">cada 6 meses</span></div>
+<p class="mut">Responsable de pasarla: el <b>titular</b>. Desfavorable: <b class="v">2 meses</b> para reparar. Tras una reforma importante, ITV extraordinaria.</p>
+</section>
+
+<section class="ck c-alc"><h3>Alcohol</h3>
+<div class="alc">
+<div class="al g"><span class="lbl">General</span><b class="v">0,25</b><small>mg/l aire</small><b class="v">0,5</b><small>g/l sangre</small></div>
+<div class="al n"><span class="lbl">Novel (2 años) y profesional</span><b class="v">0,15</b><small>mg/l aire</small><b class="v">0,3</b><small>g/l sangre</small></div>
+<div class="al z"><span class="lbl">Menores de edad</span><b class="v">0,0</b><small>ni una gota</small></div>
+</div>
+<div class="minis">
+<div><span class="lbl">Entre 0,25 y 0,50 en aire</span><span class="pill v">500 € y 4 puntos</span></div>
+<div><span class="lbl">Más de 0,50 en aire</span><span class="pill v">1.000 € y 6 puntos</span></div>
+<div><span class="lbl">Delito</span><span class="pill v">más de 0,60 aire o 1,2 sangre</span></div>
+<div><span class="lbl">Entre las dos pruebas</span><span class="pill v">10 minutos</span></div>
+<div><span class="lbl">Drogas</span><span class="pill v">basta con dar positivo: 1.000 € y 6</span></div>
+<div><span class="lbl">Negarse a la prueba</span><span class="pill v">delito</span></div>
+</div>
+<div class="mnemo">Aire = la mitad que sangre. La reforma a 0,2 g/l en sangre sigue en trámite: hoy no está en vigor.</div>
+</section>
+
+<section class="ck c-pts"><h3>Puntos del carné</h3>
+<div class="ladder"><div class="st s8"><b class="v">8</b><span>novel</span></div><div class="ar">2 años limpio</div><div class="st s12"><b class="v">12</b><span>estándar</span></div><div class="ar">+3 años</div><div class="st s14"><b class="v">14</b></div><div class="ar">+3 años</div><div class="st s15"><b class="v">15</b><span>máximo</span></div></div>
+<div class="pgrid">
+<div class="pg p6"><div class="pn">6</div><ul><li>Móvil en la mano</li><li>Drogas en el organismo</li><li>Negarse a las pruebas de alcohol o drogas</li><li>Temeraria, sentido contrario, carreras</li><li>Tirar una colilla u objetos a la vía</li><li>Adelantar a un ciclista poniéndolo en peligro o sin 1,5 m</li><li>Alcohol: más de 0,50 en aire (0,30 si eres novel)</li></ul></div>
+<div class="pg p4"><div class="pn">4</div><ul><li>Semáforo en rojo, STOP, ceda el paso</li><li>No guardar la distancia de seguridad</li><li>Cinturón, casco o sillita</li><li>Adelantar poniendo en peligro o sin visibilidad</li><li>Marcha atrás en autopista o autovía</li><li>No obedecer a un agente</li><li>Conducir con permiso que no habilita</li><li>Alcohol: 0,25 a 0,50 en aire</li></ul></div>
+<div class="pg p3"><div class="pn">3</div><ul><li>Auriculares o manipular dispositivos</li><li>Detector de radar</li><li>Cambio de sentido prohibido</li></ul></div>
+<div class="pg pv"><div class="pn">2–6</div><ul><li>Exceso de velocidad, según cuánto te pases</li></ul></div>
+</div>
+<div class="minis">
+<div><span class="lbl">Curso de recuperación parcial</span><span class="pill v">hasta 4 puntos, cada 2 años</span></div>
+<div><span class="lbl">Curso de conducción segura sin haber perdido</span><span class="pill v">+2 puntos</span></div>
+<div><span class="lbl">2 años sin infracciones</span><span class="pill v">vuelves a 12 (3 años si fue muy grave)</span></div>
+<div><span class="lbl">Te quedas sin puntos</span><span class="pill v">6 meses sin carné (12 si reincides)</span></div>
+<div><span class="lbl">Máximo que se pierde en un día</span><span class="pill v">8 puntos, salvo casos muy graves</span></div>
+</div>
+<div class="mnemo">Truco: <b>6 = lo que mata</b> (móvil, drogas, alcohol alto, temeraria). <b>4 = lo que no respetas</b> (rojo, STOP, cinturón, distancia). <b>3 = lo que te distrae</b>.</div>
+</section>
+
+<section class="ck c-dist"><h3>Distancias y tiempos</h3>
+<div class="dist">
+<div class="ds"><b class="v">1,5 m</b><span>separación lateral al adelantar a un ciclista o a un vehículo parado en tu carril</span></div>
+<div class="ds"><b class="v">− 20</b><span>km/h respecto al límite al hacerlo, fuera de poblado</span></div>
+<div class="ds"><b class="v">5 m</b><span>detrás de una bici en ciudad, en el mismo carril</span></div>
+<div class="ds"><b class="v">2 s</b><span>distancia de seguridad normal (el doble con lluvia)</span></div>
+<div class="ds"><b class="v">100 m · 4 s</b><span>en túneles, turismos</span></div>
+<div class="ds"><b class="v">50 m</b><span>camión de más de 3.500 kg y más de 10 m de largo, fuera de poblado</span></div>
+<div class="ds"><b class="v">15 m</b><span>marcha atrás como máximo, sin invadir un cruce</span></div>
+<div class="ds"><b class="v">2 min</b><span>parada máxima; más tiempo es estacionar</span></div>
+<div class="ds"><b class="v">2 h · 200 km</b><span>descanso recomendado en viaje</span></div>
+<div class="ds"><b class="v">30</b><span>km/h: moto por el arcén en atasco, solo en tramos señalizados</span></div>
+<div class="ds"><b class="v">135 cm</b><span>hasta esa altura, sillita y asiento trasero</span></div>
+<div class="ds"><b class="v">1,6 mm</b><span>dibujo mínimo del neumático</span></div>
+</div>
+</section>
+
+<section class="ck c-perm"><h3>Permisos y vehículos</h3>
+<div class="permB">
+<div class="pb"><svg viewBox="0 0 120 60"><rect x="4" y="20" width="70" height="26" rx="6" fill="#0050b5"/><rect x="14" y="10" width="40" height="16" rx="5" fill="#0050b5"/><circle cx="20" cy="48" r="7" fill="#222"/><circle cx="58" cy="48" r="7" fill="#222"/><rect x="82" y="26" width="34" height="20" rx="3" fill="#f6c400"/><circle cx="99" cy="48" r="6" fill="#222"/><path d="M74 36 H82" stroke="#222" stroke-width="3"/></svg>
+<div class="pbg"><div><b class="v">3.500 kg</b><span>MMA máxima con B</span></div><div><b class="v">9</b><span>plazas con el conductor</span></div><div><b class="v">750 kg</b><span>remolque ligero, siempre</span></div><div><b class="v">≤ 3.500 kg</b><span>conjunto si el remolque es mayor</span></div><div><b class="v">B96 / BE</b><span>para conjuntos más pesados</span></div><div><b class="v">125 cc</b><span>moto con 3 años de B, en España</span></div></div></div>
+</div>
+<h4>Edades</h4>
+<div class="ages"><div><b class="v">15</b><span>AM (ciclomotor) y patinete</span></div><div><b class="v">16</b><span>A1</span></div><div><b class="v">18</b><span>B y A2</span></div><div><b class="v">12</b><span>pasajero de moto (7 si conduce padre o madre)</span></div><div><b class="v">14</b><span>bici por arcén de autovía</span></div><div><b class="v">&lt; 16</b><span>bici: casco en cualquier vía</span></div></div>
+<h4>Plazos</h4>
+<div class="ages"><div><b class="v">1 año</b><span>placa L</span></div><div><b class="v">2 años</b><span>novel (alcohol y puntos)</span></div><div><b class="v">2 años</b><span>vale el teórico aprobado</span></div><div><b class="v">10 años</b><span>renovar el B (5 desde los 65)</span></div></div>
+</section>
+
+<section class="ck c-mult"><h3>Multas</h3>
+<div class="ages"><div><b class="v">100 €</b><span>leve (hasta)</span></div><div><b class="v">200 €</b><span>grave</span></div><div><b class="v">500 €</b><span>muy grave</span></div><div><b class="v">50 %</b><span>descuento pagando en 20 días</span></div><div><b class="v">3 / 6 meses</b><span>prescriben leves / graves y muy graves</span></div><div><b class="v">80 €</b><span>no llevar baliza V16</span></div><div><b class="v">200 €</b><span>sin guantes o calzado cerrado en moto, o patinete sin casco</span></div></div>
+</section>
+</div>`;
+const ch=$("#ch"),tb=$("#tapar");let on=false;
+tb.onclick=()=>{on=!on;ch.classList.toggle("hide",on);ch.querySelectorAll(".v.shown").forEach(e=>e.classList.remove("shown"));tb.textContent="Modo tapar: "+(on?"sí":"no");tb.setAttribute("aria-pressed",on)};
+$("#destap").onclick=()=>ch.querySelectorAll(".v").forEach(e=>e.classList.add("shown"));
+ch.addEventListener("click",e=>{const v=e.target.closest(".v");if(v&&on)v.classList.toggle("shown")})},
 mine(){$("#view").innerHTML=`<div class="card"><h2>Mis fallos de los tests</h2><p class="mut">Cada vez que falles una pregunta en los tests de la autoescuela, apúntala aquí con tus palabras. Entra en el mismo sistema de repaso que el resto. Escribirla ya es medio aprendida.</p>
 <form id="f"><label for="mq">Pregunta (resumida)</label><input id="mq" required placeholder="¿Velocidad máxima de una furgoneta en convencional?"><label for="ma">Respuesta correcta</label><input id="ma" required placeholder="La que diga tu test"><label for="mw">Por qué (opcional)</label><textarea id="mw" rows="2"></textarea><button class="big" type="submit">Guardar tarjeta</button></form></div>
 <div class="card"><h3 style="margin-top:0">Guardadas (${S.mine.length})</h3>${S.mine.length?S.mine.map((m,i)=>`<div class="row" style="border-bottom:1px solid var(--line);padding:8px 0"><div><b>${esc(m.q)}</b><br><span class="mut">${esc(m.a)}</span></div><button class="ghost" data-del="${i}">Borrar</button></div>`).join(""):'<p class="mut">Todavía no hay ninguna. La primera que falles, aquí.</p>'}</div>
