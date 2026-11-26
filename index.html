@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atajo · Teórico DGT</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0050b5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: compañero de estudio rápido, directo, sin sermones
+   IDEA: un panel de carretera azul de la DGT y el asfalto con su línea discontinua
+   PICTURE: la propia tarjeta de pregunta; arriba, una carretera con hitos km que avanza con el dominio
+   COLOUR and TYPE: azul señal #0050b5 dominante, blanco, rojo señal #d81e2c de acento; Overpass (letra de carretera)
+   LAYOUT: una columna de 720px, tarjeta grande arriba, acciones abajo; en móvil todo apilado */
+:root{color-scheme:light dark;--bg:light-dark(#f4f6fa,#101418);--card:light-dark(#fff,#1a2027);--ink:light-dark(#0f1720,#eef2f6);--mut:light-dark(#5a6573,#9aa6b4);--blue:#0050b5;--blue2:light-dark(#e6efff,#13294a);--red:#d81e2c;--ok:light-dark(#0b7a3b,#3fcf7a);--line:light-dark(#dfe4ec,#2a323c);--asph:#2b3036}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Overpass,system-ui,sans-serif;overflow-x:clip}
+header{background:var(--blue);color:#fff;padding:18px max(5vw,16px) 0}
+.hin,.wrap{max-width:720px;margin:0 auto}
+h1{font-size:clamp(30px,6vw,44px);line-height:1.05;margin:0;font-weight:800;letter-spacing:-.5px;text-wrap:balance}
+.sub{opacity:.85;margin:4px 0 14px}
+.road{position:relative;height:74px;background:var(--asph);margin:0 calc(-1 * max(5vw,16px));overflow:hidden}
+.road svg{position:absolute;inset:0;width:100%;height:100%}
+.wrap{padding:22px max(4vw,14px) 60px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+button{font:inherit;cursor:pointer;border-radius:10px;border:2px solid transparent;min-height:44px;padding:8px 16px}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ffb400;outline-offset:2px}
+.tab{background:var(--card);color:var(--ink);border-color:var(--line);font-weight:600}
+.tab[aria-current=true]{background:var(--blue);color:#fff;border-color:var(--blue)}
+.big{background:var(--blue);color:#fff;font-weight:800;font-size:18px;width:100%;min-height:56px}
+.ghost{background:transparent;color:var(--blue);border-color:var(--blue);font-weight:600}
+:root[data-theme=dark] .ghost{color:#8fb8ff;border-color:#8fb8ff}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .ghost{color:#8fb8ff;border-color:#8fb8ff}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,4vw,28px);margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-size:clamp(24px,5vw,32px);line-height:1.1}
+.stat span{color:var(--mut);font-size:13px}
+.tag{display:inline-block;font-size:13px;font-weight:600;color:var(--blue);background:var(--blue2);border-radius:6px;padding:2px 8px;margin-right:6px}
+:root[data-theme=dark] .tag{color:#9cc2ff}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .tag{color:#9cc2ff}}
+.new{color:#fff;background:var(--red)}
+.q{font-size:clamp(20px,4vw,24px);font-weight:600;line-height:1.3;margin:12px 0 18px;text-wrap:pretty}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--card);color:var(--ink);border-color:var(--line);margin-bottom:10px;padding:12px 14px;font-size:17px}
+.opt i{font-style:normal;font-weight:800;color:var(--mut);flex:none;width:1.2em}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt.good{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--card))}
+.opt.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
+.opt:disabled{cursor:default}
+.why{border-left:4px solid var(--blue);padding:4px 0 4px 14px;margin:14px 0}
+.hook{background:var(--blue2);border-radius:10px;padding:10px 14px;margin:10px 0;font-weight:600}
+.bar{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:4px 0 14px}
+.bar>div{height:100%;background:var(--blue);transition:width .4s}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.mut{color:var(--mut);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+.chip{background:var(--card);border:2px solid var(--line);color:var(--ink);font-size:15px;min-height:40px;padding:6px 12px}
+.chip[aria-pressed=true]{border-color:var(--blue);background:var(--blue2)}
+table{width:100%;border-collapse:collapse}
+td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td:last-child{text-align:right;font-weight:800;white-space:nowrap}
+h2{font-size:24px;line-height:1.15;margin:0 0 10px}
+h3{font-size:18px;margin:18px 0 6px}
+input,textarea{font:inherit;font-size:16px;width:100%;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);margin:4px 0 12px}
+.big-num{font-size:clamp(48px,12vw,80px);font-weight:800;line-height:1}
+.pass{color:var(--ok)}.fail{color:var(--red)}
+.timer{font-weight:800;font-variant-numeric:tabular-nums}
+.note{font-size:13px;color:var(--mut);margin-top:24px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:10px}}
+.pic{background:light-dark(#eef2f6,#1f2730);border-radius:12px;display:flex;justify-content:center;padding:8px;margin:12px 0 4px}
+.pic svg{width:100%;max-width:340px;height:auto;display:block}
+.bl{animation:bl 1s steps(1) infinite}.bl2{animation:bl 1s steps(1) infinite .5s}@keyframes bl{50%{opacity:.12}}
+.exrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.exdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}.exdot.ok{background:var(--ok)}.exdot.ko{background:var(--red)}
+.topic{border-bottom:1px solid var(--line);padding:6px 0}.topic>span:first-child{flex:1;font-weight:600}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header><div class="hin">
+<h1>Atajo al teórico</h1>
+<p class="sub">Diez minutos al día en vez de 90 tests en bucle. La app te pregunta justo lo que estás a punto de olvidar.</p>
+</div>
+<div class="road" aria-hidden="true"><svg id="road"></svg></div>
+</header>
+<main class="wrap">
+<nav id="nav">
+<button class="tab" data-v="home">Hoy</button>
+<button class="tab" data-v="exam">Simulacro 30/3</button>
+<button class="tab" data-v="cheat">Chuleta de números</button>
+<button class="tab" data-v="mine">Mis fallos</button>
+<button class="tab" data-v="how">El método</button>
+</nav>
+<div id="view"></div>
+<p class="note">Preguntas originales redactadas según la normativa vigente a 26/11/2026: Reglamento General de Circulación con la reforma del Real Decreto 518/2026 (en vigor desde el 1/10/2026), catálogo de señales de 2025 y baliza V16. No sustituyen al material oficial de tu autoescuela.</p>
+</main>
+<script>
+const B2=[
+// ===== Velocidad =====
+["Velocidad","¿Velocidad máxima de un ciclomotor?",["45 km/h","50 km/h","25 km/h"],0,"Un ciclomotor no puede superar 45 km/h en ninguna vía.","Ciclomotor = 45."],
+["Velocidad","En una carretera convencional sin señal, ¿a qué velocidad mínima debes circular como regla general?",["30 km/h","A la mitad de la velocidad genérica de la vía","No hay mínimo"],1,"Fuera de autopistas y autovías, el mínimo es la mitad de la genérica: en convencional, 45 km/h (salvo causa justificada).","Mínimo = la mitad."],
+["Velocidad","Una señal redonda con borde rojo y el número 70 indica...",["Velocidad recomendada de 70","Velocidad máxima de 70","Velocidad mínima de 70"],1,"Círculo con borde rojo = máximo obligatorio.",""],
+["Velocidad","Una señal redonda de fondo azul con el número 30 indica...",["Velocidad mínima obligatoria de 30","Velocidad máxima de 30","Zona 30"],0,"Círculo azul con número = velocidad mínima.","Azul obliga: obliga a ir al menos a esa."],
+["Velocidad","Una señal rectangular azul con el número 60 indica...",["Velocidad máxima de 60","Velocidad aconsejada de 60","Velocidad mínima de 60"],1,"Los rectángulos azules informan: es una velocidad aconsejada, no obligatoria.",""],
+["Velocidad","En una zona residencial (señal azul con casa, niños y coche), ¿velocidad máxima?",["20 km/h","30 km/h","10 km/h"],0,"En zona residencial el máximo es 20 km/h y los peatones tienen prioridad; los niños pueden jugar en la calle.",""],
+["Velocidad","Un panel de mensaje variable indica 80 y una señal fija de la misma vía indica 100. ¿Qué cumples?",["100, la señal fija manda","80, el panel variable","La media: 90"],1,"La señalización circunstancial (paneles variables) prevalece sobre la fija.",""],
+["Velocidad","Superar el límite en más de 80 km/h en una vía interurbana es...",["Infracción grave","Infracción muy grave sin más","Delito"],2,"Más de 80 km/h por encima en interurbana, o más de 60 en urbana, es delito.","60 en ciudad, 80 en carretera: a partir de ahí, juzgado."],
+["Velocidad","Superar el límite en más de 60 km/h en una vía urbana es...",["Delito","Infracción leve","Infracción grave"],0,"En vía urbana el umbral del delito es superar el límite en más de 60 km/h.",""],
+["Velocidad","Un radar de tramo mide...",["La velocidad media entre dos puntos","La velocidad en un solo punto","Solo la velocidad de camiones"],0,"Calcula tu media por el tiempo que tardas en recorrer el tramo.",""],
+["Velocidad","Por la noche, la velocidad adecuada es la que te permite...",["Ir al límite de la vía","Detenerte dentro de la zona iluminada por tus luces","Ver las señales a tiempo"],1,"Si no puedes parar dentro del alcance de tus luces, vas demasiado rápido.",""],
+["Velocidad","¿Un conductor novel tiene limitada su velocidad máxima a 80 km/h?",["Sí, durante el primer año","No, ya no existe esa limitación","Solo en autopista"],1,"La limitación específica de velocidad para noveles se eliminó. Circulan con los mismos límites que el resto.","Trampa: era así antes."],
+["Velocidad","A 90 km/h, con un tiempo de reacción de 1 segundo, ¿cuántos metros recorres antes de empezar a frenar?",["Unos 10 metros","Unos 25 metros","Unos 50 metros"],1,"90 km/h son 25 metros por segundo. Ese es el recorrido de reacción.","Divide km/h entre 3,6 y tienes metros por segundo."],
+["Velocidad","La distancia de detención es la suma de...",["Distancia de reacción y distancia de frenado","Distancia de frenado y distancia de seguridad","Velocidad y peso"],0,"Detención = lo que recorres mientras reaccionas + lo que recorres frenando.",""],
+["Velocidad","Al aumentar la velocidad, el campo visual del conductor...",["Aumenta","Se estrecha (efecto túnel)","No cambia"],1,"A más velocidad ves bien solo lo que tienes delante y pierdes lo que pasa a los lados.",""],
+["Velocidad","Cuando la calzada está mojada, la distancia de frenado...",["Aumenta","Disminuye","Es igual"],0,"Con agua el neumático agarra menos: necesitas más metros. Duplica la distancia de seguridad.",""],
+// ===== Alcohol y drogas =====
+["Alcohol y drogas","En una prueba de alcohol en aire, ¿cuánto tiempo debe pasar entre la primera y la segunda medición?",["1 minuto","Al menos 10 minutos","1 hora"],1,"Si la primera da positivo se hace una segunda, con al menos 10 minutos de diferencia.",""],
+["Alcohol y drogas","Das positivo en aire. ¿Puedes pedir un análisis de sangre de contraste?",["No","Sí, es un derecho","Solo si eres profesional"],1,"Tienes derecho a un análisis de contraste (sangre, por ejemplo) en un centro sanitario.",""],
+["Alcohol y drogas","Conductor general con 0,35 mg/l en aire. ¿Sanción?",["500 € y 4 puntos","1.000 € y 6 puntos","200 € sin puntos"],0,"Entre 0,25 y 0,50 mg/l: 500 € y 4 puntos.","0,25–0,50 = 500 € / 4 pts."],
+["Alcohol y drogas","Conductor general con 0,55 mg/l en aire. ¿Sanción administrativa?",["500 € y 4 puntos","1.000 € y 6 puntos","Solo multa"],1,"Más de 0,50 mg/l: 1.000 € y 6 puntos. Por encima de 0,60 ya es delito.",""],
+["Alcohol y drogas","Conductor novel con 0,20 mg/l en aire. ¿Qué ocurre?",["Nada, está por debajo de 0,25","Es infracción: su límite es 0,15","Es delito"],1,"El límite del novel es 0,15 mg/l en aire. Supera el suyo aunque estaría bien para un conductor general.",""],
+["Alcohol y drogas","¿Los ciclistas están obligados a someterse a las pruebas de alcohol?",["No, no son vehículos a motor","Sí, como cualquier conductor","Solo en ciudad"],1,"Los ciclistas son conductores y tienen las mismas tasas y obligaciones.",""],
+["Alcohol y drogas","Tras beber, ¿cuándo suele alcanzarse la tasa máxima de alcohol en sangre?",["Entre 30 y 90 minutos después","Inmediatamente","A las 6 horas"],0,"El alcohol tarda en absorberse: la tasa sigue subiendo un rato después de dejar de beber.","Esperar 10 minutos no sirve: puede estar subiendo."],
+["Alcohol y drogas","Un efecto del alcohol en la conducción es...",["Mejor visión nocturna","Falsa sensación de seguridad y más tiempo de reacción","Mayor concentración"],1,"El alcohol hace que te sientas capaz mientras reaccionas peor y calculas peor las distancias.",""],
+["Alcohol y drogas","Mezclar alcohol con algunos medicamentos...",["Anula el efecto del alcohol","Puede potenciar los efectos de ambos","No tiene ningún efecto"],1,"Muchos fármacos (ansiolíticos, antihistamínicos...) multiplican el efecto del alcohol.",""],
+["Alcohol y drogas","¿Qué efecto suele producir la cocaína en el conductor?",["Somnolencia inmediata","Exceso de confianza y conducción agresiva","Mejora de los reflejos sin riesgos"],1,"Produce euforia y sensación de control, y luego un bajón de cansancio intenso.",""],
+["Alcohol y drogas","¿Qué efecto suele producir el cannabis al volante?",["Mejora la concentración","Altera la percepción del tiempo y la distancia y enlentece los reflejos","Ninguno si es poca cantidad"],1,"Dificulta calcular distancias y reaccionar a tiempo.",""],
+["Alcohol y drogas","Los conductores profesionales (camión, autobús, taxi...) tienen una tasa de alcohol en aire de...",["0,25 mg/l","0,15 mg/l","0,50 mg/l"],1,"Profesionales y noveles comparten tasa: 0,15 mg/l en aire, 0,3 g/l en sangre.",""],
+["Alcohol y drogas","Conducir bajo la influencia de drogas o alcohol de forma que se altera claramente la conducción es...",["Delito, sea cual sea la tasa","Solo infracción","Legal si no superas 0,25"],0,"Si el alcohol o las drogas afectan de forma clara a tu conducción, es delito aunque no se supere 0,60.",""],
+// ===== Puntos y permisos =====
+["Puntos y permisos","Llevas 3 años sin sanciones con 12 puntos. ¿Qué ocurre?",["Pasas a 14 puntos","Pasas a 15 puntos","Nada"],0,"3 años sin sanciones: +2 (14). Otros 3 años más: +1 (15).","12 → 14 → 15, cada tres años."],
+["Puntos y permisos","Si pierdes puntos pero no cometes infracciones durante 2 años (y no eran muy graves), ¿qué pasa?",["Recuperas los 12 puntos","Recuperas 2 puntos","Nada, solo con curso"],0,"2 años sin infracciones devuelven el saldo inicial de 12. Si alguna fue muy grave, son 3 años.",""],
+["Puntos y permisos","Un curso de recuperación parcial de puntos permite recuperar como máximo...",["2 puntos","6 puntos","12 puntos"],1,"Hasta 6 puntos, y como mucho una vez cada 2 años (cada año para profesionales).",""],
+["Puntos y permisos","Pierdes todos los puntos. ¿Cuánto tiempo mínimo estarás sin poder obtener de nuevo el permiso?",["1 mes","6 meses","5 años"],1,"6 meses (3 para profesionales), con curso de reeducación y examen. Si reincides en 3 años, 12 meses.",""],
+["Puntos y permisos","Conducir con el permiso perdido por pérdida total de puntos es...",["Infracción leve","Delito","Infracción grave"],1,"Conducir sin permiso por pérdida de puntos, o sin haberlo obtenido nunca, es delito.",""],
+["Puntos y permisos","Conducir con el permiso caducado (vencido) es...",["Delito","Infracción administrativa","Legal hasta 6 meses"],1,"Es una infracción con multa, no delito. Pero hay que renovarlo antes de conducir.",""],
+["Puntos y permisos","¿Cada cuánto se renueva el permiso B antes de los 65 años?",["Cada 10 años","Cada 5 años","Nunca"],0,"10 años hasta los 65; a partir de entonces, cada 5.","B: 10 años, luego 5."],
+["Puntos y permisos","¿A qué edad puedes obtener el permiso AM (ciclomotores)?",["14 años","15 años","16 años"],1,"AM desde los 15. A1 desde los 16. B y A2 desde los 18.","AM 15, A1 16, B 18."],
+["Puntos y permisos","¿A qué edad puedes obtener el permiso B?",["17 años","18 años","21 años"],1,"18 años.",""],
+["Puntos y permisos","Con el permiso B y 3 años de antigüedad, en España puedes conducir...",["Motocicletas de hasta 125 cc","Cualquier moto","Camiones ligeros"],0,"Con 3 años de B se pueden conducir en España motos de hasta 125 cc (las del A1).",""],
+["Puntos y permisos","Saltarte un semáforo en rojo supone perder...",["2 puntos","4 puntos","6 puntos"],1,"Semáforo en rojo, STOP o ceda el paso no respetados: 4 puntos.","Rojo, STOP, ceda: 4."],
+["Puntos y permisos","No respetar una señal de STOP supone perder...",["4 puntos","6 puntos","Ninguno"],0,"4 puntos y 200 €.",""],
+["Puntos y permisos","Circular en sentido contrario al establecido supone perder...",["3 puntos","4 puntos","6 puntos"],2,"Circular en sentido contrario: 6 puntos.",""],
+["Puntos y permisos","Tirar una colilla encendida por la ventanilla supone...",["Solo una multa leve","6 puntos y 200 €","2 puntos"],1,"Arrojar objetos que puedan causar incendios o accidentes: 6 puntos y 200 €.",""],
+["Puntos y permisos","Adelantar a un ciclista sin dejar la separación mínima de 1,5 metros supone...",["2 puntos","6 puntos","Ninguna sanción"],1,"Adelantar a ciclistas poniéndolos en peligro o sin la distancia lateral: 6 puntos.",""],
+["Puntos y permisos","No mantener la distancia de seguridad con el vehículo de delante supone perder...",["4 puntos","Ninguno","1 punto"],0,"Distancia de seguridad insuficiente: 4 puntos.",""],
+["Puntos y permisos","Conducción temeraria. ¿Puntos?",["4","6","2"],1,"6 puntos como infracción. Si se pone en concreto peligro la vida de otros, es delito.",""],
+["Puntos y permisos","Las infracciones graves tienen una multa general de...",["100 €","200 €","500 €"],1,"Leves: hasta 100 €. Graves: 200 €. Muy graves: 500 €.","100 / 200 / 500."],
+["Puntos y permisos","Las infracciones muy graves tienen una multa general de...",["500 €","200 €","1.000 €"],0,"500 € como regla general (algunas, como alcohol doble, llegan a 1.000 €).",""],
+["Puntos y permisos","Si pagas una multa en plazo de pronto pago, ¿qué descuento tienes?",["20 %","50 %","No hay descuento"],1,"50 % de descuento si pagas en los 20 días naturales siguientes a la notificación.","Pronto pago: 50 % en 20 días."],
+["Puntos y permisos","¿En cuánto tiempo prescriben las infracciones leves?",["3 meses","6 meses","1 año"],0,"Leves: 3 meses. Graves y muy graves: 6 meses.",""],
+["Puntos y permisos","¿Puedes mostrar tu permiso de conducir desde la app miDGT en un control en España?",["Sí, es válido en España","No, solo vale el físico","Solo si eres novel"],0,"El permiso digital de la app miDGT es válido para circular por España.",""],
+["Puntos y permisos","Con el permiso B, ¿puedes llevar un remolque de más de 750 kg?",["Nunca","Sí, si el conjunto coche más remolque no supera 3.500 kg","Sí, sin límite"],1,"Con B, remolque pesado solo si la MMA del conjunto no pasa de 3.500 kg. Por encima, B96 o BE.",""],
+["Puntos y permisos","¿Qué es un conductor novel a efectos de alcohol y puntos?",["El que tiene menos de 2 años de antigüedad de permiso","El que tiene menos de 1 año","El menor de 25 años"],0,"Novel: menos de 2 años con el permiso. La L, solo el primer año.",""],
+["Puntos y permisos","No llevar la placa L durante el primer año es...",["Infracción","Legal si eres mayor de 25","Delito"],0,"Es obligatoria y no llevarla se sanciona.",""],
+// ===== Señales y prioridad =====
+["Señales y prioridad","¿Qué significan las señales verticales con fondo amarillo?",["Que son temporales (obras)","Que son de peligro en autopista","Que son informativas turísticas"],0,"El fondo amarillo indica señalización de obras, temporal. Prevalece sobre la permanente.",""],
+["Señales y prioridad","Una línea amarilla pintada en la calzada indica...",["Señalización temporal, por ejemplo por obras","Carril bus","Nada especial"],0,"Las marcas amarillas en calzada son temporales y prevalecen sobre las blancas.","Amarillo manda sobre blanco."],
+["Señales y prioridad","Una línea amarilla continua en el bordillo significa...",["Prohibido parar y estacionar","Prohibido solo estacionar","Carga y descarga"],0,"Amarilla continua: ni parar ni estacionar.",""],
+["Señales y prioridad","Una línea amarilla discontinua en el bordillo significa...",["Prohibido parar","Prohibido estacionar (puedes parar)","Estacionamiento libre"],1,"Discontinua: puedes parar, no estacionar.","Continua = nada; discontinua = parar sí."],
+["Señales y prioridad","Una cuadrícula amarilla pintada en un cruce te indica que...",["No entres si vas a quedarte detenido dentro","Puedes estacionar","Es zona de bus"],0,"No debes entrar en la cuadrícula si el tráfico te obligaría a quedarte dentro bloqueando el cruce.",""],
+["Señales y prioridad","Una línea transversal continua en un cruce indica...",["Lugar de detención obligatoria (STOP)","Ceda el paso","Paso de peatones"],0,"Línea continua transversal = detención. La de ceda el paso es discontinua.",""],
+["Señales y prioridad","Unos triángulos blancos pintados en la calzada, con el vértice hacia ti, indican...",["Ceda el paso","Badén","Prohibido adelantar"],0,"Es la marca de ceda el paso en el suelo.",""],
+["Señales y prioridad","Una línea continua al lado de una discontinua: ¿qué marca debes obedecer?",["La más próxima a tu lado","Siempre la continua","Siempre la discontinua"],0,"Respetas la que está en tu lado del carril.",""],
+["Señales y prioridad","¿Se puede pisar una línea continua?",["Sí, si no viene nadie","No, ni pisar ni atravesar","Solo para adelantar"],1,"La línea continua no se puede pisar ni cruzar (salvo excepciones muy concretas indicadas).",""],
+["Señales y prioridad","Dos luces rojas que se encienden alternativamente (paso a nivel, puente móvil) significan...",["Precaución","Prohibido pasar","Paso libre"],1,"Rojas alternativas: prohibido el paso.",""],
+["Señales y prioridad","Semáforo de carril con un aspa roja encima de tu carril. ¿Qué indica?",["Carril cerrado: no puedes circular por él","Carril de pago","Carril para adelantar"],0,"Aspa roja = carril prohibido. Flecha verde hacia abajo = carril abierto.",""],
+["Señales y prioridad","Un agente con el brazo extendido horizontalmente obliga a detenerse a...",["Los que circulan en la dirección que corta su brazo","Solo a los que tiene detrás","A nadie"],0,"Brazo horizontal: paran quienes se aproximan por los lados que corta el brazo (de frente y por detrás de él).",""],
+["Señales y prioridad","Un agente balancea una luz roja o amarilla. ¿Qué significa?",["Detenerse para quienes reciben la señal","Acelerar","Cambio de carril"],0,"Balanceo de luz: obliga a detenerse a los vehículos hacia los que se dirige.",""],
+["Señales y prioridad","Una señal con un rombo amarillo de borde blanco indica...",["Calzada con prioridad","Fin de prioridad","Peligro"],0,"Rombo amarillo: estás en vía con prioridad. Tachado: fin de la prioridad.",""],
+["Señales y prioridad","Señal rectangular azul con una flecha blanca grande hacia arriba y una roja pequeña hacia abajo:",["Tienes prioridad sobre los que vienen de frente","Debes ceder a los que vienen de frente","Doble sentido"],0,"Es «prioridad respecto al sentido contrario». La redonda con borde rojo indica lo opuesto.",""],
+["Señales y prioridad","Señal redonda con borde rojo, flecha roja hacia arriba y negra hacia abajo:",["Prioridad del sentido contrario: debes ceder","Tienes prioridad","Sentido único"],0,"En el estrechamiento debes ceder el paso a los que vienen de frente.",""],
+["Señales y prioridad","Una señal de prohibición con una línea diagonal negra o gris encima indica...",["Fin de la prohibición","Prohibición reforzada","Peligro doble"],0,"La diagonal indica el fin de la restricción.",""],
+["Señales y prioridad","La Cruz de San Andrés (aspa roja y blanca) indica...",["Paso a nivel sin barreras","Cruce peligroso","Fin de autopista"],0,"Se coloca justo en un paso a nivel sin barreras.",""],
+["Señales y prioridad","Pasas la señal blanca con el nombre de una localidad. ¿Qué cambia?",["Empiezan a aplicarse las normas de vía urbana","Nada","Solo cambia el límite a 40"],0,"Es la entrada a poblado: normas urbanas (límites 20/30/50, prohibición de largas en vías iluminadas...).",""],
+["Señales y prioridad","Una señal triangular con la silueta de una locomotora indica...",["Paso a nivel sin barreras","Paso a nivel con barreras","Estación de tren"],0,"Locomotora = sin barreras. Una valla dibujada = con barreras.",""],
+["Señales y prioridad","Te incorporas a una vía desde un carril de aceleración. ¿Quién tiene prioridad?",["Los que ya circulan por la vía","Yo, porque vengo por la derecha","Quien vaya más rápido"],0,"El que se incorpora cede el paso a los que circulan por la vía principal.",""],
+["Señales y prioridad","Sales de un garaje a la calle. ¿Qué haces?",["Ceder el paso a vehículos y peatones","Salir rápido, tengo prioridad","Tocar el claxon y salir"],0,"Al salir de una propiedad privada se cede el paso a todos (también a los peatones de la acera).",""],
+["Señales y prioridad","En un cruce sin señales, una vía está asfaltada y la otra es de tierra. ¿Quién tiene prioridad?",["El que viene por la de tierra si es por la derecha","El que circula por la vía pavimentada","El más grande"],1,"La vía pavimentada tiene prioridad sobre la no pavimentada, aunque el otro venga por la derecha.",""],
+["Señales y prioridad","En un cruce sin señales llega un tranvía por tu izquierda. ¿Quién pasa?",["Yo, porque vengo por su derecha","El tranvía","Quien llegue antes"],1,"Los vehículos que circulan sobre raíles tienen prioridad en los cruces sin señalizar.",""],
+["Señales y prioridad","Giras a la derecha y cruzas un carril bici por el que viene un ciclista. ¿Quién pasa?",["El ciclista","Yo, giro con semáforo verde","El que llegue antes"],0,"Al girar cedes el paso a los ciclistas del carril bici que cruzas.",""],
+["Señales y prioridad","Un grupo de ciclistas está cruzando una intersección. El primero ya ha pasado y tú llegas. ¿Qué haces?",["Paso entre ellos","Espero a que pase todo el grupo","Pito para que se separen"],1,"Un grupo de ciclistas se considera una unidad a efectos de prioridad.",""],
+["Señales y prioridad","En un estrechamiento sin señalizar y sin pendiente, ¿quién pasa primero?",["El que entró primero","El que viene por la derecha","El más grande"],0,"Sin señales ni pendiente, tiene preferencia el que entró primero.",""],
+["Señales y prioridad","Una señal octogonal roja con la palabra STOP. ¿Dónde debes detenerte si no hay línea pintada?",["Donde veas bien la vía, antes de entrar en ella","20 metros antes","No hace falta parar si hay visibilidad"],0,"Paras donde tengas visibilidad, sin invadir la vía transversal.",""],
+["Señales y prioridad","Las señales de peligro se colocan, en carretera, normalmente...",["Entre 150 y 250 metros antes del peligro","Justo en el punto de peligro","1 km antes"],0,"En vías interurbanas se colocan con antelación, típicamente 150-250 m antes.",""],
+["Señales y prioridad","Un vehículo con luz amarilla giratoria en el techo es...",["Vehículo prioritario en emergencia","Vehículo especial u obras, que circula despacio o con peligro","Taxi libre"],1,"La luz amarilla avisa de vehículos especiales, obras, transportes especiales. No tienen prioridad como los de luz azul.",""],
+["Señales y prioridad","¿Qué color de luz llevan los vehículos prioritarios (policía, ambulancia, bomberos)?",["Azul","Amarilla","Verde"],0,"Luz azul, normalmente con señal acústica.",""],
+["Señales y prioridad","Un paso de peatones sin semáforo con un peatón esperando para cruzar. ¿Qué haces?",["Detenerme y cederle el paso","Seguir, aún no ha pisado la calzada","Tocar el claxon"],0,"En pasos de peatones señalizados el peatón tiene prioridad. Si va a cruzar, para.",""],
+["Señales y prioridad","¿Qué señal tiene forma de triángulo con el vértice hacia abajo?",["STOP","Ceda el paso","Fin de prioridad"],1,"Triángulo invertido con borde rojo = ceda el paso.",""],
+// ===== Maniobras =====
+["Maniobras","Antes de adelantar, compruebas que el vehículo de detrás...",["No ha iniciado ya un adelantamiento hacia ti","Es más lento","Tiene las luces puestas"],0,"Si el de detrás ya ha empezado a adelantarte, tú no puedes empezar el tuyo.",""],
+["Maniobras","Te están adelantando. ¿Qué debes hacer?",["Acelerar","Ceñirte a la derecha y no aumentar la velocidad","Frenar en seco"],1,"Facilita el adelantamiento: derecha y sin acelerar.",""],
+["Maniobras","¿Está permitido adelantar en un paso de peatones señalizado?",["Sí, si no hay peatones","No","Solo a bicicletas"],1,"Prohibido adelantar en pasos de peatones señalizados.",""],
+["Maniobras","¿Está permitido adelantar en una curva de visibilidad reducida?",["No, si invades el sentido contrario","Sí, con cuidado","Sí, si tocas el claxon"],0,"En curvas y cambios de rasante sin visibilidad no se puede adelantar invadiendo el sentido contrario.",""],
+["Maniobras","¿Se puede adelantar en un túnel con un solo carril por sentido?",["Sí, si está iluminado","No","Solo motos"],1,"Prohibido adelantar en túneles con un carril por sentido.",""],
+["Maniobras","En una vía urbana con dos carriles por sentido, ¿puedes circular por el carril izquierdo aunque el derecho esté libre?",["Sí, en ciudad puedes usar cualquier carril","No, siempre por la derecha","Solo de noche"],0,"En poblado con varios carriles por sentido puedes usar el que mejor convenga a tu destino.",""],
+["Maniobras","Autopista con tres carriles por sentido. ¿Por cuál circulas normalmente?",["Por el derecho; los demás para adelantar","Por el central siempre","Por el izquierdo si vas a 120"],0,"Se circula por el de la derecha y se usan los otros para adelantar.",""],
+["Maniobras","Vas a salir de la autopista. ¿Dónde empiezas a reducir la velocidad?",["En el carril de deceleración","En el carril de la autopista antes de la salida","Después de la salida"],0,"Reduce ya dentro del carril de deceleración para no frenar al tráfico.",""],
+["Maniobras","En el carril de aceleración debes...",["Ajustar tu velocidad a la de la vía y entrar cediendo el paso","Detenerte siempre al final","Entrar sin mirar"],0,"Se usa para alcanzar una velocidad adecuada e incorporarte sin obligar a frenar a nadie.",""],
+["Maniobras","Te pasas la salida que querías en una autovía. ¿Qué haces?",["Marcha atrás por el arcén","Seguir hasta la siguiente salida","Cambio de sentido en la mediana"],1,"Marcha atrás y cambios de sentido están prohibidos en autopistas y autovías.",""],
+["Maniobras","Hacer marcha atrás en autopista o autovía supone...",["4 puntos","6 puntos","Nada si es poco"],1,"Infracción muy grave: 6 puntos.",""],
+["Maniobras","Para girar a la izquierda en una calle de doble sentido, te colocas...",["Junto al eje central de la calzada","Pegado a la derecha","En el centro del carril"],0,"Arrímate al centro de la calzada (sin invadir el contrario) para girar a la izquierda.",""],
+["Maniobras","Para girar a la izquierda en una calle de sentido único, te colocas...",["Pegado al borde izquierdo","Pegado al borde derecho","En medio"],0,"En sentido único, al borde izquierdo de la calzada.",""],
+["Maniobras","En una glorieta, ¿por qué carril debes salir?",["Desde el carril derecho","Desde cualquier carril","Desde el izquierdo"],0,"Para salir hay que estar en el carril exterior (derecho). Si no puedes, da otra vuelta.","Glorieta: sales siempre desde fuera."],
+["Maniobras","Estás en el carril interior de una glorieta y no puedes cambiar al exterior para salir. ¿Qué haces?",["Salgo cruzando igualmente","Doy otra vuelta","Me paro y espero"],1,"Nunca cortes a otros para salir: da otra vuelta.",""],
+["Maniobras","¿Qué intermitente pones para salir de una glorieta?",["El derecho","El izquierdo","Ninguno"],0,"Indica la salida con el intermitente derecho.",""],
+["Maniobras","En una glorieta se circula...",["Dejando el centro a la izquierda","Dejando el centro a la derecha","Como quieras"],0,"Sentido contrario a las agujas del reloj, con el centro a la izquierda.",""],
+["Maniobras","¿Dónde está prohibido estacionar?",["En un vado señalizado","En una calle residencial con espacio","En una zona azul pagando"],0,"Prohibido en vados, pasos de peatones, carril bus, doble fila, plazas reservadas sin derecho...",""],
+["Maniobras","En una calle de sentido único, ¿en qué lado puedes parar?",["Solo a la derecha","En los dos lados, si no está prohibido","Solo a la izquierda"],1,"En sentido único se puede parar y estacionar a ambos lados salvo señal.",""],
+["Maniobras","Estacionas cuesta abajo junto a un bordillo. ¿Cómo dejas las ruedas?",["Giradas hacia el bordillo, con marcha atrás engranada","Rectas, en punto muerto","Hacia el centro de la calzada"],0,"Si el coche se mueve, el bordillo lo para. Freno de mano y marcha engranada.",""],
+["Maniobras","Estacionas cuesta arriba junto a un bordillo. ¿Cómo dejas las ruedas?",["Hacia el bordillo","Hacia el centro de la calzada, con primera engranada","Rectas"],1,"Ruedas hacia fuera: si retrocede, la rueda delantera topa con el bordillo.",""],
+["Maniobras","Abrir la puerta con la mano más alejada de ella (apertura holandesa) sirve para...",["Girar el cuerpo y ver si viene un ciclista o moto","Que la puerta no se rompa","Nada"],0,"Te obliga a girarte y mirar atrás antes de abrir.",""],
+["Maniobras","Antes de cambiar de carril, además de los retrovisores, compruebas...",["El ángulo muerto girando la cabeza","El cuentarrevoluciones","Nada más"],0,"Hay una zona que los espejos no ven: un vistazo rápido sobre el hombro.",""],
+["Maniobras","¿Se puede entrar en un cruce con el semáforo en verde si hay atasco y te quedarías dentro?",["Sí, tengo verde","No, debes esperar fuera","Solo si tocas el claxon"],1,"No entres si vas a bloquear el cruce, aunque tengas verde.",""],
+["Maniobras","¿Puedes remolcar con tu turismo a otro coche averiado?",["Sí, con una cuerda","No, debe remolcarlo una grúa o vehículo autorizado","Sí, de noche no"],1,"Remolcar un vehículo averiado con otro turismo está prohibido como norma general.",""],
+["Maniobras","¿Cuándo se debe señalizar una maniobra con el intermitente?",["Con suficiente antelación","Justo al empezar a girar","Solo si hay alguien detrás"],0,"Avisa con antelación y apaga el intermitente al terminar.",""],
+["Maniobras","De noche, para avisar de que vas a adelantar, puedes usar...",["El claxon fuerte","Ráfagas de luces (alternar cruce y largas)","Las luces de emergencia"],1,"Las ráfagas sustituyen al claxon de noche.",""],
+["Maniobras","En poblado, ¿cuándo puedes usar el claxon?",["Para saludar","Solo para evitar un accidente","Para meter prisa"],1,"En ciudad solo para evitar un accidente.",""],
+["Maniobras","En una autovía, ¿cuándo puedes detenerte en el arcén?",["Para hacer una llamada","Solo por emergencia o avería","Para descansar"],1,"El arcén de autopistas y autovías es solo para emergencias.",""],
+["Maniobras","¿Puede adelantar un vehículo por la derecha en una autopista si el de la izquierda va más lento?",["Sí, siempre","No, se adelanta por la izquierda salvo atasco con carriles en paralelo","Solo motos"],1,"Con tráfico denso en todos los carriles se puede ir más rápido por la derecha, pero adelantar a propósito por la derecha no.",""],
+// ===== Luces =====
+["Luces","¿Se pueden usar las luces largas en una calle urbana suficientemente iluminada?",["Sí, de noche","No","Solo si no viene nadie"],1,"En vías urbanas iluminadas, nunca largas.",""],
+["Luces","Circulas de noche con largas y se acerca un coche de frente. ¿Qué haces?",["Cambio a luz de cruce para no deslumbrar","Mantengo las largas","Apago las luces"],0,"Cruce para no deslumbrar, también si sigues de cerca a otro vehículo.",""],
+["Luces","Te deslumbra un coche que viene de frente. ¿Qué haces?",["Le doy largas","Reduzco la velocidad y miro hacia el borde derecho de la vía","Cierro los ojos un segundo"],1,"Baja la velocidad y desvía la mirada al borde derecho hasta recuperar la visión.",""],
+["Luces","¿Es obligatorio llevar la luz de cruce de día en un carril reversible o adicional?",["Sí","No","Solo en invierno"],0,"En carriles reversibles, adicionales o habilitados en sentido contrario, cruce también de día.",""],
+["Luces","¿Las motos deben llevar luz de cruce de día?",["Sí, siempre","Solo en carretera","No"],0,"Las motocicletas circulan siempre con la luz de cruce encendida.",""],
+["Luces","Con niebla densa, ¿qué luces son las más adecuadas?",["Largas","Cruce y antiniebla","Solo posición"],1,"Las largas rebotan en la niebla y te ciegan. Cruce más antinieblas.",""],
+["Luces","¿Se pueden usar las antinieblas delanteras sin niebla?",["Nunca","En carreteras estrechas con muchas curvas señalizadas, además de con niebla, lluvia o nieve intensas","Siempre de noche"],1,"La norma también las permite en tramos estrechos con curvas señalizados.",""],
+["Luces","Tu coche está estacionado de noche en una vía interurbana mal iluminada. ¿Qué luces dejas?",["Las de posición","Ninguna","Las largas"],0,"Si la vía no está bien iluminada, el vehículo detenido debe ser visible con las de posición.",""],
+["Luces","¿Cuándo se usan las luces de emergencia (todos los intermitentes)?",["Para aparcar en doble fila","Cuando el vehículo está inmovilizado y supone peligro","Para dar las gracias"],1,"Para señalizar un vehículo inmovilizado, también en avería junto a la V16.",""],
+["Luces","Desde el ocaso hasta la salida del sol, en carretera, ¿qué luces mínimo?",["Posición y cruce o largas","Solo posición","Ninguna si hay luna"],0,"Siempre posición, más cruce o largas según la situación.",""],
+// ===== Motos y bicis =====
+["Motos y bicis","¿Es obligatorio el casco en moto dentro de la ciudad?",["Sí, siempre","Solo en carretera","Solo para el pasajero"],0,"En moto y ciclomotor el casco es obligatorio en todas las vías, conductor y pasajero.",""],
+["Motos y bicis","Un ciclista de 30 años en carretera interurbana, ¿debe llevar casco?",["Sí, siempre: desde octubre de 2026 no hay excepciones","Solo en rampas prolongadas","No, solo los menores de 16"],0,"La reforma de 2026 eliminó las excepciones (rampas largas, calor, razones médicas). Casco siempre en interurbanas.","Trampa: muchos tests antiguos aún dicen que hay excepciones."],
+["Motos y bicis","Un ciclista de 12 años en una calle urbana, ¿debe llevar casco?",["No","Sí, los menores de 16 siempre","Solo si va rápido"],1,"Los menores de 16 deben llevar casco en cualquier vía.",""],
+["Motos y bicis","¿Pueden circular los ciclistas en paralelo, de dos en dos?",["Sí, en general, pero en fila de uno si hay poca visibilidad o tráfico","Nunca","Solo en autovía"],0,"Pueden ir en columna de a dos, arrimados a la derecha, y en fila si la visibilidad es mala.",""],
+["Motos y bicis","¿Puede una bicicleta circular por una autovía?",["No, nunca","Sí, por el arcén si el ciclista tiene al menos 14 años y no hay señal que lo prohíba","Sí, por el carril derecho"],1,"Por el arcén de autovía sí (mayores de 14), salvo prohibición. Por autopista nunca.",""],
+["Motos y bicis","¿Puede un ciclomotor circular por una autopista?",["Sí, por el arcén","No","Solo de día"],1,"Ciclomotores prohibidos en autopistas y autovías.",""],
+["Motos y bicis","De noche, una bicicleta debe llevar...",["Luz delantera blanca, trasera roja y catadióptrico trasero","Solo un reflectante","Nada si hay farolas"],0,"Y en vía interurbana el ciclista debe llevar además una prenda reflectante.",""],
+["Motos y bicis","¿Desde qué edad puede ir un pasajero en moto, como regla general?",["Desde 12 años","Desde 7 años con cualquier conductor","Desde 16"],0,"A partir de 12. Desde 7 si conduce el padre, madre, tutor o adulto autorizado, con casco.",""],
+["Motos y bicis","Un ciclista circula por el arcén. ¿Puede salir de él?",["Nunca","En descensos prolongados con curvas, si es seguro","Siempre que quiera"],1,"La norma le permite ocupar la calzada en bajadas largas con curvas por seguridad.",""],
+["Motos y bicis","Un motorista es más vulnerable porque...",["Tiene menos protección y es menos visible","Va siempre más rápido","Frena peor"],0,"Ojo en giros e incorporaciones: es el clásico «no lo vi».",""],
+["Motos y bicis","Adelantas a un ciclista en una carretera con un carril por sentido y no puedes dejar 1,5 m. ¿Qué haces?",["Le adelanto igualmente despacio","Espero detrás hasta poder hacerlo con seguridad","Le pito para que se aparte"],1,"Si no hay espacio, no adelantes.",""],
+["Motos y bicis","Un patinete eléctrico (VMP) por la noche, ¿necesita alumbrado?",["No","Sí, luces y elementos reflectantes","Solo si va por carretera"],1,"Los VMP deben llevar alumbrado y elementos reflectantes.",""],
+["Motos y bicis","¿Puede ir más de una persona en un patinete eléctrico (VMP)?",["Sí, dos","No, solo una","Sí, si uno es niño"],1,"Los VMP son de uso individual.",""],
+["Motos y bicis","¿Puede un patinete eléctrico (VMP) circular por autopista o autovía?",["No","Sí, por el arcén","Sí, a 25 km/h"],0,"Prohibido en autopistas, autovías, travesías interurbanas y túneles urbanos.",""],
+// ===== Emergencias / primeros auxilios =====
+["Emergencias","Eres testigo de un accidente con heridos. ¿Estás obligado a ayudar?",["No, si no eres sanitario","Sí: no socorrer puede ser delito de omisión de socorro","Solo si estás implicado"],1,"Debes ayudar en lo posible y avisar al 112 sin ponerte en peligro.",""],
+["Emergencias","Un herido inconsciente que respira y sin sospecha de lesión de columna debe colocarse...",["Boca arriba con las piernas en alto","En posición lateral de seguridad","Sentado"],1,"La posición lateral evita que se ahogue con su lengua o vómito.",""],
+["Emergencias","Un herido sangra mucho por un brazo. ¿Qué haces primero?",["Torniquete con el cinturón","Presión directa sobre la herida con un paño limpio","Darle agua"],1,"Compresión directa es lo primero. El torniquete es el último recurso.",""],
+["Emergencias","Un herido tiene la ropa pegada a una quemadura. ¿Qué haces?",["Se la arranco","No se la quito y enfrío con agua","Le pongo pomada"],1,"No se retira la ropa adherida. Agua a temperatura ambiente.",""],
+["Emergencias","¿Se debe dar de beber a un herido de accidente?",["Sí, agua","No","Solo si tiene sed"],1,"Nunca comida ni bebida: podría necesitar cirugía o atragantarse.",""],
+["Emergencias","En la reanimación cardiopulmonar (RCP) de un adulto, ¿cuál es la secuencia?",["30 compresiones y 2 insuflaciones","15 compresiones y 1 insuflación","5 compresiones y 5 insuflaciones"],0,"30:2, a un ritmo de 100-120 compresiones por minuto.",""],
+["Emergencias","¿Debes mover a un herido de un accidente?",["Siempre, para ponerlo cómodo","Solo si hay peligro inminente (fuego, atropello...)","Nunca bajo ninguna circunstancia"],1,"Moverlo puede agravar lesiones de columna. Solo si su vida corre peligro donde está.",""],
+["Emergencias","En un túnel, el coche de delante se incendia. Tienes que dejar el tuyo. ¿Qué haces con la llave?",["Me la llevo","La dejo puesta en el contacto","La tiro"],1,"Se deja puesta para que los servicios puedan mover el vehículo. Ve a la salida de emergencia.",""],
+["Emergencias","Tu coche se avería dentro de un túnel. ¿Qué haces?",["Me quedo dentro esperando","Enciendo la emergencia, apago el motor y aviso desde un poste SOS o al 112","Hago marcha atrás hasta la entrada"],1,"Señaliza, apaga el motor y pide ayuda. Nunca marcha atrás.",""],
+["Emergencias","Tu coche se queda parado en un paso a nivel. ¿Prioridad?",["Intentar arrancar hasta el final","Sacar a los ocupantes y alejarse; luego intentar sacar el coche si hay tiempo","Esperar dentro"],1,"Las personas primero, fuera de la vía.",""],
+["Emergencias","Estás implicado en un accidente leve sin heridos. ¿Qué debes hacer?",["Irme si no hay heridos","Detenerme, no entorpecer el tráfico e identificarme a los otros implicados","Mover los coches sin mirar"],1,"Detenerse e intercambiar datos es obligatorio. Parte amistoso si hay acuerdo.",""],
+["Emergencias","Al llamar al 112 por un accidente, ¿qué información es la más importante?",["Mi nombre completo","El lugar exacto (vía, km, sentido) y el número de heridos","La marca de los coches"],1,"Dónde, cuántos heridos y su estado. La baliza V16 conectada también envía la ubicación.",""],
+["Emergencias","Al encender la baliza V16 conectada, ¿qué ocurre además de la luz?",["Envía tu ubicación a la plataforma DGT 3.0","Llama a tu seguro automáticamente","Nada más"],0,"Comunica la posición del vehículo detenido para avisar al resto de conductores.",""],
+["Emergencias","Un coche extranjero se avería en España. ¿Puede usar triángulos?",["No, nunca","Sí, los vehículos matriculados en otros países pueden usarlos","Solo de noche"],1,"La obligación de la V16 es para vehículos matriculados en España.",""],
+["Emergencias","No llevar la baliza V16 en el coche supone...",["80 € (infracción leve)","200 € y 4 puntos","Delito"],0,"Igual que antes no llevar triángulos: 80 €.",""],
+["Emergencias","Un niño de más de 135 cm y menos de 150 cm puede usar...",["Solo sillita","El cinturón de adulto o un sistema de retención adecuado","Nada"],1,"A partir de 135 cm ya puede usar el cinturón; hasta 150 cm puede seguir con alzador.",""],
+["Emergencias","La banda inferior del cinturón en una embarazada debe ir...",["Sobre el vientre","Por debajo del vientre, sobre las caderas","No debe llevar cinturón"],1,"Banda diagonal entre los pechos y banda inferior bajo el vientre.",""],
+["Emergencias","El airbag...",["Sustituye al cinturón","Es un complemento del cinturón","Solo funciona sin cinturón"],1,"Sin cinturón, el airbag puede incluso causar lesiones.",""],
+["Emergencias","¿A qué altura debe ir el reposacabezas?",["A la altura del cuello","Su parte superior a la altura de la parte superior de la cabeza","Lo más bajo posible"],1,"Bien colocado evita el latigazo cervical.",""],
+["Emergencias","La banda diagonal del cinturón debe pasar...",["Por el cuello","Por la clavícula y el centro del pecho","Por debajo del brazo"],1,"Sobre la clavícula, nunca por el cuello ni bajo el brazo.",""],
+["Emergencias","¿Cuál es la primera medida al ver una retención repentina en autovía?",["Frenar en seco","Reducir la velocidad progresivamente y avisar a los de detrás con las luces de freno o la emergencia","Cambiar de carril bruscamente"],1,"Evitar el alcance trasero: frena progresivamente y avisa.",""],
+// ===== Vehículo =====
+["Vehículo","¿Para qué sirve el ABS?",["Para frenar en menos metros siempre","Para evitar que las ruedas se bloqueen y poder girar mientras frenas","Para no tener que frenar en curvas"],1,"Mantiene el control de la dirección en una frenada fuerte. No hace milagros con la distancia.",""],
+["Vehículo","Con ABS, en una frenada de emergencia debes...",["Pisar a fondo y mantener","Bombear el pedal","Frenar suave"],0,"Con ABS pisa fuerte y sostén; el sistema hace el resto.",""],
+["Vehículo","¿Para qué sirve el control de estabilidad (ESP)?",["Para ahorrar combustible","Para corregir derrapes y pérdidas de trayectoria","Para aparcar solo"],1,"Frena ruedas concretas para mantener la trayectoria.",""],
+["Vehículo","Se enciende en rojo el testigo de presión de aceite. ¿Qué haces?",["Sigo hasta el taller","Detengo el vehículo y apago el motor lo antes posible con seguridad","Lo ignoro si el coche va bien"],1,"Rojo = problema grave. Sin aceite, el motor se rompe en minutos.","Testigo rojo: para. Ámbar: revisa pronto."],
+["Vehículo","El indicador de temperatura del motor marca muy alto. ¿Qué no debes hacer?",["Parar con seguridad","Abrir el tapón del radiador en caliente","Dejar enfriar"],1,"El líquido sale a presión y quema. Espera a que se enfríe.",""],
+["Vehículo","Neumáticos de un mismo eje deben ser...",["Del mismo tipo y medida","Uno nuevo y otro viejo","Da igual"],0,"Mismo tipo, medida y preferiblemente desgaste similar.",""],
+["Vehículo","¿En qué ruedas se ponen las cadenas?",["En las motrices","En las traseras siempre","En las delanteras siempre"],0,"En las ruedas que transmiten la tracción.",""],
+["Vehículo","Una señal redonda azul con un neumático con cadenas indica...",["Cadenas obligatorias (o neumáticos de invierno autorizados)","Prohibido cadenas","Taller cercano"],0,"Obligación de cadenas u otros dispositivos autorizados.",""],
+["Vehículo","Una presión de neumáticos inferior a la recomendada provoca...",["Menos consumo","Más consumo, peor agarre y desgaste en los bordes","Nada"],1,"Además puede reventar por calentamiento.",""],
+["Vehículo","El nivel del líquido de frenos baja. ¿Qué puede indicar?",["Pastillas desgastadas o una fuga","Que el motor está frío","Nada importante"],0,"Hay que revisarlo cuanto antes.",""],
+["Vehículo","Si la ITV es desfavorable, ¿qué ocurre?",["No puedes circular nunca","Tienes un plazo (normalmente 2 meses) para reparar y volver","Nada"],1,"Desfavorable: plazo para subsanar. Negativa: no puede circular salvo para ir al taller o a la ITV en las condiciones fijadas.",""],
+["Vehículo","Después de los 10 años, ¿cada cuánto pasa la ITV un turismo particular?",["Cada año","Cada 2 años","Cada 4 años"],0,"4 años la primera, cada 2 hasta los 10, y luego anual.",""],
+["Vehículo","¿Puedes llevar más ocupantes que plazas tiene tu vehículo?",["Sí, si son niños","No","Sí, en viajes cortos"],1,"Nunca más personas que plazas homologadas.",""],
+["Vehículo","Una carga que sobresale por detrás del vehículo se señaliza con...",["Un panel con franjas rojas y blancas (V-20)","Un pañuelo","La L"],0,"Panel V-20 de franjas diagonales rojas y blancas.",""],
+["Vehículo","Una mascota en el coche debe ir...",["Suelta en el asiento de atrás","Sujeta o en transportín, sin poder interferir al conductor","En brazos del copiloto"],1,"Animal suelto = riesgo de distracción y de proyectil en un choque.",""],
+["Vehículo","¿Dónde deben ir los objetos pesados en el coche?",["Sujetos en el maletero, lo más bajos posible","En la bandeja trasera","En el asiento"],0,"Un objeto suelto en un choque multiplica su peso.",""],
+["Vehículo","Los neumáticos tienen un indicador de desgaste. ¿Qué indica?",["Que se ha llegado al mínimo legal de 1,6 mm","La presión","La fecha de fabricación"],0,"Cuando el dibujo llega al testigo, toca cambiarlos.",""],
+// ===== Conducción eficiente =====
+["Conducción eficiente","Al arrancar el motor, ¿debes pisar el acelerador?",["Sí, un poco","No","Sí, a fondo para calentarlo"],1,"Los coches actuales arrancan sin acelerar.",""],
+["Conducción eficiente","¿Hay que calentar el motor parado unos minutos antes de salir?",["Sí, siempre","No, se arranca y se circula suave los primeros minutos","Solo en verano"],1,"Calentar en parado gasta y contamina; se calienta antes circulando suave.",""],
+["Conducción eficiente","En un coche de gasolina, ¿a qué revoluciones se recomienda cambiar de marcha?",["Entre 2.000 y 2.500 rpm","A 4.000 rpm","A 1.000 rpm"],0,"Gasolina 2.000-2.500. Diésel 1.500-2.000.",""],
+["Conducción eficiente","Al bajar una pendiente con una marcha engranada y sin pisar el acelerador, el consumo es...",["Mayor que en punto muerto","Prácticamente nulo","Igual que acelerando"],1,"Con marcha y sin acelerar, la inyección se corta. En punto muerto el motor sí consume.",""],
+["Conducción eficiente","¿Qué estilo de conducción consume menos?",["Marchas cortas y acelerones","Marchas largas, velocidad uniforme y anticipación","Frenar tarde"],1,"Anticipar evita frenar y volver a acelerar.",""],
+["Conducción eficiente","Llevar la baca o un cofre en el techo vacío...",["No afecta","Aumenta el consumo","Mejora la estabilidad"],1,"Empeora la aerodinámica. Quítalo si no lo usas.",""],
+["Conducción eficiente","A alta velocidad en autopista, ¿qué gasta más?",["Ventanillas bajadas","Ventanillas subidas con climatizador moderado","Lo mismo"],0,"Las ventanillas abiertas a alta velocidad disparan la resistencia del aire.",""],
+["Conducción eficiente","En una parada de más de un minuto (sin ser un atasco en movimiento), conviene...",["Mantener el motor encendido","Apagar el motor","Acelerar en vacío"],1,"Más de un minuto parado, mejor apagar.",""],
+// ===== Factores humanos =====
+["Factores humanos","Mirar el móvil 2 segundos a 120 km/h equivale a recorrer a ciegas unos...",["10 metros","67 metros","200 metros"],1,"120 km/h ≈ 33 m/s: en 2 segundos, unos 67 metros sin mirar.",""],
+["Factores humanos","¿Cuál de estas es una señal de fatiga al volante?",["Bostezos, parpadeo frecuente y picor de ojos","Hambre","Ganas de escuchar música"],0,"También cambios de postura y no recordar los últimos kilómetros. Para.",""],
+["Factores humanos","¿Qué es la única solución real contra el sueño al volante?",["Bajar la ventanilla","Café","Parar y descansar o dormir"],2,"El café o el aire frío solo disimulan unos minutos.",""],
+["Factores humanos","Una comida copiosa antes de conducir...",["No influye","Puede provocar somnolencia","Mejora los reflejos"],1,"Comidas ligeras y sin alcohol antes de un viaje.",""],
+["Factores humanos","Un microsueño al volante es...",["Una siesta en un área de servicio","Un sueño de pocos segundos sin darse cuenta","Un sueño ligero que no afecta"],1,"Unos segundos a 120 km/h son decenas de metros sin control.",""],
+["Factores humanos","Conducir enfadado o estresado...",["No afecta si conduces bien","Aumenta la agresividad y el riesgo","Mejora la atención"],1,"Las emociones fuertes reducen la atención y aumentan las decisiones arriesgadas.",""],
+["Factores humanos","¿Qué peatones son los más imprevisibles?",["Los niños y las personas mayores","Los adultos con prisa","Los que van en grupo"],0,"Los niños calculan mal la velocidad; los mayores pueden ser más lentos o ver y oír peor.",""],
+["Factores humanos","Tras un deslumbramiento, la vista tarda en recuperarse...",["Nada, es instantáneo","Varios segundos, más con la edad o el cansancio","Minutos siempre"],1,"Por eso hay que reducir velocidad.",""],
+["Factores humanos","¿Se puede usar un navegador GPS mientras conduces?",["Sí, manipulándolo cuando quieras","Sí, colocado en un soporte y programado antes de salir, sin manipularlo en marcha","No, nunca"],1,"Lo prohibido es manipularlo con el vehículo en marcha.",""],
+["Factores humanos","La velocidad excesiva aumenta...",["La fatiga y la gravedad de los accidentes","La atención","La visión lateral"],0,"Más velocidad, más tensión, más cansancio y más energía en el choque.",""],
+// ===== Clima y vía =====
+["Clima y vía","¿Dónde es más probable encontrar placas de hielo?",["En zonas de sombra, puentes y viaductos","En rectas soleadas","En túneles largos"],0,"En puentes el frío llega por arriba y por abajo; en sombras no da el sol.",""],
+["Clima y vía","Con nieve, ¿cómo se debe conducir?",["Marchas cortas y acelerones","Marchas largas, suavidad con volante, frenos y acelerador","Frenar fuerte en las curvas"],1,"Movimientos suaves para no perder adherencia.",""],
+["Clima y vía","¿Dónde suele notarse más el viento lateral?",["A la salida de túneles, en puentes y al adelantar a camiones","En ciudad","En curvas cerradas"],0,"Sujeta el volante con firmeza y reduce.",""],
+["Clima y vía","Con lluvia intensa, la distancia de seguridad debe...",["Mantenerse igual","Al menos duplicarse","Reducirse para ver mejor al de delante"],1,"Más distancia por la menor adherencia y peor visibilidad.",""],
+["Clima y vía","Con niebla, ¿cómo te orientas mejor?",["Con las marcas viales del borde derecho","Siguiendo muy de cerca las luces del de delante","Con largas"],0,"Pegarse al de delante es peligroso: si frena, no te da tiempo.",""],
+["Clima y vía","Al salir de un túnel en un día soleado puedes sufrir...",["Deslumbramiento","Aquaplaning","Nada"],0,"El cambio de luz deja ciego un instante. Reduce antes de la salida.",""],
+["Clima y vía","Un cambio de rasante es...",["Una curva cerrada","El punto más alto de una subida, sin visibilidad de lo que hay detrás","Un badén"],1,"No adelantes ni pares en un cambio de rasante.",""],
+["Clima y vía","Un peatón que camina por una carretera sin arcén ni acera debe ir...",["Por la derecha","Por la izquierda, de frente al tráfico","Por el centro"],1,"Por la izquierda para ver venir a los vehículos (salvo que sea más peligroso).",""],
+["Clima y vía","Un peatón que camina de noche por una carretera interurbana debe...",["Ir por la derecha","Llevar una prenda o elemento reflectante","No hay normas"],1,"De noche y con poca visibilidad, prenda reflectante obligatoria.",""],
+// ===== Novedades =====
+["Novedades 2025-26","¿Qué etiqueta ambiental llevan normalmente los híbridos no enchufables y los coches de gas?",["0","ECO","B"],1,"ECO para híbridos y gas; 0 para eléctricos de batería e híbridos enchufables con 40 km o más de autonomía eléctrica.",""],
+["Novedades 2025-26","¿Qué municipios están obligados a tener Zona de Bajas Emisiones?",["Los de más de 50.000 habitantes","Solo Madrid y Barcelona","Ninguno"],0,"La Ley de Cambio Climático obliga a los de más de 50.000 habitantes (y a algunos menores en casos concretos).",""],
+["Novedades 2025-26","¿Desde cuándo incluye el examen teórico preguntas sobre el nuevo catálogo de señales?",["Desde octubre de 2025","Desde 2030","No las incluye"],0,"Desde octubre de 2025 entran preguntas del catálogo de señales en vigor desde julio de ese año.",""],
+["Novedades 2025-26","¿Qué se evalúa con los vídeos que la DGT incorpora al examen teórico en 2026?",["La percepción del riesgo y la anticipación","La memoria de señales","Las normas de aparcamiento"],0,"Se trata de detectar peligros en situaciones reales de tráfico.",""],
+["Novedades 2025-26","Un patinete eléctrico (VMP), ¿puede circular con auriculares?",["Sí","No, igual que el resto de conductores","Solo con uno"],1,"Sus conductores tienen prohibidos los auriculares y el móvil en la mano.",""],
+["Novedades 2025-26","¿A los conductores de patinetes eléctricos se les aplican las tasas de alcohol?",["No","Sí","Solo si van por carretera"],1,"Son conductores de vehículos: mismas tasas y pruebas.",""],
+// ===== Percepción del riesgo =====
+["Percepción del riesgo","Ves una pelota y varios niños en la acera junto a un colegio. ¿Qué haces?",["Mantengo la velocidad","Reduzco y me preparo para frenar","Toco el claxon para avisar"],1,"Zona escolar: cualquier niño puede lanzarse a la calzada.",""],
+["Percepción del riesgo","Un coche que va delante frena de repente sin motivo aparente. ¿Qué anticipas?",["Que hay un obstáculo o un peatón que tú aún no ves","Que el conductor no sabe conducir","Nada"],0,"Frena tú también y aumenta la distancia: él ve algo que tú no.",""],
+["Percepción del riesgo","Te acercas a un paso de peatones y un autobús parado tapa la visión de la acera. ¿Qué haces?",["Paso rápido para no esperar","Reduzco al máximo: puede salir un peatón tras el autobús","Pito"],1,"Lo que no ves es lo más peligroso.",""],
+["Percepción del riesgo","Un camión gira a la derecha en un cruce y tú vas en bici o moto a su derecha. ¿Riesgo?",["Ninguno","Que no te vea y te atrape al girar","Que acelere"],1,"Los camiones tienen grandes ángulos muertos a la derecha. Nunca te coloques ahí.",""],
+["Percepción del riesgo","Por la noche ves dos ojos brillantes a un lado de una carretera secundaria. ¿Qué haces?",["Acelero para pasar rápido","Reduzco: puede ser un animal que cruce","Pongo las largas y sigo"],1,"Los animales cruzan de forma imprevisible. Reduce y no hagas maniobras bruscas.",""],
+["Percepción del riesgo","Un coche en la vía de al lado lleva un rato con el intermitente puesto sin cambiar de carril. ¿Qué anticipas?",["Puede incorporarse en cualquier momento o haberlo olvidado","Nada","Que va a frenar"],0,"No te fíes: guarda margen.",""],
+["Percepción del riesgo","Hay un vehículo parado en el arcén con la V16 encendida. ¿Qué haces?",["Mantengo velocidad y carril","Reduzco y, si puedo, cambio al carril izquierdo","Paro detrás de él"],1,"Puede haber personas fuera del vehículo.",""],
+["Percepción del riesgo","Llegas a una curva cerrada sin visibilidad en una carretera de montaña. ¿Qué haces?",["Me abro al centro para tomarla mejor","Reduzco antes de la curva y me mantengo en mi carril","Acelero en la curva"],1,"Frena antes de entrar, no dentro; puede venir alguien invadiendo tu carril.",""],
+["Percepción del riesgo","Un peatón mayor empieza a cruzar fuera del paso de peatones. ¿Qué haces?",["Toco el claxon","Reduzco y le dejo cruzar con margen","Paso rozándolo"],1,"Aunque no tenga prioridad, debes evitar el atropello.",""],
+["Percepción del riesgo","En una autovía, ves luces de freno en cadena varios coches por delante. ¿Qué haces?",["Espero a que frene el de justo delante","Levanto el pie y empiezo a reducir ya, avisando a los de detrás","Cambio bruscamente de carril"],1,"Anticípate al frenazo, no reacciones a él.",""],
+["Percepción del riesgo","Un niño en bicicleta circula por la acera junto a la calzada. ¿Qué anticipas?",["Que puede bajar a la calzada sin mirar","Que se quedará en la acera","Nada"],0,"Los niños no anticipan el peligro. Aumenta la separación.",""],
+["Percepción del riesgo","Llueve por primera vez tras semanas de sequía y tienes que frenar en una curva. ¿Qué es lo más seguro?",["Frenar fuerte dentro de la curva","Reducir velocidad antes de entrar en la curva","Acelerar para salir antes"],1,"Frenar en curva sobre mojado es la receta del derrape.",""],
+["Percepción del riesgo","Delante de ti, un conductor da bandazos dentro de su carril. ¿Qué haces?",["Le adelanto rápido pegado","Mantengo distancia y, si hace falta, aviso al 112 o al 011","Le pito"],1,"Puede ir bebido, dormido o distraído. Mantén margen.",""],
+["Percepción del riesgo","Entras en una calle estrecha con coches aparcados a ambos lados. ¿Cuál es el peligro?",["Que se abra una puerta o salga un peatón entre coches","Ninguno","Que haya baches"],0,"Velocidad baja y atención a los huecos entre coches.",""],
+["Percepción del riesgo","Vas a girar a la izquierda y viene una moto de frente a lo lejos. ¿Qué tienes en cuenta?",["Las motos parecen más lejanas y lentas de lo que son","Que siempre frenará","Que no tiene prioridad"],0,"Por su tamaño, calculamos mal su velocidad. En la duda, espera.",""]
+];
+
+const B3=[
+// ===== Reforma RD 518/2026 (en vigor 1-10-2026) =====
+["Reforma oct. 2026","Desde el 1 de octubre de 2026, un ciclista adulto que circula por una carretera interurbana...",["Debe llevar casco siempre: se eliminaron las excepciones","Puede no llevarlo en rampas largas o con mucho calor","Solo lo lleva si es menor de 16"],0,"La reforma del Reglamento (RD 518/2026) eliminó las exenciones: casco obligatorio para todos los ciclistas en vías interurbanas.","Antes había excepciones; desde octubre de 2026, ninguna.","sCiclistaCasco"],
+["Reforma oct. 2026","Fuera de poblado, en una vía limitada a 90 km/h, vas a adelantar a un ciclista. ¿A qué velocidad máxima puedes hacerlo?",["90 km/h","70 km/h","50 km/h"],1,"Desde octubre de 2026 hay que reducir al menos 20 km/h respecto al límite de la vía al adelantar a ciclistas: 90 − 20 = 70.","Ciclista: menos 20 y metro y medio.","adelBici"],
+["Reforma oct. 2026","Al adelantar a un ciclista fuera de poblado, ¿qué dos condiciones debes cumplir?",["Reducir al menos 20 km/h respecto al límite y dejar 1,5 m de separación lateral","Tocar el claxon y dejar 1 m","Solo dejar 1,5 m"],0,"Las dos a la vez: −20 km/h y 1,5 m. Con varios carriles por sentido, además, cambio completo de carril.","","adelBici"],
+["Reforma oct. 2026","En ciudad, circulas detrás de una bicicleta por el mismo carril. ¿Qué distancia mínima debes dejar?",["2 metros","5 metros","10 metros"],1,"La reforma de 2026 exige al menos 5 metros detrás de un ciclista que va por delante en el mismo carril en vía urbana.","Bici delante en ciudad: 5 metros.","bici5m"],
+["Reforma oct. 2026","En vía urbana sin carril bici, ¿por dónde circularán preferentemente los ciclistas tras la reforma de 2026?",["Pegados al bordillo","Por el centro del carril","Por la acera"],1,"Para ser más visibles y evitar adelantamientos peligrosos, preferentemente por el centro del carril.",""],
+["Reforma oct. 2026","Atasco en una autovía de dos carriles por sentido, con el tráfico parado. ¿Cómo se forma el carril de emergencia?",["Todos a la derecha","Los del carril izquierdo se apartan a la izquierda y los del derecho a la derecha, dejando libre el centro","Todos al arcén"],1,"Así queda un pasillo central para policía y emergencias.","Dos carriles: el pasillo, en el medio.","emer2"],
+["Reforma oct. 2026","Atasco en una autopista de tres carriles por sentido. ¿Dónde queda el carril de emergencia?",["Entre el carril izquierdo y el central","Entre el central y el derecho","En el arcén derecho"],0,"El carril izquierdo se aparta a la izquierda; el central y el derecho, a la derecha.","Tres carriles: el pasillo, tras el carril izquierdo.","emer3"],
+["Reforma oct. 2026","¿Cuándo hay que formar el carril de emergencia?",["Solo cuando oigas una sirena","Cuando el tráfico está detenido o va a paso de peatón en autopistas y autovías","Nunca, es voluntario"],1,"Se forma en cuanto hay retención, sin esperar a ver la ambulancia.",""],
+["Reforma oct. 2026","Autovía con nieve que dificulta la circulación. ¿Qué está prohibido?",["Circular por el carril derecho","Adelantar","Usar las luces de cruce"],1,"Con nieve que dificulta la circulación está prohibido adelantar. Se circula por el carril derecho y el izquierdo queda libre para quitanieves y emergencias.","","nieve"],
+["Reforma oct. 2026","Hay un vehículo averiado ocupando parte de tu carril en una carretera. ¿Cómo lo rebasas?",["A la misma velocidad","Reduciendo al menos 20 km/h respecto al límite y dejando 1,5 m de separación lateral","Pitando"],1,"La reforma aplica a vehículos inmovilizados (averías, accidentes, auxilio, mantenimiento) la misma regla que a los ciclistas.","","inmov"],
+["Reforma oct. 2026","¿Desde qué edad se puede conducir un patinete eléctrico (VMP)?",["12 años","15 años","18 años"],1,"La reforma fija en 15 años la edad mínima para conducir un VMP.","Patinete: 15 años y casco.",""],
+["Reforma oct. 2026","¿Es obligatorio el casco para conducir un patinete eléctrico (VMP)?",["Sí, desde octubre de 2026","Solo para menores","No"],0,"Casco obligatorio siempre. Y de noche o con poca visibilidad, chaleco o prenda reflectante.",""],
+["Reforma oct. 2026","Un patinete eléctrico fuera de poblado, ¿por dónde puede circular?",["Por el arcén de cualquier carretera","Por vías separadas del tráfico de motor, como carriles bici, salvo señal que lo prohíba","Por autovías a 25 km/h"],1,"Fuera de poblado, solo por vías segregadas de los vehículos a motor (carril bici, pista bici...).",""],
+["Reforma oct. 2026","¿Qué deben llevar los motoristas en vías interurbanas desde octubre de 2026?",["Guantes","Chaleco reflectante mientras circulan","Nada nuevo"],0,"Guantes obligatorios para conductor y pasajero de motos y ciclomotores en vías interurbanas.",""],
+["Reforma oct. 2026","¿Qué calzado deben llevar conductor y pasajero de una moto?",["Cualquiera","Calzado cerrado que cubra todo el pie, en todas las vías","Botas solo en carretera"],1,"Calzado cerrado obligatorio en todo tipo de vía. Incumplirlo es infracción grave (200 €).",""],
+["Reforma oct. 2026","En un atasco, ¿puede una moto circular por el arcén?",["Sí, siempre que haya atasco","Solo en tramos señalizados para ello, con el tráfico detenido y a 30 km/h como máximo","Nunca"],1,"Es un permiso limitado a tramos habilitados, nunca general.","Arcén en moto: solo donde lo diga la señal, máximo 30.",""],
+["Reforma oct. 2026","¿Pueden los taxistas no llevar el cinturón en ciudad?",["Sí, están exentos","No, la reforma de 2026 eliminó esa exención","Solo de noche"],1,"Se eliminaron las exenciones de taxistas, vehículos de mercancías y vehículos de autoescuela.",""],
+["Reforma oct. 2026","En una calle de plataforma única (acera y calzada al mismo nivel), ¿quién tiene prioridad?",["Los vehículos","Los peatones","El que llegue antes"],1,"La reforma de 2026 da prioridad expresa a los peatones en plataforma única, además del límite de 20 km/h.",""],
+["Reforma oct. 2026","¿Quiénes son «usuarios vulnerables» según el Reglamento reformado en 2026?",["Peatones, ciclistas, usuarios de VMP y motoristas","Solo peatones","Conductores noveles"],0,"La reforma los define por primera vez y refuerza su protección.",""],
+["Reforma oct. 2026","Un repartidor (rider) que trabaja en bicicleta o patinete, ¿qué debe llevar siempre?",["Casco y chaleco reflectante","Solo casco de noche","Nada especial"],0,"Los riders profesionales: casco y chaleco reflectante en todo momento.",""],
+["Reforma oct. 2026","Una autocaravana estacionada en la calle, ¿puede sacar toldo o patas estabilizadoras?",["Sí","No: no puede sobresalir de su perímetro y debe apoyarse solo en sus ruedas","Solo de día"],1,"Tampoco puede verter líquidos de la zona habitable.",""],
+// ===== Definiciones =====
+["Definiciones","Una motocicleta, ¿es un automóvil?",["Sí","No","Solo si supera 125 cc"],0,"Automóvil es el vehículo de motor que sirve para transportar personas o cosas. La moto lo es; el ciclomotor no.",""],
+["Definiciones","Un ciclomotor de dos ruedas, ¿qué velocidad máxima tiene por construcción?",["25 km/h","45 km/h","60 km/h"],1,"Ciclomotor: hasta 45 km/h por diseño y, si es de combustión, hasta 50 cc.","Ciclomotor: 45 km/h y 50 cc."],
+["Definiciones","Un cuatriciclo ligero, ¿se considera automóvil?",["Sí","No, tiene la consideración de ciclomotor","Solo si es eléctrico"],1,"Los cuatriciclos ligeros entran en la categoría de ciclomotores, que no son vehículos de motor a estos efectos.",""],
+["Definiciones","Un trolebús, ¿es un vehículo de motor?",["Sí","No, porque va conectado a una línea eléctrica","Solo si lleva baterías"],0,"Es un vehículo de motor que circula sin raíles, conectado a una línea eléctrica. El tranvía, en cambio, no lo es.",""],
+["Definiciones","¿Qué es un remolque ligero?",["El que tiene una MMA de hasta 750 kg","El que no tiene frenos","El de una sola rueda"],0,"Remolque ligero: MMA no superior a 750 kg.",""],
+["Definiciones","¿Qué es una «detención»?",["Inmovilizar el vehículo por emergencia o por necesidades de la circulación (semáforo, atasco...)","Parar hasta 2 minutos para recoger a alguien","Dejar el coche aparcado"],0,"Detención: por obligación del tráfico. Parada: voluntaria, hasta 2 minutos. Estacionamiento: lo demás.","Detención = obligado; parada = quiero, 2 min; estacionamiento = me voy."],
+["Definiciones","Una persona que empuja a pie una bicicleta, ¿qué es a efectos de circulación?",["Ciclista","Peatón","Conductor"],1,"Quien empuja o arrastra a pie una bici, un ciclomotor de dos ruedas o un coche de niño es peatón.",""],
+["Definiciones","¿Quién es el responsable de pasar la ITV de un vehículo?",["El conductor habitual","El titular del vehículo","El taller"],1,"Es obligación del titular.",""],
+["Definiciones","¿Cuál de estas es una maniobra?",["Cambio de carril","Circular recto","Ir a velocidad constante"],0,"Maniobras: incorporarse, cambiar de carril, adelantar, girar, cambiar de sentido, marcha atrás, parar, estacionar...",""],
+// ===== Pasos a nivel y vía =====
+["Señales y prioridad","Llegas a un paso a nivel y las barreras están subiendo. ¿Qué haces?",["Paso ya, se están abriendo","Espero a que estén completamente levantadas","Toco el claxon"],1,"Con las barreras en movimiento (subiendo o bajando) está prohibido pasar.","","pasoNivel"],
+["Señales y prioridad","¿Se puede estacionar o adelantar en un paso a nivel?",["Sí, si no viene el tren","No","Solo adelantar"],1,"Prohibido parar, estacionar y adelantar en pasos a nivel.",""],
+["Señales y prioridad","Hay dos señales del mismo tipo que se contradicen. ¿Cuál prevalece?",["La más restrictiva","La más reciente","La que esté más alta"],0,"Entre señales del mismo tipo manda la más restrictiva.",""],
+["Señales y prioridad","¿Se puede circular o parar sobre una zona cebreada (franjas oblicuas blancas)?",["Sí, si no hay tráfico","No","Solo para parar"],1,"Las zonas cebreadas no se pueden pisar ni ocupar.","","cebreado"],
+["Señales y prioridad","¿Puede circular un turismo por un carril bus?",["Sí, si va vacío","No, salvo para incorporarse o girar donde esté permitido","Sí, por la noche"],1,"El carril bus es solo para los vehículos autorizados. Parar en él también está prohibido.",""],
+["Señales y prioridad","¿Puedes parar un momento en un carril bus para dejar a alguien?",["Sí, 2 minutos","No","Sí, con la emergencia puesta"],1,"Prohibido parar y estacionar en carriles reservados al bus.",""],
+["Señales y prioridad","¿Puede circular una motocicleta por un carril bus?",["Sí, siempre","No, salvo que una señal lo autorice","Solo si es de 125 cc"],1,"Solo si la señalización lo permite expresamente.",""],
+["Maniobras","¿Se puede hacer un cambio de sentido en un tramo donde está prohibido adelantar?",["Sí, si no viene nadie","No, en general está prohibido","Solo de día"],1,"Donde está prohibido adelantar, también el cambio de sentido, salvo que esté expresamente autorizado.",""],
+["Maniobras","En una autovía de tres carriles por sentido, ¿puede un turismo con remolque usar el carril izquierdo?",["Sí, para adelantar","No","Solo de noche"],1,"Vehículos con remolque y los de más de 3.500 kg no pueden usar el carril izquierdo en vías de tres o más carriles por sentido.",""],
+["Maniobras","Fuera de poblado, un camión de más de 3.500 kg y más de 10 m de longitud debe dejar con el de delante al menos...",["10 metros","50 metros","100 metros"],1,"Así se facilita que otros puedan adelantarlos.",""],
+["Maniobras","El vehículo de detrás se te acerca demasiado. ¿Qué es lo más prudente?",["Frenar de golpe para que se aleje","Aumentar tu distancia con el de delante y facilitarle el adelantamiento","Acelerar"],1,"Si el de detrás no te deja margen, créalo tú por delante.",""],
+["Maniobras","¿Cuándo debes ajustar los espejos retrovisores?",["Antes de iniciar la marcha","Mientras conduces en recta","Solo en la ITV"],0,"Siempre antes de arrancar, nunca en marcha.",""],
+["Maniobras","El equipaje tapa la luneta trasera. ¿Qué espejos son obligatorios?",["Solo el interior","Los dos exteriores (izquierdo y derecho)","Ninguno"],1,"Si el interior no sirve, ambos exteriores.",""],
+["Maniobras","¿Para qué se usa la primera marcha?",["Para iniciar la marcha","Para circular por ciudad","Para bajar puertos siempre"],0,"Solo para arrancar; enseguida se cambia.",""],
+["Maniobras","Un vehículo accidentado o averiado debe quedar inmovilizado con...",["Freno de mano y el motor parado","Punto muerto y motor en marcha","Solo con la marcha"],0,"Freno de estacionamiento, motor apagado y, si hay pendiente, marcha engranada.",""],
+["Maniobras","Circular muy por debajo del límite sin motivo, ¿puede causar accidentes?",["No, ir despacio siempre es seguro","Sí, provoca adelantamientos y alcances","Solo en ciudad"],1,"Una velocidad anormalmente reducida también es peligrosa e infracción.",""],
+["Maniobras","¿Está permitida la circulación de animales por una carretera convencional?",["Nunca","Solo cuando no exista vía pecuaria o itinerario alternativo","Siempre"],1,"Por autopistas y autovías, nunca.",""],
+["Maniobras","En condiciones normales, la velocidad adecuada...",["Coincide siempre con el máximo señalizado","Puede ser inferior al máximo según vía, tráfico y condiciones","Es siempre 10 km/h por debajo del límite"],1,"El límite es un máximo, no un objetivo. Ir dentro del límite no siempre es ir a velocidad segura.",""],
+// ===== Emergencias y seguridad =====
+["Emergencias","¿Se puede colocar la baliza V16 separada del vehículo, en el suelo?",["Sí, a 50 metros","No: se coloca en el vehículo, en la parte más alta y visible","Sí, junto a la rueda"],1,"La V16 está pensada para colocarse sin bajar del coche, en el techo.","","v16"],
+["Emergencias","Antes de hacer respiración boca a boca a un herido, ¿qué debes hacer?",["Darle agua","Abrir la vía aérea (inclinar la cabeza hacia atrás y elevar el mentón) y comprobar que no hay objetos","Sentarlo"],1,"Sin vía aérea abierta, el aire no llega a los pulmones.",""],
+["Emergencias","¿Qué es el efecto submarino?",["Que el coche flote en el agua","Que el cuerpo se deslice por debajo de la banda abdominal del cinturón en un choque","Un tipo de aquaplaning"],1,"Ocurre con el respaldo muy reclinado o el cinturón mal ajustado.",""],
+["Emergencias","¿Es obligatorio llevar extintor en un turismo particular?",["Sí","No","Solo en viajes largos"],1,"En turismos de uso particular no es obligatorio (sí en otros vehículos como autobuses o algunos camiones).",""],
+["Emergencias","El seguro obligatorio, ¿cubre las lesiones del propio conductor que causa el accidente?",["Sí","No, cubre los daños a terceros","Solo en autopista"],1,"El obligatorio cubre a terceros y a los ocupantes, no al conductor responsable.",""],
+["Emergencias","Un ciclomotor, ¿debe tener seguro obligatorio?",["No","Sí","Solo si lo conduce un menor"],1,"Todos los vehículos a motor y ciclomotores necesitan seguro obligatorio.",""],
+["Emergencias","¿En qué vías se producen la mayoría de las muertes por accidente de tráfico en España?",["En vías urbanas","En vías interurbanas, sobre todo carreteras convencionales","En autopistas"],1,"Las carreteras convencionales concentran la mayor parte de los fallecidos.",""],
+["Emergencias","¿Por qué los conductores jóvenes suelen tener más accidentes?",["Por falta de experiencia y exceso de confianza","Porque sus coches son peores","Porque conducen menos"],0,"Inexperiencia, velocidad y sobreestimar la propia habilidad.",""],
+["Emergencias","La conducción preventiva consiste en...",["Conducir siempre despacio","Anticiparse a los posibles errores de los demás y a los peligros","Usar siempre el claxon"],1,"Prever, decidir y actuar con margen.",""],
+// ===== Vehículo =====
+["Vehículo","¿Puede circular un vehículo sin silenciador o con el escape modificado y ruidoso?",["Sí, si pasa la ITV","No","Solo motos"],1,"Prohibido circular sin silenciador o con uno ineficaz o manipulado.",""],
+["Vehículo","Un vehículo emite más humo del permitido. ¿Puede seguir circulando?",["Sí, sin problema","No, es una infracción","Solo hasta la ITV"],1,"Emitir humos o gases por encima de lo permitido está prohibido.",""],
+["Vehículo","Las lámparas de los faros, ¿cómo conviene sustituirlas?",["Por parejas, las dos del mismo eje","Solo la fundida","Da igual"],0,"Así iluminan igual y no hay diferencias de intensidad.",""],
+["Vehículo","Un amortiguador en mal estado...",["No afecta a la seguridad","Aumenta la distancia de frenado y empeora la estabilidad","Solo hace ruido"],1,"Las ruedas pierden contacto con el suelo.",""],
+["Vehículo","Usar el aire acondicionado...",["Aumenta el consumo","Lo reduce","No influye"],0,"El compresor consume energía del motor.",""],
+["Vehículo","¿Qué aportan los ADAS (sistemas de ayuda a la conducción)?",["Sustituyen al conductor","Ayudan a evitar o reducir accidentes, pero el conductor sigue siendo responsable","Nada"],1,"Frenada de emergencia, mantenimiento de carril, avisos de ángulo muerto... son ayudas, no piloto automático.",""],
+["Vehículo","La distancia de detención depende de...",["Solo de la velocidad","La velocidad, el estado de frenos y neumáticos, la vía y el tiempo de reacción del conductor","Solo del ABS"],1,"Todo lo que alarga la reacción o reduce la adherencia la aumenta.",""],
+["Vehículo","¿Puede el conductor reducir los accidentes por fallos del vehículo?",["No, dependen del fabricante","Sí, con un buen mantenimiento","Solo con un coche nuevo"],1,"Neumáticos, frenos, luces, amortiguadores: revisiones periódicas.",""],
+// ===== Señales con imagen =====
+["Señales y prioridad","¿Qué indica esta señal?",["Peligro por proximidad de un lugar frecuentado por niños","Paso de peatones","Zona escolar con prohibición de circular"],0,"Triángulo de peligro con dos niños: colegio, parque... Reduce y extrema la atención.","","sNinos"],
+["Señales y prioridad","¿Qué indica esta señal?",["Peligro por proximidad de un lugar con ciclistas que pueden salir o cruzar","Carril bici obligatorio","Prohibido bicicletas"],0,"Triángulo de peligro con ciclista: posibles ciclistas en la vía.","","sCiclista"],
+["Señales y prioridad","¿Qué indica esta señal?",["Prohibido adelantar","Adelantamiento obligatorio","Prohibido circular a turismos"],0,"Círculo rojo con dos turismos (uno rojo): prohibido adelantar a vehículos de motor.","","sNoAdelantar"],
+["Señales y prioridad","¿Qué indica esta señal?",["Fin de todas las prohibiciones impuestas antes","Prohibido el paso","Calzada en mal estado"],0,"Las diagonales en un círculo blanco anulan las prohibiciones anteriores.","","sFinProh"],
+["Señales y prioridad","¿Qué indica esta señal?",["Calzada con prioridad","Fin de prioridad","Cruce peligroso"],1,"El rombo amarillo tachado indica que se acaba la prioridad.","","sFinPrio"],
+["Señales y prioridad","¿Qué indica esta señal?",["Paso a nivel con barreras","Paso a nivel sin barreras","Puente móvil"],0,"La valla dibujada indica que el paso a nivel tiene barreras.","","sBarreras"],
+["Señales y prioridad","¿Qué indica esta señal?",["Curva peligrosa hacia la derecha","Obligación de girar a la derecha","Fin de autovía"],0,"Triángulo de peligro con curva a la derecha.","","sCurva"],
+["Señales y prioridad","Una señal de peligro como esta, pero con fondo amarillo, indica...",["Que es una señal de obras, temporal","Que el peligro es mayor","Que solo afecta a camiones"],0,"El fondo amarillo identifica la señalización de obras y prevalece sobre la fija.","","sObras"]
+];
+
+const IMG=(()=>{
+const R="#c8102e",BL="#0050b5",Y="#f6c400",AS="#4b5158",GR="#8cbf6e",W="#fff",K="#111";
+const V=(c)=>`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Overpass,Arial,sans-serif">${c}</svg>`;
+const T=(x,y,t,s=14,f=K,w=800)=>`<text x="${x}" y="${y}" font-size="${s}" font-weight="${w}" fill="${f}" text-anchor="middle" dominant-baseline="middle">${t}</text>`;
+// --- señales ---
+const cR=(c)=>V(`<circle cx="120" cy="75" r="62" fill="${W}" stroke="${R}" stroke-width="13"/>${c}`);
+const cB=(c)=>V(`<circle cx="120" cy="75" r="62" fill="${BL}" stroke="${W}" stroke-width="3"/>${c}`);
+const tri=(c,bg=W)=>V(`<path d="M120 14 L188 130 L52 130 Z" fill="${bg}" stroke="${R}" stroke-width="11" stroke-linejoin="round"/>${c}`);
+const kid=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="${K}"><circle cy="-22" r="6"/><path d="M-5 -14h10l3 18h-4l-1 16h-3l-1-12-1 12h-3l-1-16h-4z"/></g>`;
+const cyc=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="none" stroke="${K}" stroke-width="3.5"><circle cx="-14" cy="8" r="9"/><circle cx="16" cy="8" r="9"/><path d="M-14 8 L-2 -6 L10 -6 L16 8 M-2 -6 L2 8 L10 -6 M4 -12 L-2 -6"/><circle cx="6" cy="-18" r="4.5" fill="${K}"/></g>`;
+const carS=(x,y,c,s=1,flip=1)=>`<g transform="translate(${x} ${y}) scale(${s*flip} ${s})"><path d="M-26 6 v-10 q2-6 10-7 l8-9 h20 l10 9 q8 1 8 7 v10 z" fill="${c}"/><circle cx="-14" cy="7" r="5" fill="${K}"/><circle cx="14" cy="7" r="5" fill="${K}"/></g>`;
+const S={};
+S.sMax=n=>cR(T(120,78,n,52));
+S.sMin=n=>cB(T(120,78,n,52,W));
+S.sAcons=n=>V(`<rect x="62" y="17" width="116" height="116" rx="12" fill="${BL}" stroke="${W}" stroke-width="3"/>${T(120,78,n,52,W)}`);
+S.sStop=()=>V(`<path d="M95 13h50l35 35v54l-35 35H95l-35-35V48z" fill="${R}" stroke="${W}" stroke-width="4"/>${T(120,77,"STOP",34,W)}`);
+S.sCeda=()=>V(`<path d="M52 18 L188 18 L120 136 Z" fill="${W}" stroke="${R}" stroke-width="12" stroke-linejoin="round"/>`);
+S.sPeligro=()=>tri(`<rect x="114" y="54" width="12" height="44" rx="3" fill="${K}"/><circle cx="120" cy="112" r="7" fill="${K}"/>`);
+S.sObras=()=>tri(`<rect x="114" y="54" width="12" height="44" rx="3" fill="${K}"/><circle cx="120" cy="112" r="7" fill="${K}"/>`,Y);
+S.sNinos=()=>tri(kid(108,112,1.3)+kid(134,114,1.05));
+S.sCiclista=()=>tri(cyc(120,100,1.2));
+S.sCurva=()=>tri(`<path d="M104 120 C104 92 136 92 136 66 L136 58" fill="none" stroke="${K}" stroke-width="10"/><path d="M124 62 L136 44 L148 62 Z" fill="${K}"/>`);
+S.sLoco=()=>tri(`<g fill="${K}"><rect x="94" y="84" width="54" height="22" rx="3"/><rect x="128" y="66" width="20" height="20"/><rect x="100" y="72" width="8" height="12"/><circle cx="104" cy="110" r="6"/><circle cx="122" cy="110" r="6"/><circle cx="140" cy="110" r="6"/></g>`);
+S.sBarreras=()=>tri(`<g fill="${K}"><rect x="92" y="86" width="56" height="6"/><rect x="92" y="100" width="56" height="6"/><rect x="96" y="80" width="6" height="34"/><rect x="117" y="80" width="6" height="34"/><rect x="138" y="80" width="6" height="34"/></g>`);
+const carIcon=(x,c)=>`<g transform="translate(${x} 78)"><path d="M-18 10 v-10 l6-12 h24 l6 12 v10 z" fill="${c}"/><rect x="-14" y="-8" width="28" height="7" fill="${W}"/><circle cx="-10" cy="12" r="4" fill="${c}"/><circle cx="10" cy="12" r="4" fill="${c}"/></g>`;
+S.sNoAdelantar=()=>cR(carIcon(100,R)+carIcon(140,K));
+S.sFinProh=()=>V(`<circle cx="120" cy="75" r="62" fill="${W}" stroke="#999" stroke-width="3"/><g stroke="${K}" stroke-width="5"><path d="M82 125 L170 37 M74 113 L158 29 M94 133 L178 49"/></g>`);
+S.sPrio=()=>V(`<rect x="72" y="27" width="96" height="96" transform="rotate(45 120 75)" fill="${W}" stroke="${K}" stroke-width="2"/><rect x="88" y="43" width="64" height="64" transform="rotate(45 120 75)" fill="${Y}"/>`);
+S.sFinPrio=()=>V(`<rect x="72" y="27" width="96" height="96" transform="rotate(45 120 75)" fill="${W}" stroke="${K}" stroke-width="2"/><rect x="88" y="43" width="64" height="64" transform="rotate(45 120 75)" fill="#bbb"/><g stroke="${K}" stroke-width="4"><path d="M84 118 L156 32 M76 108 L146 26 M94 126 L164 42"/></g>`);
+const arr=(x,y,c,up,s=1)=>`<g transform="translate(${x} ${y}) scale(${s}) ${up?"":"rotate(180)"}"><path d="M0 -40 L16 -18 H6 V40 H-6 V-18 H-16 Z" fill="${c}"/></g>`;
+S.sPrioSobre=()=>V(`<rect x="62" y="17" width="116" height="116" rx="10" fill="${BL}" stroke="${W}" stroke-width="3"/>${arr(100,75,W,true,1.1)}${arr(145,75,R,false,.75)}`);
+S.sPrioContra=()=>cR(arr(100,75,R,true,.95)+arr(140,75,K,false,.95));
+S.sSanAndres=()=>V(`<g transform="rotate(35 120 75)"><rect x="40" y="65" width="160" height="20" fill="${W}" stroke="${R}" stroke-width="3"/></g><g transform="rotate(-35 120 75)"><rect x="40" y="65" width="160" height="20" fill="${W}" stroke="${R}" stroke-width="3"/></g>`);
+S.sPoblado=()=>V(`<rect x="22" y="40" width="196" height="70" rx="6" fill="${W}" stroke="${K}" stroke-width="4"/>${T(120,77,"Villaverde",30,K,700)}`);
+S.sResid=()=>V(`<rect x="52" y="17" width="136" height="116" rx="10" fill="${BL}" stroke="${W}" stroke-width="3"/><path d="M78 92 v-26 l20-16 20 16 v26z" fill="${W}"/>${kid(140,104,.9).replace(/fill="#111"/,'fill="#fff"')}<rect x="60" y="108" width="120" height="4" fill="${W}"/>`);
+S.sCadenas=()=>cB(`<circle cx="120" cy="75" r="34" fill="none" stroke="${W}" stroke-width="12"/><g stroke="${W}" stroke-width="4">${[0,45,90,135].map(a=>`<path d="M120 33 V117" transform="rotate(${a} 120 75)"/>`).join("")}</g>`);
+S.sObl=()=>cB(arr(120,75,W,true,1.1));
+S.sZBE=()=>V(`<rect x="34" y="20" width="172" height="110" rx="8" fill="${W}" stroke="${K}" stroke-width="3"/><circle cx="78" cy="75" r="30" fill="${W}" stroke="${R}" stroke-width="7"/>${carIcon(78,K).replace('translate(78 78)','translate(78 72) scale(.7)')}${T(150,62,"ZBE",28)}${T(150,90,"Zona de bajas",11,K,600)}${T(150,104,"emisiones",11,K,600)}`);
+S.et0=()=>V(`<circle cx="120" cy="75" r="58" fill="#1e88e5"/>${T(120,79,"0",62,W)}${T(120,124,"emisiones",11,W,700)}`);
+S.etECO=()=>V(`<circle cx="120" cy="75" r="58" fill="#1e88e5"/><path d="M62 75 a58 58 0 0 1 116 0 z" fill="#43a047"/>${T(120,79,"ECO",40,W)}`);
+S.v20=()=>V(`<defs><pattern id="st" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="11" height="22" fill="${R}"/><rect x="11" width="11" height="22" fill="${W}"/></pattern></defs><rect x="70" y="25" width="100" height="100" fill="url(#st)" stroke="${K}" stroke-width="2"/>`);
+S.aceite=()=>V(`<rect x="0" y="0" width="240" height="150" rx="10" fill="#111"/><g fill="${R}"><path d="M60 95 h90 l30-26 -10-5 -24 14 h-8 v-10 h-14 v-8 h12 v-6 h-34 v6 h12 v8 h-54 z"/><path d="M186 82 q6 10 0 16 q-6-6 0-16z"/></g>`);
+// --- semáforos ---
+const sem=(r,a,g,blinkA)=>V(`<rect x="94" y="8" width="52" height="134" rx="10" fill="#222"/><circle cx="120" cy="34" r="16" fill="${r?"#ff2d2d":"#4a1010"}"/><circle cx="120" cy="75" r="16" class="${blinkA?"bl":""}" fill="${a?"#ffb000":"#4a3a10"}"/><circle cx="120" cy="116" r="16" fill="${g?"#22d36b":"#0f3a22"}"/>`);
+S.semAmbar=()=>sem(0,1,0,0);
+S.semAmbarBl=()=>sem(0,1,0,1);
+S.semRojoAlt=()=>V(`<rect x="50" y="45" width="140" height="60" rx="10" fill="#222"/><circle cx="88" cy="75" r="20" class="bl" fill="#ff2d2d"/><circle cx="152" cy="75" r="20" class="bl2" fill="#ff2d2d"/>`);
+S.semCarril=()=>V(`<rect x="30" y="35" width="80" height="80" rx="8" fill="#222"/><g stroke="#ff2d2d" stroke-width="12" stroke-linecap="round"><path d="M50 55 L90 95 M90 55 L50 95"/></g><rect x="130" y="35" width="80" height="80" rx="8" fill="#222"/><path d="M170 102 L148 72 H162 V48 H178 V72 H192 Z" fill="#22d36b"/>`);
+S.sRojo=()=>sem(1,0,0,0);
+// --- escenas vista aérea ---
+const road=(c)=>V(`<rect width="240" height="150" fill="${GR}"/>${c}`);
+const car=(x,y,c,r=0,s=1)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})"><rect x="-10" y="-17" width="20" height="34" rx="6" fill="${c}" stroke="#0004"/><rect x="-8" y="-9" width="16" height="7" rx="2" fill="#d6e8ff"/><rect x="-8" y="8" width="16" height="4" rx="2" fill="#d6e8ff"/></g>`;
+const bikeT=(x,y,r=0)=>`<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-1.5" y="-13" width="3" height="26" fill="${K}"/><circle r="5.5" fill="#e65100"/><circle r="3" fill="${Y}"/></g>`;
+const dashV=(x,y1=0,y2=150)=>`<path d="M${x} ${y1} V${y2}" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>`;
+const solV=(x,y1=0,y2=150,c=W,w=3)=>`<path d="M${x} ${y1} V${y2}" stroke="${c}" stroke-width="${w}"/>`;
+const lab=(x,y,t,c="#d81e2c")=>`<rect x="${x-t.length*4.5-6}" y="${y-11}" width="${t.length*9+12}" height="22" rx="5" fill="${W}" stroke="${c}" stroke-width="2"/>${T(x,y+1,t,13,c)}`;
+S.autovia=()=>road(`<rect x="20" width="200" height="150" fill="${AS}"/><rect x="114" width="12" height="150" fill="${GR}"/>${dashV(67)}${dashV(173)}${solV(26)}${solV(108)}${solV(132)}${solV(214)}${car(152,90,"#1565c0")}${car(88,40,"#ef6c00",180)}${lab(60,120,"? km/h")}`);
+S.convencional=()=>road(`<rect x="70" width="100" height="150" fill="${AS}"/>${dashV(120)}${solV(76)}${solV(164)}${car(144,95,"#1565c0")}${car(96,40,"#ef6c00",180)}${lab(205,30,"? km/h")}`);
+const acera=`<rect x="0" width="40" height="150" fill="#cfd3d8"/><rect x="200" width="40" height="150" fill="#cfd3d8"/>`;
+S.calle1=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${dashV(120)}${car(150,92,"#1565c0")}${car(90,40,"#ef6c00",180)}${lab(120,18,"? km/h")}<rect x="8" y="20" width="20" height="30" fill="#8d6e63"/><rect x="212" y="90" width="20" height="30" fill="#8d6e63"/>`);
+S.calle2=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${dashV(80)}${solV(118)}${solV(122)}${dashV(160)}${car(140,95,"#1565c0")}${car(180,60,"#2e7d32")}${car(60,40,"#ef6c00",180)}${lab(100,130,"? km/h")}`);
+S.plataforma=()=>V(`<rect width="240" height="150" fill="#d9c7a8"/><g stroke="#c2ad8a" stroke-width="2">${[20,50,80,110,140].map(y=>`<path d="M0 ${y} H240"/>`).join("")}</g><g fill="#6d4c41">${[30,90,150,210].map(x=>`<rect x="${x}" y="6" width="8" height="8"/><rect x="${x}" y="136" width="8" height="8"/>`).join("")}</g>${car(120,80,"#1565c0")}${kid(70,90,1.1)}${kid(180,70,1)}${lab(120,24,"? km/h")}`);
+S.lineas=()=>road(`<rect x="50" width="140" height="150" fill="${AS}"/>${solV(118)}${dashV(124)}${car(152,90,"#1565c0")}${car(88,40,"#ef6c00",180)}${lab(35,75,"¿cuál?","#0050b5")}`);
+S.lStop=()=>road(`<rect x="0" y="45" width="240" height="60" fill="${AS}"/><rect x="90" y="105" width="60" height="45" fill="${AS}"/>${solV(120,105,150)}<path d="M120 107 H150" stroke="${W}" stroke-width="6"/>${T(135,117,"STOP",10,W)}${car(135,143,"#1565c0")}<path d="M0 75 H240" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>`);
+S.lCeda=()=>road(`<rect x="0" y="45" width="240" height="60" fill="${AS}"/><rect x="90" y="105" width="60" height="45" fill="${AS}"/><path d="M120 107 H150" stroke="${W}" stroke-width="4" stroke-dasharray="6 4"/><path d="M127 115 l8 14 8-14z" fill="${W}"/>${car(135,140,"#1565c0")}<path d="M0 75 H240" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>`);
+S.cuadricula=()=>road(`<rect x="0" y="45" width="240" height="60" fill="${AS}"/><rect x="90" y="0" width="60" height="150" fill="${AS}"/><rect x="92" y="47" width="56" height="56" fill="none" stroke="${Y}" stroke-width="3"/><g stroke="${Y}" stroke-width="2.5"><path d="M92 47 L148 103 M148 47 L92 103 M120 47 L148 75 L120 103 L92 75 Z"/></g>${car(135,130,"#1565c0")}${car(200,62,"#ef6c00",90)}${car(30,88,"#2e7d32",-90)}`);
+S.bordCont=()=>V(`<rect width="240" height="150" fill="${AS}"/><rect x="190" width="50" height="150" fill="#cfd3d8"/><path d="M188 0 V150" stroke="${Y}" stroke-width="6"/>${dashV(95)}${car(160,70,"#1565c0")}${lab(120,130,"¿parar? ¿aparcar?","#0050b5")}`);
+S.bordDisc=()=>V(`<rect width="240" height="150" fill="${AS}"/><rect x="190" width="50" height="150" fill="#cfd3d8"/><path d="M188 0 V150" stroke="${Y}" stroke-width="6" stroke-dasharray="16 12"/>${dashV(95)}${car(160,70,"#1565c0")}${lab(120,130,"¿parar? ¿aparcar?","#0050b5")}`);
+S.cebreado=()=>road(`<rect x="40" width="160" height="150" fill="${AS}"/><path d="M120 0 L100 70 L120 150 L140 70 Z" fill="none" stroke="${W}" stroke-width="3"/><g stroke="${W}" stroke-width="3">${[20,40,60,80,100,120].map(y=>`<path d="M${108+Math.abs(70-y)*-0.12} ${y} l18 -12"/>`).join("")}</g>${car(70,80,"#1565c0")}${car(170,60,"#ef6c00")}`);
+S.glorieta=()=>road(`<circle cx="120" cy="75" r="72" fill="${AS}"/><rect x="104" y="0" width="32" height="150" fill="${AS}"/><rect x="0" y="59" width="240" height="32" fill="${AS}"/><circle cx="120" cy="75" r="32" fill="${GR}" stroke="${W}" stroke-width="3"/><circle cx="120" cy="75" r="52" fill="none" stroke="${W}" stroke-width="2.5" stroke-dasharray="10 8"/>${car(120,136,"#1565c0")}${car(66,60,"#ef6c00",0,.8)}<path d="M135 125 Q180 75 150 30 L170 4" fill="none" stroke="#ffd54f" stroke-width="3" stroke-dasharray="6 5"/>`);
+S.cruce=()=>road(`<rect x="0" y="50" width="240" height="50" fill="${AS}"/><rect x="95" y="0" width="50" height="150" fill="${AS}"/>${car(132,125,"#1565c0")}${car(200,63,"#ef6c00",-90)}${car(40,87,"#2e7d32",90)}${lab(200,30,"¿quién pasa?","#0050b5")}`);
+S.pendiente=()=>V(`<rect width="240" height="150" fill="#cfe8ff"/><path d="M0 140 L240 40 V150 H0Z" fill="${GR}"/><path d="M0 140 L240 40" stroke="${AS}" stroke-width="12"/>${carS(70,110,"#1565c0",.9)}${carS(180,64,"#ef6c00",.9,-1)}${lab(70,70,"sube","#0050b5")}${lab(180,110,"baja","#0050b5")}`);
+S.tunel=()=>V(`<rect width="240" height="150" fill="#2b2b2b"/><path d="M10 150 V70 Q120 -20 230 70 V150Z" fill="#555"/><rect x="10" y="118" width="220" height="32" fill="${AS}"/>${carS(60,128,"#1565c0",.8)}${carS(180,128,"#ef6c00",.8)}<path d="M85 105 H155" stroke="${Y}" stroke-width="3"/><path d="M85 99 v12 M155 99 v12" stroke="${Y}" stroke-width="3"/>${lab(120,88,"? m","#d81e2c")}`);
+S.dosSeg=()=>road(`<rect x="80" width="80" height="150" fill="${AS}"/>${solV(86)}${solV(154)}${car(120,40,"#ef6c00")}${car(120,120,"#1565c0")}<circle cx="190" cy="40" r="14" fill="#2e7d32"/><path d="M175 40 H160" stroke="${Y}" stroke-width="3" stroke-dasharray="4 3"/>${lab(200,100,"? s","#d81e2c")}`);
+S.adelBici=()=>road(`<rect x="60" width="120" height="150" fill="${AS}"/>${dashV(120)}${solV(66)}${solV(174)}${bikeT(160,60)}${car(118,72,"#1565c0")}<path d="M131 60 H153" stroke="${Y}" stroke-width="3"/><path d="M131 54 v12 M153 54 v12" stroke="${Y}" stroke-width="3"/>${lab(40,40,"? m","#d81e2c")}${lab(205,120,"? km/h","#d81e2c")}`);
+S.bici5m=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${dashV(120)}${bikeT(160,40)}${car(160,115,"#1565c0")}<path d="M180 52 V95" stroke="${Y}" stroke-width="3"/><path d="M174 52 h12 M174 95 h12" stroke="${Y}" stroke-width="3"/>${lab(85,75,"? m","#d81e2c")}`);
+S.sCiclistaCasco=()=>road(`<rect x="70" width="100" height="150" fill="${AS}"/>${dashV(120)}${solV(76)}${solV(164)}${bikeT(150,80)}${lab(40,30,"¿casco?","#0050b5")}<rect x="190" y="105" width="44" height="30" rx="4" fill="${W}" stroke="${K}"/>${T(212,121,"N-232",10)}`);
+const amb=(x,y,r=0)=>`<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-11" y="-20" width="22" height="40" rx="5" fill="${W}" stroke="#0006"/><rect x="-11" y="-6" width="22" height="5" fill="${R}"/><rect x="-6" y="-19" width="12" height="4" fill="#1e88e5"/></g>`;
+S.emer2=()=>road(`<rect x="50" width="140" height="150" fill="${AS}"/>${solV(56)}${solV(184)}${dashV(120)}${car(78,40,"#1565c0")}${car(78,95,"#2e7d32")}${car(162,30,"#ef6c00")}${car(162,90,"#6a1b9a")}${amb(120,135)}<path d="M120 112 V8" stroke="#ffd54f" stroke-width="3" stroke-dasharray="6 5"/>`);
+S.emer3=()=>road(`<rect x="30" width="180" height="150" fill="${AS}"/>${solV(36)}${solV(204)}${dashV(90)}${dashV(150)}${car(52,40,"#1565c0")}${car(52,100,"#2e7d32")}${car(130,30,"#ef6c00")}${car(130,90,"#6a1b9a")}${car(188,50,"#00838f")}${car(188,108,"#c62828")}${amb(92,135)}<path d="M92 112 V8" stroke="#ffd54f" stroke-width="3" stroke-dasharray="6 5"/>`);
+S.nieve=()=>V(`<rect width="240" height="150" fill="#eef4f8"/><rect x="40" width="160" height="150" fill="#9aa3ab"/>${dashV(120)}${car(158,40,"#1565c0")}${car(158,105,"#ef6c00")}<rect x="82" y="60" width="28" height="44" rx="4" fill="#ff8f00"/><rect x="78" y="56" width="36" height="8" fill="#555"/><g fill="${W}">${[[20,20],[220,40],[30,90],[210,120],[60,130],[180,15],[130,70],[100,25]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3"/>`).join("")}</g>`);
+S.inmov=()=>road(`<rect x="40" width="150" height="150" fill="${AS}"/>${solV(46)}${solV(170)}${dashV(108)}<rect x="170" width="20" height="150" fill="#6b7178"/>${car(160,50,"#9e9e9e")}<circle cx="160" cy="50" r="5" fill="#ff9800"/><circle cx="160" cy="50" r="10" fill="none" stroke="#ff9800" stroke-width="2" class="bl"/>${car(124,105,"#1565c0")}<path d="M137 92 H148" stroke="${Y}" stroke-width="3"/>${lab(60,24,"? m","#d81e2c")}${lab(78,126,"? km/h","#d81e2c")}`);
+S.pasoNivel=()=>road(`<rect x="95" width="50" height="150" fill="${AS}"/><rect x="0" y="62" width="240" height="26" fill="#795548"/><g stroke="#333" stroke-width="3"><path d="M0 66 H240 M0 84 H240"/></g><g stroke="${R}" stroke-width="5"><path d="M100 104 L128 92" stroke-dasharray="6 5"/></g><rect x="92" y="100" width="8" height="10" fill="${K}"/>${car(132,128,"#1565c0")}${lab(190,120,"barrera subiendo","#0050b5")}`);
+S.anguloMuerto=()=>road(`<rect x="30" width="180" height="150" fill="${AS}"/>${dashV(120)}<path d="M150 50 L210 30 L210 150 L150 110Z" fill="#d81e2c55"/><path d="M90 90 L30 150 L30 60 Z" fill="#d81e2c33"/><rect x="134" y="20" width="32" height="90" rx="4" fill="#eceff1" stroke="#0006"/><rect x="134" y="20" width="32" height="20" rx="4" fill="#90a4ae"/>${car(185,120,"#1565c0")}`);
+S.agenteV=()=>V(`<rect width="240" height="150" fill="#eef2f6"/><g fill="#1a237e"><circle cx="120" cy="34" r="12"/><rect x="104" y="48" width="32" height="50" rx="6"/><rect x="108" y="98" width="10" height="44"/><rect x="122" y="98" width="10" height="44"/><rect x="132" y="4" width="10" height="56" rx="5"/><rect x="98" y="50" width="10" height="40" rx="5"/></g><rect x="106" y="20" width="28" height="8" fill="#fff"/><rect x="104" y="62" width="32" height="6" fill="#c6ff00"/>`);
+S.agenteH=()=>V(`<rect width="240" height="150" fill="#eef2f6"/><g fill="#1a237e"><circle cx="120" cy="34" r="12"/><rect x="104" y="48" width="32" height="50" rx="6"/><rect x="108" y="98" width="10" height="44"/><rect x="122" y="98" width="10" height="44"/><rect x="134" y="50" width="70" height="10" rx="5"/><rect x="36" y="50" width="70" height="10" rx="5"/></g><rect x="106" y="20" width="28" height="8" fill="#fff"/><rect x="104" y="62" width="32" height="6" fill="#c6ff00"/>`);
+S.neumatico=()=>V(`<rect width="240" height="150" fill="#eef2f6"/><rect x="30" y="50" width="180" height="70" rx="14" fill="#222"/><g fill="#eef2f6">${[60,95,130,165].map(x=>`<rect x="${x}" y="50" width="14" height="22"/>`).join("")}</g><path d="M200 50 V72" stroke="${Y}" stroke-width="3"/>${lab(200,30,"? mm","#d81e2c")}`);
+S.v16=()=>V(`<rect width="240" height="150" fill="#cfe8ff"/><rect y="118" width="240" height="32" fill="${AS}"/>${carS(120,112,"#1565c0",2.2)}<rect x="112" y="50" width="16" height="10" rx="3" fill="#ff9800"/><g stroke="#ff9800" stroke-width="3" class="bl"><path d="M120 44 V30 M104 48 L94 38 M136 48 L146 38"/></g>`);
+// banco de búsqueda: subcadena de pregunta -> imagen
+const MAP=[
+["Turismo en autovía, sin ninguna señal","autovia"],["Turismo en carretera convencional, sin señal","convencional"],["Calle urbana con un solo carril por sentido","calle1"],["plataforma única). ¿Límite","plataforma"],["Calle urbana con dos carriles por sentido","calle2"],
+["señal redonda con borde rojo y el número 70",()=>S.sMax(70)],["señal redonda de fondo azul con el número 30",()=>S.sMin(30)],["señal rectangular azul con el número 60",()=>S.sAcons(60)],["zona residencial (señal azul","sResid"],["panel de mensaje variable indica 80",()=>S.sMax(80)],
+["señal triangular con borde rojo indica","sPeligro"],["señal circular de fondo azul indica","sObl"],["cruce sin ninguna señal ni semáforo","cruce"],["Vas a entrar en una glorieta","glorieta"],["En una glorieta se circula","glorieta"],["Ves una pelota y varios niños","sNinos"],["Tramo estrecho de gran pendiente","pendiente"],["Semáforo en ámbar fijo","semAmbar"],["Semáforo en ámbar intermitente","semAmbarBl"],["levanta el brazo verticalmente","agenteV"],["Llegas a un STOP","sStop"],["Un agente te indica que pases y el semáforo","sRojo"],
+["En un túnel, un turismo debe dejar","tunel"],["distancia de seguridad se recomienda","dosSeg"],["Adelantas a un ciclista en carretera. ¿Separación","adelBici"],
+["señalizar avería","v16"],["Tu coche se avería en carretera en diciembre","v16"],["¿Dónde se coloca la baliza V16?","v16"],["Profundidad mínima legal del dibujo","neumatico"],["Circulas detrás de un camión y no ves","anguloMuerto"],["Zona de Bajas Emisiones (ZBE). ¿Qué","sZBE"],["coche 100% eléctrico de batería","et0"],["híbridos no enchufables","etECO"],
+["señales verticales con fondo amarillo","sObras"],["línea amarilla continua en el bordillo","bordCont"],["línea amarilla discontinua en el bordillo","bordDisc"],["cuadrícula amarilla","cuadricula"],["línea transversal continua en un cruce","lStop"],["triángulos blancos pintados","lCeda"],["línea continua al lado de una discontinua","lineas"],
+["Dos luces rojas que se encienden alternativamente","semRojoAlt"],["aspa roja encima de tu carril","semCarril"],["brazo extendido horizontalmente","agenteH"],["rombo amarillo de borde blanco","sPrio"],["flecha blanca grande hacia arriba","sPrioSobre"],["flecha roja hacia arriba y negra","sPrioContra"],["línea diagonal negra o gris","sFinProh"],["Cruz de San Andrés","sSanAndres"],["señal blanca con el nombre de una localidad","sPoblado"],["silueta de una locomotora","sLoco"],["forma de triángulo con el vértice hacia abajo","sCeda"],["señal octogonal roja","sStop"],
+["salir de una glorieta?","glorieta"],["por qué carril debes salir","glorieta"],["no puedes cambiar al exterior","glorieta"],["neumático con cadenas","sCadenas"],["presión de aceite","aceite"],["sobresale por detrás del vehículo","v20"],["Autovía con dos carriles por sentido. Para adelantar a un ciclista","adelBici"]
+];
+const get=(k)=>{if(!k)return"";const f=typeof k=="function"?k:S[k];return f?f():""};
+return {get,find:(q)=>{for(const [s,k] of MAP)if(q.includes(s))return k;return null}};
+})();
+
+</script>
+<script>
+{
+const B=[
+// Velocidad
+["Velocidad","Turismo en autovía, sin ninguna señal de límite. ¿Velocidad máxima?",["120 km/h","130 km/h","100 km/h"],0,"En autopistas y autovías el máximo genérico para turismos y motos es 120 km/h.","Autovía = 1-2-0, como contar hasta tres."],
+["Velocidad","Turismo en carretera convencional, sin señal. ¿Velocidad máxima?",["100 km/h","90 km/h","80 km/h"],1,"Desde 2019 todas las carreteras convencionales tienen 90 km/h para turismos y motos, tengan arcén o no.","Convencional = 90. Ya no existe el 100."],
+["Velocidad","Calle urbana con un solo carril por sentido. ¿Límite genérico?",["50 km/h","40 km/h","30 km/h"],2,"Desde 2021: 30 km/h en vías urbanas de un carril por sentido.","Ciudad: 20 / 30 / 50 según sea plataforma única, 1 carril o 2+ carriles por sentido."],
+["Velocidad","Calle en la que calzada y acera están al mismo nivel (plataforma única). ¿Límite?",["20 km/h","30 km/h","10 km/h"],0,"En plataforma única, peatones y coches comparten espacio: 20 km/h.","Mismo nivel = 20."],
+["Velocidad","Calle urbana con dos carriles por sentido. ¿Límite genérico?",["30 km/h","50 km/h","60 km/h"],1,"Con dos o más carriles por sentido el límite urbano genérico es 50 km/h.",""],
+["Velocidad","Adelantando en carretera convencional, ¿puedes superar el límite en 20 km/h?",["Sí, siempre que sea breve","Solo si adelantas a un camión","No, nunca"],2,"Ese margen de +20 km/h se eliminó en 2019. Hoy no se puede superar el límite ni para adelantar.","Pregunta trampa clásica: era verdad antes, ahora no."],
+["Velocidad","¿Cuál es la velocidad mínima de un turismo en autopista?",["40 km/h","60 km/h","80 km/h"],1,"En autopista y autovía no se puede circular a menos de 60 km/h (salvo causa justificada).",""],
+["Velocidad","Si duplicas tu velocidad, la distancia de frenado...",["Se multiplica aproximadamente por cuatro","Se duplica","Apenas cambia con ABS"],0,"La energía crece con el cuadrado de la velocidad: el doble de velocidad son unas cuatro veces más metros de frenado.","Doble de rápido, cuádruple de metros."],
+// Alcohol y drogas
+["Alcohol y drogas","Conductor general (no novel ni profesional). Tasa máxima en aire espirado:",["0,15 mg/l","0,25 mg/l","0,50 mg/l"],1,"0,25 mg/l en aire o 0,5 g/l en sangre. Hay una reforma en trámite para bajarla a 0,1 mg/l, pero a noviembre de 2026 no está en vigor.","Aire es la mitad que sangre: 0,25 aire = 0,5 sangre."],
+["Alcohol y drogas","Conductor novel (menos de 2 años de carné). Tasa máxima en aire espirado:",["0,15 mg/l","0,25 mg/l","0,0 mg/l"],0,"Noveles y profesionales: 0,15 mg/l en aire o 0,3 g/l en sangre. La tasa 0,0 es para menores de edad.","Novel: 0,15 aire / 0,3 sangre."],
+["Alcohol y drogas","Conductor general. Tasa máxima de alcohol en sangre:",["0,3 g/l","0,8 g/l","0,5 g/l"],2,"0,5 g/l en sangre equivale a 0,25 mg/l en aire espirado.",""],
+["Alcohol y drogas","¿Qué hace bajar la tasa de alcohol en el cuerpo?",["Solo el paso del tiempo","Un café cargado","Comer mucho después de beber"],0,"El hígado elimina el alcohol a ritmo fijo. Café, duchas o comida no aceleran nada.",""],
+["Alcohol y drogas","Das 0,65 mg/l en aire espirado. ¿Qué es?",["Infracción leve","Delito","Infracción grave sin pérdida de puntos"],1,"Más de 0,60 mg/l en aire (1,2 g/l en sangre) es delito contra la seguridad vial.","Más de 0,60 = juzgado."],
+["Alcohol y drogas","Un agente te pide la prueba de alcohol y te niegas. ¿Qué pasa?",["Nada si no has bebido","Es una infracción leve","Es un delito"],2,"Negarse a las pruebas de alcohol o drogas es delito, hayas bebido o no.",""],
+["Alcohol y drogas","Te detectan cannabis en saliva (no es medicación prescrita). ¿Sanción?",["1.000 € y 6 puntos","Solo si supera una tasa","500 € y sin puntos"],0,"Para las drogas basta con la presencia en el organismo: 1.000 € y 6 puntos. No hay tasa mínima.","Drogas: tasa cero, sin matices."],
+["Alcohol y drogas","Un menor de edad conduce un ciclomotor. ¿Qué tasa de alcohol se le permite?",["0,15 mg/l","0,0","0,25 mg/l"],1,"Los conductores menores de edad tienen tasa 0,0: ni una gota.",""],
+["Alcohol y drogas","Un medicamento lleva un pictograma de un coche dentro de un triángulo rojo. Significa que...",["Puede afectar a la conducción","Es seguro conducir","Solo afecta a profesionales"],0,"Ese pictograma avisa de que el fármaco puede alterar tu capacidad para conducir. Lee el prospecto o consulta al médico.",""],
+// Puntos y permisos
+["Puntos y permisos","Al sacarte el carné por primera vez, ¿con cuántos puntos empiezas?",["12","6","8"],2,"Los noveles empiezan con 8. Si en 2 años no pierden ninguno, pasan a 12.","Novel = 8, como un coche que aún no ha arrancado del todo."],
+["Puntos y permisos","¿Cuál es el máximo de puntos que puede llegar a tener un conductor?",["15","12","20"],0,"Sin infracciones se suman puntos de bonificación hasta un máximo de 15.","8 al empezar, 12 de serie, 15 de premio."],
+["Puntos y permisos","Conducir sujetando el móvil con la mano. ¿Cuántos puntos se pierden?",["3","6","4"],1,"Móvil en la mano: 6 puntos y 200 €. Usarlo con manos libres está permitido, pero no con auriculares.","Móvil en la mano = 6, la mitad de tus 12."],
+["Puntos y permisos","No llevar puesto el cinturón de seguridad. ¿Puntos?",["2","6","4"],2,"Cinturón, casco o sillita infantil mal usados o sin usar: 4 puntos y 200 €.","Cinturón, casco y sillita: los tres 4."],
+["Puntos y permisos","Apruebas el teórico. ¿Cuánto tiempo tienes para aprobar el práctico?",["2 años","1 año","No caduca"],0,"El aprobado del teórico vale 2 años.",""],
+["Puntos y permisos","Con el permiso B puedes conducir turismos de masa máxima autorizada de hasta...",["3.000 kg","3.500 kg","4.250 kg"],1,"Permiso B: hasta 3.500 kg de MMA y hasta 9 plazas incluido el conductor.","B = 3.5 toneladas, 9 plazas."],
+["Puntos y permisos","¿Cuántas plazas puede tener como máximo un vehículo para el permiso B?",["7 incluido el conductor","12 incluido el conductor","9 incluido el conductor"],2,"Hasta 9 plazas contando la del conductor (8 pasajeros).",""],
+["Puntos y permisos","La placa L de conductor novel es obligatoria durante...",["El primer año","Los dos primeros años","Es voluntaria"],0,"La L se lleva durante el primer año. Ojo: el periodo de novel a efectos de alcohol son 2 años.","L = 1 año. Novel = 2 años. Distintas cosas."],
+["Puntos y permisos","Con permiso B, ¿qué remolque puedes llevar siempre sin más requisitos?",["Hasta 1.500 kg","Hasta 750 kg de MMA","Ninguno"],1,"Remolque ligero de hasta 750 kg siempre. Más pesado solo si el conjunto no supera 3.500 kg.",""],
+// Señales y prioridad
+["Señales y prioridad","Un agente te indica que pases y el semáforo está en rojo. ¿Qué haces?",["Paso, obedeciendo al agente","Me paro: manda el semáforo","Toco el claxon y espero"],0,"Orden: agentes, señales circunstanciales, semáforos, señales verticales, marcas viales.","Manda quien más se mueve: agente > semáforo > señal > pintura."],
+["Señales y prioridad","Una señal triangular con borde rojo indica...",["Prohibición","Obligación","Peligro"],2,"Triángulo con borde rojo = peligro. Círculo con borde rojo = prohibición. Círculo azul = obligación.","El triángulo avisa, el círculo rojo prohíbe, el azul obliga."],
+["Señales y prioridad","Una señal circular de fondo azul indica...",["Información","Obligación","Prohibición"],1,"Las señales redondas azules obligan (sentido obligatorio, carril bici...).",""],
+["Señales y prioridad","Llegas a un cruce sin ninguna señal ni semáforo. ¿Quién tiene prioridad?",["El que viene por la derecha","El que viene por la izquierda","El vehículo más grande"],0,"Sin señales, cede el paso a quien venga por tu derecha (salvo excepciones como glorietas o vías sin pavimentar).","Sin señal, la derecha manda."],
+["Señales y prioridad","Vas a entrar en una glorieta. ¿Quién tiene prioridad?",["Yo, que voy por la derecha","Los que ya circulan dentro","El que llegue antes"],1,"En las glorietas tienen prioridad los vehículos que ya circulan por su interior.",""],
+["Señales y prioridad","Tramo estrecho de gran pendiente sin señal. Dos coches se encuentran. ¿Quién pasa primero?",["El que baja","El que sube","El que tenga más prisa"],1,"Tiene preferencia el que sube, salvo que haya un apartadero cerca del que sube.","Subir cuesta más: el que sube gana."],
+["Señales y prioridad","Semáforo en ámbar fijo. ¿Qué debes hacer?",["Acelerar para pasar","Lo mismo que en verde","Detenerte, salvo que ya no puedas hacerlo con seguridad"],2,"Ámbar fijo obliga a parar, excepto si estás tan cerca que frenar sería peligroso.",""],
+["Señales y prioridad","Semáforo en ámbar intermitente. ¿Qué significa?",["Pasar con precaución y cediendo el paso cuando toque","Detenerse siempre","El semáforo está averiado, ignórelo"],0,"Ámbar intermitente: precaución. Puedes pasar, respetando prioridades y peatones.",""],
+["Señales y prioridad","Un agente levanta el brazo verticalmente. ¿A quién afecta?",["Solo a los que vienen de frente","A todos los que se acercan: deben detenerse","A nadie, es un saludo"],1,"Brazo en vertical: deben parar todos los que se aproximan, salvo quien no pueda hacerlo con seguridad.",""],
+["Señales y prioridad","Llegas a un STOP y ves claramente que no viene nadie. ¿Qué haces?",["Paso despacio sin parar","Paro por completo igualmente","Toco el claxon y paso"],1,"En un STOP la detención es obligatoria siempre, venga alguien o no.","STOP = las ruedas quietas, siempre."],
+["Señales y prioridad","Giras a la derecha y un peatón está cruzando la calle a la que entras. ¿Quién pasa?",["El peatón","Yo, porque el semáforo está verde","Quien llegue antes"],0,"Al girar debes ceder el paso a los peatones que cruzan la vía a la que te incorporas, aunque no haya paso de cebra.",""],
+["Señales y prioridad","Se acerca una ambulancia con luces y sirena. ¿Qué haces?",["Acelero para no estorbar","Facilito el paso apartándome a la derecha o deteniéndome","Sigo igual, ya me adelantará"],1,"Hay que facilitar el paso a los vehículos de emergencia en servicio, apartándose con seguridad.",""],
+// Maniobras
+["Maniobras","¿Qué distancia máxima puedes recorrer marcha atrás?",["15 metros","50 metros","Sin límite si no viene nadie"],0,"La marcha atrás está limitada a 15 metros y sin invadir un cruce.","Marcha atrás: 15 y fuera."],
+["Maniobras","Adelantas a un ciclista en carretera. ¿Separación lateral mínima?",["0,5 metros","1 metro","1,5 metros"],2,"Al menos 1,5 m y, fuera de poblado, desde octubre de 2026 además reduciendo al menos 20 km/h respecto al límite. Con dos o más carriles por sentido, cambio completo de carril.","Un ciclista = metro y medio."],
+["Maniobras","Autovía con dos carriles por sentido. Para adelantar a un ciclista en el arcén, debes...",["Cambiar completamente al carril izquierdo","Pasar con 1 m de separación","Pitarle para que se aparte"],0,"Cuando hay más de un carril por sentido es obligatorio ocupar por completo el carril contiguo.",""],
+["Maniobras","¿Cuándo se puede adelantar por la derecha?",["Nunca","Cuando el de delante indica giro a la izquierda y se ha colocado para hacerlo","Siempre que el carril derecho esté libre en carretera"],1,"La regla es por la izquierda; una excepción es el vehículo que se ha desplazado para girar a la izquierda.",""],
+["Maniobras","¿Dónde está prohibido hacer un cambio de sentido?",["En una calle ancha con buena visibilidad","En un túnel","En una vía urbana sin tráfico"],1,"Prohibido en túneles, pasos a nivel, autopistas y autovías (salvo en los lugares habilitados) y donde no haya visibilidad.",""],
+["Maniobras","¿Cuál es la diferencia entre parada y estacionamiento?",["La parada dura como máximo 2 minutos y el conductor no se va","La parada es en doble fila","No hay diferencia legal"],0,"Parada: hasta 2 minutos sin que el conductor abandone el vehículo. Más que eso, o si te vas, es estacionamiento.",""],
+["Maniobras","En un túnel, un turismo debe dejar con el de delante al menos...",["50 metros o 2 segundos","100 metros o 4 segundos","No hay distancia especial"],1,"En túneles: 100 m o 4 segundos para vehículos de hasta 3.500 kg.","Túnel: 100 metros, cuatro segundos."],
+["Maniobras","¿Qué distancia de seguridad se recomienda con el vehículo de delante en condiciones normales?",["Al menos 2 segundos","Medio segundo","Un coche de longitud"],0,"Cuenta 2 segundos desde que el de delante pasa un punto fijo. Con lluvia, el doble.",""],
+// Seguridad y emergencias
+["Emergencias","Tu coche se avería en carretera en diciembre de 2026. ¿Cómo lo señalizas?",["Con los triángulos","Con la baliza V16 conectada","Con triángulos o V16, da igual"],1,"Desde el 1 de enero de 2026 la V16 conectada es el único medio legal y sustituye a los triángulos.","2026: adiós triángulos, hola V16."],
+["Emergencias","¿Dónde se coloca la baliza V16?",["En el techo, en la parte más alta, sin bajarse si es posible","A 50 metros detrás del coche","Dentro del maletero"],0,"Se pone lo más alta posible, normalmente en el techo, para no tener que caminar por la calzada.",""],
+["Emergencias","Tienes que bajarte del coche en una vía interurbana por una avería. ¿Qué haces primero?",["Ponerme el chaleco reflectante antes de salir","Salir y buscar el chaleco en el maletero","Nada especial si es de día"],0,"El chaleco reflectante se pone antes de salir del vehículo. Lo mejor es salir por el lado contrario al tráfico.",""],
+["Emergencias","Ante un accidente, ¿qué significa PAS?",["Parar, Avisar, Salir","Proteger, Avisar, Socorrer","Preguntar, Ayudar, Seguir"],1,"Primero proteges la zona, luego avisas (112) y después socorres.","P-A-S, en ese orden."],
+["Emergencias","Un motorista herido está inconsciente pero respira. ¿Le quitas el casco?",["Sí, para que respire mejor","No","Sí, si lo hago con cuidado"],1,"No se quita el casco a un motorista herido. Solo personal formado y en caso extremo.",""],
+["Emergencias","¿Cuál es el teléfono único de emergencias?",["091","112","062"],1,"112, gratuito y válido en toda la UE.",""],
+["Emergencias","Un niño que mide menos de 135 cm debe viajar...",["Detrás y en su sistema de retención infantil","Delante con el cinturón normal","Donde quiera si el viaje es corto"],0,"Menos de 135 cm: sillita o alzador y en los asientos traseros, salvo excepciones (sin asientos traseros, ocupados por otros menores, etc.).","135 cm = el listón de la sillita."],
+["Emergencias","¿Puede ir un bebé en silla a contramarcha en el asiento delantero?",["Nunca","Sí, siempre","Solo si el airbag frontal del copiloto está desactivado"],2,"Silla a contramarcha delante solo con el airbag del copiloto desactivado.",""],
+["Emergencias","En un viaje largo, ¿cada cuánto se recomienda descansar?",["Cada 2 horas o 200 km","Cada 4 horas","Solo cuando tengas sueño"],0,"La recomendación es parar cada 2 horas o 200 km, unos 20 minutos.","2 y 200."],
+["Emergencias","¿Se puede conducir con auriculares conectados a un reproductor?",["Sí, con volumen bajo","Sí, si solo es en una oreja","No, está prohibido"],2,"Auriculares conectados a aparatos de sonido o comunicación: prohibidos (3 puntos y 200 €).",""],
+// Vehículo
+["Vehículo","Profundidad mínima legal del dibujo de los neumáticos de un turismo:",["1 mm","1,6 mm","3 mm"],1,"1,6 mm en las ranuras principales. Por debajo, el neumático no es legal.","1,6: uno coma seis, el mínimo."],
+["Vehículo","Coche particular nuevo. ¿Cuándo pasa la primera ITV?",["A los 2 años","A los 4 años","A los 10 años"],1,"Primera ITV a los 4 años, después cada 2 hasta los 10 y luego cada año.","4 - 2 - 1."],
+["Vehículo","La presión de los neumáticos se debe comprobar...",["En frío","Después de un viaje largo","Da igual"],0,"En caliente la presión sube y la lectura engaña.",""],
+["Vehículo","Notas que el coche flota sobre una gran balsa de agua (aquaplaning). ¿Qué haces?",["Frenar a fondo","Soltar el acelerador y sujetar el volante firme, sin frenar bruscamente","Girar rápido para salir del agua"],1,"Las ruedas han perdido contacto: suelta acelerador, volante recto y espera a que agarren.",""],
+["Vehículo","¿Cuándo se puede usar la luz antiniebla trasera?",["Con lluvia ligera","Siempre de noche","Con niebla densa, lluvia o nieve muy intensas"],2,"La antiniebla trasera deslumbra al de detrás: solo en condiciones especialmente desfavorables.",""],
+["Vehículo","Atraviesas un túnel bien iluminado de día. ¿Qué luces llevas?",["Ninguna, está iluminado","Luz de cruce","Luces largas"],1,"En los túneles es obligatoria la luz de cruce aunque estén iluminados.",""],
+["Vehículo","¿Qué seguro es obligatorio para circular con un coche?",["El de responsabilidad civil","El de todo riesgo","Ninguno si el coche es nuevo"],0,"El seguro obligatorio cubre los daños que causes a terceros.",""],
+// Novedades
+["Novedades 2025-26","¿Puede un patinete eléctrico (VMP) circular por la acera?",["Sí, a poca velocidad","No","Solo si no hay peatones"],1,"Los VMP no pueden circular por aceras ni zonas peatonales.",""],
+["Novedades 2025-26","¿Cuál es la velocidad máxima por diseño de un patinete eléctrico (VMP)?",["25 km/h","45 km/h","15 km/h"],0,"Un VMP está limitado a 25 km/h. Por encima ya es un ciclomotor.",""],
+["Novedades 2025-26","Ves la señal de inicio de Zona de Bajas Emisiones (ZBE). ¿Qué implica?",["Solo puedes ir a 20 km/h","Que el acceso puede estar restringido según la etiqueta ambiental del vehículo","Que está prohibido aparcar"],1,"Las ZBE restringen el acceso según el distintivo ambiental (0, ECO, C, B).",""],
+["Novedades 2025-26","¿Qué etiqueta ambiental lleva un coche 100% eléctrico de batería?",["ECO","C","0"],2,"Los eléctricos de batería llevan la etiqueta 0 (azul). La ECO es para híbridos y gas.","0 emisiones, etiqueta 0."],
+// Riesgo
+["Percepción del riesgo","Vas por una calle con coches aparcados y un balón sale rodando a la calzada. ¿Qué anticipas?",["Que puede salir un niño detrás: freno y me preparo","Nada, es solo un balón","Que debo esquivarlo acelerando"],0,"Detrás de un balón casi siempre viene un niño. Reduce ya, antes de verlo.","Balón = niño en 1 segundo."],
+["Percepción del riesgo","Un autobús está parado en su parada y bajan viajeros. ¿Cuál es el riesgo principal?",["Que el bus arranque marcha atrás","Que algún peatón cruce por delante del autobús","Que se pare el tráfico"],1,"Los que bajan del autobús suelen cruzar por delante, justo donde no los ves.",""],
+["Percepción del riesgo","El ciclista que va delante mira por encima de su hombro izquierdo. ¿Qué probablemente va a hacer?",["Desplazarse o girar a la izquierda","Parar en seco","Nada, solo mira"],0,"Mirar atrás anticipa un desplazamiento lateral. Aumenta distancia y prepárate.",""],
+["Percepción del riesgo","Un coche aparcado tiene las ruedas giradas hacia la calzada y alguien al volante. ¿Qué anticipas?",["Que va a salir en cualquier momento","Que está averiado","Nada"],0,"Ruedas giradas y conductor dentro: puede incorporarse sin verte.",""],
+["Percepción del riesgo","Primeras lluvias tras semanas sin llover. ¿Cómo está la carretera?",["Como siempre","Más adherente porque se limpia","Muy deslizante: el agua mezcla polvo y aceite"],2,"Las primeras gotas forman una película resbaladiza. Más distancia y suavidad.",""],
+["Percepción del riesgo","Circulas detrás de un camión y no ves sus retrovisores. ¿Qué significa?",["Que el conductor del camión no te ve a ti","Que vas a una distancia perfecta","Que sus retrovisores están plegados"],0,"Si no ves sus espejos, estás en su ángulo muerto.","Si no ves sus espejos, no existes."],
+["Percepción del riesgo","Conduces al atardecer con el sol bajo de frente. ¿Qué haces?",["Mantener la velocidad, ya pasará","Reducir velocidad, bajar el parasol y aumentar distancia","Encender las largas"],1,"El deslumbramiento te deja segundos ciego: menos velocidad y más margen.",""]
+];
+B.push(...B2,...B3);
+const hash=s=>{let h=5381;for(const ch of s)h=(h*33^ch.charCodeAt(0))>>>0;return h.toString(36)};
+const BK=B.map(x=>({id:"b"+hash(x[1]+(x[6]||"")),t:x[0],q:x[1],o:x[2],a:x[3],w:x[4],h:x[5],img:x[6]||IMG.find(x[1])}));
+const TOPICS=[...new Set(BK.map(x=>x.t))];
+const NEW=new Set(["Novedades 2025-26","Reforma oct. 2026"]);
+const DAY=864e5, IV=[0,0,1,3,7,16];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const KEY="atajo1";
+let S={c:{},mine:[],streak:0,last:"",sel:[],t:{},ex:[]};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+// migrar ids antiguos por posición (b0, b1...) a ids estables
+{let moved=false;for(const k of Object.keys(S.c)){const m=k.match(/^b(\d+)$/);if(m&&BK[+m[1]]){S.c[BK[+m[1]].id]=S.c[k];delete S.c[k];moved=true}}if(moved)try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+const cards=()=>BK.concat(S.mine.map((m,i)=>({id:"m"+i,t:"Mis fallos",q:m.q,ans:m.a,w:m.w||"",flash:true})));
+const st=id=>S.c[id]||{b:0,d:0};
+const mastered=()=>cards().filter(c=>st(c.id).b>=4).length;
+const due=()=>cards().filter(c=>st(c.id).b>0&&st(c.id).d<=Date.now()).length;
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pic=c=>c.img?`<div class="pic">${IMG.get(c.img)}</div>`:"";
+const track=(t,ok)=>{const r=S.t[t]||{ok:0,n:0};r.n++;if(ok)r.ok++;S.t[t]=r};
+
+function road(){const s=$("#road"),W=s.clientWidth||700,H=74,p=mastered()/cards().length,x=24+(W-80)*p;let d="";for(let k=0;k<=10;k++){const kx=24+(W-80)*k/10;d+=`<rect x="${kx-1}" y="6" width="2" height="10" fill="#fff" opacity=".6"/>`+(k%5==0&&W>420?`<text x="${kx}" y="${H-6}" fill="#fff" font-size="11" text-anchor="middle" font-family="Overpass">${k==10?"Aprobado":"km "+k*10}</text>`:"")}
+s.innerHTML=`<line x1="0" y1="37" x2="${W}" y2="37" stroke="#fff" stroke-width="3" stroke-dasharray="18 14"/>${d}<rect x="${W-48}" y="20" width="36" height="34" rx="5" fill="#0b7a3b" stroke="#fff" stroke-width="2"/><text x="${W-30}" y="42" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="Overpass">META</text><g transform="translate(${x},26)"><rect width="34" height="22" rx="6" fill="#d81e2c"/><rect x="20" y="4" width="10" height="14" rx="2" fill="#fff" opacity=".85"/></g>`}
+const roRoad=new ResizeObserver(road);roRoad.observe($("#road"));
+
+let sess=null,exam=null,timerId=null;
+function go(v){clearInterval(timerId);document.onkeydown=null;document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-current",b.dataset.v==v));R[v]();road();window.scrollTo(0,0)}
+$("#nav").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)go(b.dataset.v)});
+
+function readiness(){const n=cards().length,pct=Math.round(mastered()/n*100),last=S.ex.slice(-3),apt=last.length==3&&last.every(e=>e.f<=3);
+if(apt&&pct>=80)return["pass","Lista para pedir fecha","Tres simulacros aptos seguidos y más del 80% dominado."];
+if(pct>=80)return["","Casi","Ya dominas lo necesario. Ahora haz simulacros hasta aprobar tres seguidos."];
+return["","En camino",`Llévalo al 80% de dominio (vas por el ${pct}%) y después a por los simulacros.`]}
+const R={
+home(){const n=cards().length,m=mastered(),dd=due(),[rc,rt,rx]=readiness();
+const weak=TOPICS.map(t=>{const r=S.t[t];return{t,n:r?r.n:0,p:r&&r.n?Math.round(r.ok/r.n*100):null}}).filter(x=>x.n>=3).sort((a,b)=>a.p-b.p).slice(0,4);
+$("#view").innerHTML=`<div class="stats"><div class="stat"><b>${Math.round(m/n*100)}%</b><span>dominado (${m}/${n})</span></div><div class="stat"><b>${dd}</b><span>toca repasar hoy</span></div><div class="stat"><b>${S.streak}</b><span>días seguidos</span></div></div>
+<div class="card"><h2>Sesión de hoy</h2><p class="mut">10 tarjetas, unos 5 minutos. Primero lo que estás a punto de olvidar, luego algo nuevo. Lo que falles vuelve a salir en la misma sesión.</p>
+<p class="mut" style="margin-bottom:0">Filtrar por tema (opcional):</p><div class="chips" id="chips">${TOPICS.map(t=>`<button class="chip" aria-pressed="${S.sel.includes(t)}" data-t="${esc(t)}">${esc(t)}</button>`).join("")}</div>
+<button class="big" id="start" style="margin-top:14px">Empezar (teclas 1, 2, 3)</button></div>
+<div class="card"><div class="row"><div><h2 style="margin:0" class="${rc}">${rt}</h2><p class="mut" style="margin:4px 0 0">${rx}</p></div><button class="ghost" id="toexam">Simulacro</button></div>
+${S.ex.length?`<div class="exrow">${S.ex.slice(-10).map(e=>`<span class="exdot ${e.f<=3?"ok":"ko"}" title="${e.f} fallos">${e.f}</span>`).join("")}</div><p class="mut" style="margin:6px 0 0">Fallos en tus últimos simulacros (verde = apto).</p>`:""}</div>
+${weak.length?`<div class="card"><h3 style="margin-top:0">Tus temas más flojos</h3>${weak.map(w=>`<div class="row topic"><span>${esc(w.t)}</span><span class="mut">${w.p}% de acierto</span><button class="ghost" data-weak="${esc(w.t)}">Practicar</button></div>`).join("")}</div>`:""}`;
+$("#chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const t=b.dataset.t;S.sel=S.sel.includes(t)?S.sel.filter(x=>x!=t):[...S.sel,t];save();b.setAttribute("aria-pressed",S.sel.includes(t))};
+$("#view").querySelectorAll("[data-weak]").forEach(b=>b.onclick=()=>{S.sel=[b.dataset.weak];save();startSess()});
+$("#start").onclick=startSess;$("#toexam").onclick=()=>go("exam")},
+exam(){$("#view").innerHTML=`<div class="card"><h2>Simulacro como el real</h2><p>30 preguntas al azar de todo el banco, 30 minutos, apto con 3 fallos como máximo. Sin pistas hasta el final. Las que falles pasan a tus repasos.</p><button class="big" id="go">Empezar simulacro</button></div>`;$("#go").onclick=startExam},
+cheat(){const G=[["Velocidades (turismo)",[["Autopista / autovía","120"],["Mínima en autopista","60"],["Carretera convencional","90"],["Ciudad, 2+ carriles por sentido","50"],["Ciudad, 1 carril por sentido","30"],["Plataforma única","20"],["Margen para adelantar","0"],["Adelantar ciclista fuera de poblado","límite − 20"],["Ciclomotor","45"],["Patinete (VMP)","25"]]],["Alcohol",[["General, aire","0,25 mg/l"],["General, sangre","0,5 g/l"],["Novel y profesional, aire","0,15 mg/l"],["Novel y profesional, sangre","0,3 g/l"],["Menores de edad","0,0"],["Delito (aire)","> 0,60 mg/l"],["Entre 2 pruebas","10 min"],["Drogas","presencia = 6 pts"]]],["Puntos",[["Novel empieza con","8"],["Conductor estándar","12"],["Máximo","15"],["Móvil en la mano","6"],["Sentido contrario, colilla, ciclista sin 1,5 m","6"],["Rojo, STOP, ceda, distancia","4"],["Cinturón, casco, sillita","4"],["Auriculares","3"],["Curso parcial recupera","6"],["Sin puntos: sin carné","6 meses"]]],["Distancias y tiempos",[["Separación lateral con ciclista","1,5 m"],["Detrás de una bici en ciudad","5 m"],["Vehículo parado en tu carril","1,5 m y − 20"],["Marcha atrás máxima","15 m"],["Túnel (turismo)","100 m / 4 s"],["Camión largo fuera de poblado","50 m"],["Distancia normal","2 s"],["Parada máxima","2 min"],["Descanso","2 h / 200 km"],["Moto por arcén habilitado","30 km/h"]]],["Edades",[["AM (ciclomotor)","15"],["Patinete (VMP)","15"],["A1","16"],["B y A2","18"],["Pasajero de moto","12 (7 con padre/madre)"],["Bici: casco en ciudad","< 16"]]],["Permiso, vehículo y multas",[["Permiso B, MMA","3.500 kg"],["Plazas con B","9"],["Remolque ligero","750 kg"],["Placa L","1 año"],["Novel (alcohol, puntos)","2 años"],["Teórico aprobado vale","2 años"],["Renovar B","10 años (5 desde 65)"],["Neumático mínimo","1,6 mm"],["ITV coche nuevo","4 / 2 / 1"],["Sillita hasta","135 cm"],["Multas leve / grave / muy grave","100 / 200 / 500 €"],["Pronto pago","50 % en 20 días"],["Sin baliza V16","80 €"]]]];
+$("#view").innerHTML=`<div class="card"><h2>Chuleta de números</h2><p class="mut">Más de la mitad de las preguntas difíciles son un número. Estos son todos los que necesitas, ya con la reforma de octubre de 2026.</p>${G.map(g=>`<h3>${g[0]}</h3><table>${g[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`).join("")}</div>`},
+mine(){$("#view").innerHTML=`<div class="card"><h2>Mis fallos de los tests</h2><p class="mut">Cada vez que falles una pregunta en los tests de la autoescuela, apúntala aquí con tus palabras. Entra en el mismo sistema de repaso que el resto. Escribirla ya es medio aprendida.</p>
+<form id="f"><label for="mq">Pregunta (resumida)</label><input id="mq" required placeholder="¿Velocidad máxima de una furgoneta en convencional?"><label for="ma">Respuesta correcta</label><input id="ma" required placeholder="La que diga tu test"><label for="mw">Por qué (opcional)</label><textarea id="mw" rows="2"></textarea><button class="big" type="submit">Guardar tarjeta</button></form></div>
+<div class="card"><h3 style="margin-top:0">Guardadas (${S.mine.length})</h3>${S.mine.length?S.mine.map((m,i)=>`<div class="row" style="border-bottom:1px solid var(--line);padding:8px 0"><div><b>${esc(m.q)}</b><br><span class="mut">${esc(m.a)}</span></div><button class="ghost" data-del="${i}">Borrar</button></div>`).join(""):'<p class="mut">Todavía no hay ninguna. La primera que falles, aquí.</p>'}</div>
+<div class="card"><h3 style="margin-top:0">Copia de seguridad del progreso</h3><p class="mut">Tu progreso se guarda solo en este navegador. Si cambias de móvil o borras datos, copia este código antes y pégalo en el nuevo.</p><div class="row"><button class="ghost" id="cp">Copiar mi código</button><button class="ghost" id="rs">Restaurar desde código</button></div><textarea id="bk" rows="3" placeholder="Aquí aparece o se pega el código" style="margin-top:10px"></textarea><p class="mut" id="bkm" aria-live="polite"></p></div>`;
+$("#f").onsubmit=e=>{e.preventDefault();S.mine.push({q:$("#mq").value.trim(),a:$("#ma").value.trim(),w:$("#mw").value.trim()});save();R.mine()};
+$("#view").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const i=+b.dataset.del;S.mine.splice(i,1);const c={};for(const k in S.c){if(k[0]!="m")c[k]=S.c[k];else{const j=+k.slice(1);if(j<i)c[k]=S.c[k];else if(j>i)c["m"+(j-1)]=S.c[k]}}S.c=c;save();R.mine()});
+$("#cp").onclick=async()=>{const code="ATAJO1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S))));$("#bk").value=code;try{await navigator.clipboard.writeText(code);$("#bkm").textContent="Copiado. Guárdalo en una nota o mándatelo por WhatsApp."}catch(e){$("#bk").select();$("#bkm").textContent="Selecciónalo y cópialo a mano."}};
+$("#rs").onclick=()=>{const v=$("#bk").value.trim();try{if(!v.startsWith("ATAJO1:"))throw 0;const d=JSON.parse(decodeURIComponent(escape(atob(v.slice(7)))));if(!d||typeof d.c!="object")throw 0;S=Object.assign({c:{},mine:[],streak:0,last:"",sel:[],t:{},ex:[]},d);save();road();$("#bkm").textContent="Progreso restaurado."}catch(e){$("#bkm").textContent="Ese código no es válido."}}},
+how(){$("#view").innerHTML=`<div class="card"><h2>Por qué esto cansa menos que 90 tests</h2>
+<h3>1. Repetir no es aprender, recordar sí</h3><p>Releer o reconocer una respuesta que ya has visto cuatro veces da sensación de saber, pero no fija nada. Lo que fija es el esfuerzo de sacarla de la cabeza. Por eso aquí cada tarjeta te obliga a recordar antes de ver la solución.</p>
+<h3>2. Repasar justo antes de olvidar</h3><p>Cada acierto manda la tarjeta más lejos: mañana, en 3 días, en una semana, en dos. Cada fallo la trae de vuelta enseguida. Así no pierdes tiempo con lo que ya sabes.</p>
+<h3>3. Poco y a diario gana a mucho de golpe</h3><p>Diez minutos al día durante dos semanas se retienen mucho mejor que tres tardes de maratón.</p>
+<h3>4. Entender el porqué y verlo</h3><p>Cada respuesta trae una razón y, a veces, un truco. Las señales, cruces y maniobras llevan dibujo, como en el examen. Y hay escenas de percepción del riesgo, porque la DGT ha metido vídeos de riesgo en el teórico.</p>
+<h3>Ojo con la reforma de octubre de 2026</h3><p>El Real Decreto 518/2026 cambió normas que muchos tests antiguos todavía tienen mal: casco para todos los ciclistas en carretera, −20 km/h al adelantar ciclistas, 5 metros detrás de una bici en ciudad, carril de emergencia en atascos, patinetes desde los 15 años con casco. Tienen su propio tema, en rojo.</p>
+<h3>Cómo combinarlo con los tests de la autoescuela</h3><p>Haz cada test una sola vez. Cada pregunta que falles, apúntala en <b>Mis fallos</b>. Haz aquí tu sesión diaria. Cuando pases del 80%, haz simulacros aquí y en la autoescuela, y cuando apruebes tres seguidos, pide fecha.</p>
+<h3>Trampas típicas del examen</h3><p>Desconfía de «siempre» y «nunca», lee la pregunta hasta el final (el «no» escondido) y, cuando dudes entre dos, elige la que más proteja a peatones, ciclistas y a ti.</p>
+<h3>Instálala como app</h3><p>En el móvil, abre el menú del navegador y pulsa «Añadir a pantalla de inicio». Se abre a pantalla completa, funciona sin conexión y el navegador conserva mejor tu progreso.</p></div>`}
+};
+
+function streak(){const t=new Date().toDateString();if(S.last==t)return;const y=new Date(Date.now()-DAY).toDateString();S.streak=S.last==y?S.streak+1:1;S.last=t}
+function startSess(){let pool=cards();if(S.sel.length)pool=pool.filter(c=>S.sel.includes(c.t)||c.t=="Mis fallos");
+const now=Date.now(),d=shuffle(pool.filter(c=>st(c.id).b>0&&st(c.id).d<=now)).sort((a,b)=>st(a.id).b-st(b.id).b),n=shuffle(pool.filter(c=>st(c.id).b==0));
+let q=d.slice(0,10);if(q.length<10)q=q.concat(n.slice(0,10-q.length));
+if(!q.length){const all=shuffle(pool.slice()).sort((a,b)=>st(a.id).d-st(b.id).d);q=all.slice(0,10)}
+sess={q:q.map(c=>({c,miss:false})),i:0,ok:0,tot:q.length};showCard()}
+function showCard(){const it=sess.q[sess.i];if(!it)return endSess();const c=it.c;
+const head=`<div class="row"><span><span class="tag ${NEW.has(c.t)?"new":""}">${esc(c.t)}</span>${it.miss?'<span class="tag" style="background:none">otra vez</span>':""}</span><span class="mut">${Math.min(sess.i+1,sess.q.length)} de ${sess.q.length}</span></div><div class="bar"><div style="width:${sess.i/sess.q.length*100}%"></div></div>`;
+if(c.flash){$("#view").innerHTML=`<div class="card">${head}<p class="q">${esc(c.q)}</p><p class="mut">Piensa la respuesta antes de darle la vuelta.</p><button class="big" id="rev">Ver respuesta</button></div>`;
+$("#rev").onclick=()=>{$("#view").querySelector(".card").insertAdjacentHTML("beforeend",`<div class="hook">${esc(c.ans)}</div>${c.w?`<p class="why">${esc(c.w)}</p>`:""}<div class="row" style="flex-wrap:nowrap"><button class="ghost" id="no" style="flex:1">No la sabía</button><button class="big" id="si" style="flex:1">La sabía</button></div>`);$("#rev").remove();$("#si").onclick=()=>grade(true);$("#no").onclick=()=>grade(false)};return}
+const ord=shuffle([0,1,2]);
+$("#view").innerHTML=`<div class="card">${head}${pic(c)}<p class="q">${esc(c.q)}</p><div id="opts">${ord.map((o,k)=>`<button class="opt" data-o="${o}"><i>${k+1}</i><span>${esc(c.o[o])}</span></button>`).join("")}</div><div id="fb"></div></div>`;
+$("#opts").onclick=e=>{const b=e.target.closest(".opt");if(b&&!b.disabled)answer(+b.dataset.o)};
+document.onkeydown=e=>{if(["1","2","3"].includes(e.key)&&!$("#opts .opt:disabled")){const b=$("#opts").children[+e.key-1];answer(+b.dataset.o)}}}
+function answer(o){const it=sess.q[sess.i],c=it.c,right=o==c.a;if(!it.miss)track(c.t,right);
+$("#opts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;const v=+b.dataset.o;if(v==c.a)b.classList.add("good");else if(v==o)b.classList.add("bad")});
+$("#fb").innerHTML=`<p style="font-weight:800;margin:14px 0 0" class="${right?"pass":"fail"}">${right?"Bien":"Casi: la buena es la marcada en verde"}</p><p class="why">${esc(c.w)}</p>${c.h?`<div class="hook">${esc(c.h)}</div>`:""}<button class="big" id="nx">Siguiente (Enter)</button>`;
+$("#nx").onclick=()=>grade(right);$("#nx").focus({preventScroll:true});document.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();grade(right)}}}
+function grade(right){document.onkeydown=null;const it=sess.q[sess.i],s=st(it.c.id);
+if(right){if(!it.miss){s.b=Math.min(5,s.b+1);sess.ok++}else s.b=Math.max(1,s.b);s.d=Date.now()+IV[s.b]*DAY}
+else{s.b=1;s.d=Date.now();if(!it.miss)sess.q.splice(Math.min(sess.i+4,sess.q.length),0,{c:it.c,miss:true})}
+S.c[it.c.id]=s;save();sess.i++;showCard();window.scrollTo(0,0)}
+function endSess(){streak();save();road();const m=mastered(),n=cards().length;
+$("#view").innerHTML=`<div class="card" style="text-align:center"><p class="mut" style="margin:0">Aciertos a la primera</p><div class="big-num">${sess.ok}/${sess.tot}</div><p>Dominio total: <b>${Math.round(m/n*100)}%</b>. Racha: <b>${S.streak} ${S.streak==1?"día":"días"}</b>.</p><p class="mut">${due()?"Aún te quedan "+due()+" tarjetas para hoy.":"Por hoy está hecho. Mañana el sistema sabrá qué preguntarte."}</p><div class="row" style="justify-content:center"><button class="big" id="again" style="width:auto">Otra ronda</button><button class="ghost" id="home">Volver</button></div></div>`;
+$("#again").onclick=startSess;$("#home").onclick=()=>go("home")}
+
+function startExam(){const q=shuffle(BK.map((x,i)=>i)).slice(0,30);exam={q,ord:q.map(()=>shuffle([0,1,2])),i:0,ans:[],end:Date.now()+30*60e3,done:false};timerId=setInterval(tick,1000);showQ()}
+function tick(){if(!exam||exam.done)return;const t=Math.max(0,exam.end-Date.now()),el=$("#tm");if(el)el.textContent=`${Math.floor(t/60e3)}:${String(Math.floor(t/1e3)%60).padStart(2,"0")}`;if(!t)finishExam()}
+function showQ(){if(exam.i>=30)return finishExam();const c=BK[exam.q[exam.i]];
+$("#view").innerHTML=`<div class="card"><div class="row"><span class="mut">Pregunta ${exam.i+1} de 30</span><span class="timer" id="tm"></span></div><div class="bar"><div style="width:${exam.i/30*100}%"></div></div>${pic(c)}<p class="q">${esc(c.q)}</p><div id="opts">${exam.ord[exam.i].map((o,k)=>`<button class="opt" data-o="${o}"><i>${"abc"[k]}</i><span>${esc(c.o[o])}</span></button>`).join("")}</div><p class="mut">Pulsa a, b o c. Llevas ${exam.i} respondidas.</p></div>`;tick();
+const pick=k=>{exam.ans.push(k);exam.i++;showQ();window.scrollTo(0,0)};
+$("#opts").onclick=e=>{const b=e.target.closest(".opt");if(b)pick(+b.dataset.o)};
+document.onkeydown=e=>{const k="abc".indexOf(e.key);if(k>=0)pick(exam.ord[exam.i][k])}}
+function finishExam(){if(exam.done)return;exam.done=true;clearInterval(timerId);document.onkeydown=null;const wrong=[];
+exam.q.forEach((qi,k)=>{const c=BK[qi],ok=exam.ans[k]==c.a;if(k<exam.ans.length)track(c.t,ok);if(!ok){wrong.push({c,a:exam.ans[k]});S.c[c.id]={b:1,d:Date.now()}}});
+S.ex.push({d:Date.now(),f:wrong.length});S.ex=S.ex.slice(-30);streak();save();road();
+const ok=wrong.length<=3;
+$("#view").innerHTML=`<div class="card" style="text-align:center"><div class="big-num ${ok?"pass":"fail"}">${ok?"APTO":"NO APTO"}</div><p>${wrong.length} ${wrong.length==1?"fallo":"fallos"} de 30 (máximo 3).</p></div>
+${wrong.map(w=>{const c=w.c;return`<div class="card"><span class="tag ${NEW.has(c.t)?"new":""}">${esc(c.t)}</span>${pic(c)}<p class="q" style="font-size:18px">${esc(c.q)}</p>${w.a!=null?`<p class="fail">Tu respuesta: ${esc(c.o[w.a])}</p>`:'<p class="fail">Sin responder</p>'}<p class="pass" style="font-weight:800">Correcta: ${esc(c.o[c.a])}</p><p class="why">${esc(c.w)}</p></div>`}).join("")}
+<button class="big" id="hm">Volver</button>`;$("#hm").onclick=()=>go("home")}
+
+try{if("serviceWorker" in navigator&&/github\.io$/.test(location.hostname))navigator.serviceWorker.register("sw.js")}catch(e){}
+go("home");
+
+}
+</script>
+</body>
+</html>
