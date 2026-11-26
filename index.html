@@ -5,251 +5,198 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Atajo · Teórico DGT</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#22262c">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Atajo">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* VOICE: compañero de estudio, directo y tranquilo; frases cortas
-   IDEA: la señalización vial española como sistema de interfaz (asfalto, azul de indicación, rojo de peligro, amarillo de obra)
-   PICTURE: un hito kilométrico real sobre asfalto marca el progreso; cada pregunta lleva su señal o escena
-   COLOUR and TYPE: asfalto #22262c, azul señal #1957c2, rojo señal #d61f2c, amarillo vial #f7c600; Barlow Semi Condensed + Barlow
-   LAYOUT: app móvil de una columna, barra inferior con iconos-señal, preguntas a pantalla completa con panel inferior */
+/* VOICE: calma y claridad de una app nativa de Apple; frases cortas
+   IDEA: Fitness + Ajustes de iOS aplicado al estudio del carné
+   PICTURE: anillos de progreso tipo Fitness; señales oficiales e ilustraciones 3D en cada pregunta
+   COLOUR and TYPE: colores de sistema iOS; tipografía del sistema (SF) con Inter de reserva
+   LAYOUT: títulos grandes, listas agrupadas con inserción, barra de pestañas translúcida, preguntas en modal */
 :root{color-scheme:light dark;
---bg:light-dark(#eef1f5,#111317);--card:light-dark(#ffffff,#1a1e24);--card2:light-dark(#f5f7fa,#20252c);--ink:light-dark(#14171c,#eef1f5);--mut:light-dark(#5a6372,#9aa4b2);--line:light-dark(#dde2e9,#2b313a);
---asf:#22262c;--asf2:#2e333b;--blue:#1957c2;--blue2:light-dark(#e7eefb,#16233b);--red:#d61f2c;--ok:light-dark(#0f7a3d,#3ccf7c);--yel:#f7c600;
---fd:"Barlow Semi Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;--r1:18px;--r2:12px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px)}
+--bg:light-dark(#f2f2f7,#000);--cell:light-dark(#fff,#1c1c1e);--cell2:light-dark(#f2f2f7,#2c2c2e);--fill:light-dark(rgba(120,120,128,.12),rgba(120,120,128,.24));
+--label:light-dark(#000,#fff);--label2:light-dark(rgba(60,60,67,.6),rgba(235,235,245,.6));--label3:light-dark(rgba(60,60,67,.3),rgba(235,235,245,.3));
+--sep:light-dark(rgba(60,60,67,.18),rgba(84,84,88,.55));
+--blue:light-dark(#007aff,#0a84ff);--green:light-dark(#34c759,#30d158);--red:light-dark(#ff3b30,#ff453a);--orange:light-dark(#ff9500,#ff9f0a);--yellow:light-dark(#ffcc00,#ffd60a);--indigo:light-dark(#5856d6,#5e5ce6);--teal:light-dark(#30b0c7,#40c8e0);
+--bar:light-dark(rgba(249,249,249,.86),rgba(22,22,24,.82));
+--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Barlow,system-ui,sans-serif;overflow-x:clip}
-h1,h2,h3,h4,.disp{font-family:var(--fd);letter-spacing:.1px}
-button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
-button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
-.wrap{max-width:560px;margin:0 auto;padding:0 16px}
-/* barra superior */
-.top{position:sticky;top:0;z-index:20;background:var(--asf);color:#fff;padding:calc(10px + var(--safe-t)) 0 10px}
-.top .wrap{display:flex;align-items:center;gap:10px}
-.logo{width:34px;height:34px;flex:none}
-.top h1{font-size:24px;margin:0;font-weight:800;flex:1;line-height:1}
-.chipS{display:flex;align-items:center;gap:6px;background:var(--asf2);border-radius:999px;padding:6px 12px 6px 8px;font-weight:600;font-size:14px}
-.chipS svg{width:20px;height:20px}
-main{padding:16px 0 calc(96px + var(--safe-b))}
+html,body{margin:0;background:var(--bg);color:var(--label);font:17px/1.35 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip;letter-spacing:-.2px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;letter-spacing:inherit}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 60%,transparent);outline-offset:2px;border-radius:10px}
+img{display:block}
+.page{max-width:620px;margin:0 auto;padding:calc(8px + var(--safe-t)) 0 calc(100px + var(--safe-b))}
+/* barra compacta al hacer scroll */
+.navc{position:fixed;top:0;left:0;right:0;z-index:30;background:var(--bar);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep);padding:calc(10px + var(--safe-t)) 16px 10px;text-align:center;font-weight:600;font-size:17px;opacity:0;pointer-events:none;transition:opacity .2s}
+.navc.on{opacity:1}
+.lt{display:flex;align-items:flex-end;justify-content:space-between;padding:10px 20px 6px}
+.lt h1{font-size:34px;line-height:41px;font-weight:700;letter-spacing:.37px;margin:0}
+.lt .date{font-size:13px;font-weight:600;color:var(--label2);text-transform:none;margin-bottom:-2px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--cell);border-radius:999px;padding:6px 11px;font-size:15px;font-weight:600;margin-bottom:6px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.chip img{width:18px;height:18px}
+/* grupos */
+.gh{font-size:22px;font-weight:700;letter-spacing:.35px;margin:28px 20px 8px}
+.gf{font-size:13px;color:var(--label2);margin:8px 32px 0;line-height:1.35}
+.group{background:var(--cell);border-radius:12px;margin:0 16px;overflow:hidden}
+.cell{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:8px 16px;text-align:left;position:relative}
+.cell+.cell::before{content:"";position:absolute;top:0;right:0;left:var(--inset,16px);height:.5px;background:var(--sep)}
+.cell.ic{--inset:60px}
+.cell:active{background:var(--fill)}
+.cell .t{flex:1;min-width:0}
+.cell .t b{display:block;font-weight:400;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .t small{display:block;font-size:13px;color:var(--label2);margin-top:1px}
+.cell .v{color:var(--label2);font-size:17px;font-variant-numeric:tabular-nums}
+.chev{width:8px;height:14px;flex:none;color:var(--label3)}
+.ico{width:32px;height:32px;border-radius:8px;flex:none;display:grid;place-items:center;overflow:hidden}
+.ico img{width:26px;height:26px;object-fit:contain}
+.ico.sign{background:#fff;box-shadow:inset 0 0 0 .5px var(--sep)}.ico.sign img{width:28px;height:28px}
+.minibar{height:4px;border-radius:4px;background:var(--fill);margin-top:6px;overflow:hidden}.minibar i{display:block;height:100%;border-radius:4px;background:var(--green)}
+/* resumen tipo Fitness */
+.sum{margin:0 16px;background:var(--cell);border-radius:16px;padding:16px;display:grid;grid-template-columns:132px 1fr;gap:16px;align-items:center}
+.rings{width:132px;height:132px}
+.rings circle{fill:none;stroke-linecap:round}
+.sum .k{font-size:13px;font-weight:600;color:var(--label2);margin:0}
+.sum .n{font-size:28px;font-weight:700;letter-spacing:.3px;line-height:1.1;margin:0 0 8px;font-variant-numeric:tabular-nums}
+.sum .n small{font-size:17px;font-weight:600;color:var(--label2)}
+.sum .n.g{color:var(--green)}.sum .n.c{color:var(--teal)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:14px;background:var(--blue);color:#fff;font-weight:600;font-size:17px}
+.btn:active{opacity:.85}
+.btn.gray{background:var(--fill);color:var(--blue)}
+.btn.tint{background:color-mix(in srgb,var(--blue) 14%,transparent);color:var(--blue)}
+.pad{margin:12px 16px 0}
+.ready{display:flex;align-items:center;gap:12px}
+.dotS{width:12px;height:12px;border-radius:50%;flex:none}
+.hist{display:flex;gap:6px;padding:12px 16px 14px;flex-wrap:wrap}
+.hist span{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;color:#fff}
 /* barra de pestañas */
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:light-dark(rgba(255,255,255,.94),rgba(22,25,30,.94));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px 0 calc(6px + var(--safe-b))}
-.tabs .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.tab{display:grid;justify-items:center;gap:2px;padding:6px 0;border-radius:12px;font-size:12.5px;font-weight:600;color:var(--mut);min-height:52px}
-.tab svg{width:30px;height:30px;transition:transform .15s}
-.tab[aria-current=true]{color:var(--ink);background:var(--blue2)}
-.tab[aria-current=true] svg{transform:scale(1.08)}
-/* hero: asfalto + hito */
-.hero{background:var(--asf);color:#fff;border-radius:var(--r1);overflow:hidden;position:relative}
-.hero-in{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:18px 18px 8px}
-.hito{width:78px;flex:none}
-.hero h2{margin:0;font-size:34px;line-height:1;font-weight:800}
-.hero p{margin:6px 0 0;color:#c9d0da;font-size:15px}
-.lane{height:54px;position:relative;margin-top:6px}
-.lane svg{position:absolute;inset:0;width:100%;height:100%}
-.cta{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:14px;padding:16px 18px;border-radius:var(--r1);background:var(--blue);color:#fff;box-shadow:0 6px 18px -8px rgba(25,87,194,.7);min-height:64px}
-.cta b{font-family:var(--fd);font-size:22px;font-weight:700;display:block;line-height:1.1}
-.cta span{font-size:14px;opacity:.85}
-.cta svg{width:30px;height:30px;flex:none}
-.cta:active{transform:scale(.99)}
-.today{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.today>div{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:10px 12px}
-.today b{display:block;font-family:var(--fd);font-size:26px;line-height:1.05}
-.today span{font-size:13px;color:var(--mut)}
-.sec{margin-top:24px}
-.sec>h3{font-size:20px;margin:0 0 10px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r1);padding:16px}
-/* semáforo de preparación */
-.ready{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
-.tl{width:36px;background:#1d2026;border:2px solid #3a404a;border-radius:12px;padding:6px;display:grid;gap:5px}
-.tl i{display:block;width:24px;height:24px;border-radius:50%;background:#3a3f47}
-.tl i.r.on{background:#ff3b3b;box-shadow:0 0 10px #ff3b3b}.tl i.a.on{background:#ffb300;box-shadow:0 0 10px #ffb300}.tl i.g.on{background:#2fd06f;box-shadow:0 0 10px #2fd06f}
-.ready h4{margin:0;font-size:19px}.ready p{margin:2px 0 0;font-size:14.5px;color:var(--mut)}
-.dots{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
-.dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
-.dot.ok{background:var(--ok)}.dot.ko{background:var(--red)}
-.btn2{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;font-weight:600;border:1.5px solid var(--line);background:var(--card)}
-/* lista de temas */
-.topics{background:var(--card);border:1px solid var(--line);border-radius:var(--r1);overflow:hidden}
-.trow{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 14px;min-height:64px;border-top:1px solid var(--line)}
-.trow:first-child{border-top:0}
-.trow:active{background:var(--card2)}
-.ticon{width:44px;height:44px;border-radius:10px;overflow:hidden;background:var(--card2);display:grid;place-items:center}
-.ticon svg{width:58px;height:auto}
-.tname{font-weight:600;line-height:1.25}
-.tbar{height:5px;background:var(--line);border-radius:5px;margin-top:6px;overflow:hidden}.tbar i{display:block;height:100%;background:var(--blue);border-radius:5px}
-.tpct{font-family:var(--fd);font-weight:700;font-size:17px;color:var(--mut)}
-.trow.reform .tname::after{content:"nuevo";margin-left:8px;font-size:11.5px;font-weight:700;color:#fff;background:var(--red);border-radius:6px;padding:1px 6px;vertical-align:2px}
-.linkrow{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r1);font-weight:600;margin-top:10px;min-height:56px}
-/* capa de juego */
-#play{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;overscroll-behavior:contain}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bar);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--sep);padding:6px 0 calc(4px + var(--safe-b))}
+.tabbar .in{max-width:620px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.tab{display:grid;justify-items:center;gap:2px;font-size:10.5px;font-weight:500;color:light-dark(#8e8e93,#8e8e93);padding:2px 0 4px;min-height:46px}
+.tab svg{width:27px;height:27px}
+.tab[aria-current=true]{color:var(--blue)}
+.tab .badge{position:relative}.tab .badge i{position:absolute;top:-3px;right:-8px;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-style:normal;font-size:12px;font-weight:600;display:grid;place-items:center;padding:0 5px}
+/* modal de preguntas */
+#play{position:fixed;inset:0;z-index:60;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;animation:up .32s cubic-bezier(.2,.9,.25,1)}
 #play[hidden]{display:none}
-.phead{position:sticky;top:0;z-index:2;background:var(--bg);padding:calc(10px + var(--safe-t)) 0 8px}
-.phead .wrap{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center}
-.x{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);border:1px solid var(--line)}
-.x svg{width:18px;height:18px}
-.prog{height:10px;background:var(--line);border-radius:10px;overflow:hidden}.prog i{display:block;height:100%;background:var(--yel);border-radius:10px;transition:width .35s}
-.pcount{font-family:var(--fd);font-weight:700;font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
-.timer.low{color:var(--red)}
-.qbody{padding:6px 0 calc(170px + var(--safe-b))}
-.qtag{display:inline-block;font-size:13px;font-weight:700;color:var(--blue);background:var(--blue2);border-radius:8px;padding:3px 9px}
-:root[data-theme=dark] .qtag{color:#9fc0ff}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .qtag{color:#9fc0ff}}
-.qtag.new{color:#fff;background:var(--red)}
-.qtag.again{background:transparent;color:var(--mut)}
-.qimg{margin:12px 0 0;border-radius:var(--r1);overflow:hidden;background:#fff;border:1px solid var(--line);aspect-ratio:240/150}
-.qimg svg{display:block;width:100%;height:100%}
-.qtext{font-family:var(--fd);font-size:clamp(22px,6vw,26px);line-height:1.2;font-weight:700;margin:16px 0 14px;text-wrap:pretty}
-.opts{display:grid;gap:10px}
-.opt{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:var(--r2);padding:12px 14px;min-height:60px;font-size:17px;line-height:1.3;transition:border-color .15s,background .15s}
-.opt i{font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--card2);font-family:var(--fd);font-size:18px}
-.opt:not(:disabled):active{border-color:var(--blue)}
-.opt.good{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--card))}.opt.good i{background:var(--ok);color:#fff}
-.opt.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,var(--card))}.opt.bad i{background:var(--red);color:#fff}
-.opt.sel{border-color:var(--blue)}
-.opt:disabled{cursor:default}
-/* panel inferior de respuesta */
-.fb{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(105%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s}
-.fb.show{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
-.fb .card{max-width:560px;margin:0 auto;background:var(--card);border-radius:22px 22px 0 0;box-shadow:0 -10px 30px -10px rgba(0,0,0,.35);padding:18px 18px calc(16px + var(--safe-b));border-top:6px solid var(--st,var(--ok))}
-.fb.bad .card{--st:var(--red)}
-.fb h4{margin:0;font-size:22px;color:var(--st,var(--ok))}
-.fb.bad h4{color:var(--red)}
-.fb p{margin:6px 0 0;font-size:15.5px}
-.hook{margin-top:10px;background:light-dark(#fff8d6,#2b2612);border-left:5px solid var(--yel);border-radius:8px;padding:8px 12px;font-weight:600;font-size:15px}
-.go{display:block;width:100%;margin-top:14px;min-height:54px;border-radius:14px;background:var(--blue);color:#fff;font-weight:700;font-size:18px;font-family:var(--fd);}
-.fb.bad .go{background:var(--asf)}
-:root[data-theme=dark] .fb.bad .go{background:#3a4049}
+@keyframes up{from{transform:translateY(40px);opacity:.3}to{transform:none;opacity:1}}
+.mh{position:sticky;top:0;z-index:2;background:var(--bar);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);padding:calc(10px + var(--safe-t)) 16px 10px;display:grid;grid-template-columns:72px 1fr 72px;gap:12px;align-items:center;border-bottom:.5px solid var(--sep)}
+.mh .close{color:var(--blue);font-size:17px;text-align:left;min-height:44px}
+.mh .cnt{text-align:right;color:var(--label2);font-size:15px;font-variant-numeric:tabular-nums;font-weight:500}
+.mh .cnt.low{color:var(--red)}
+.track{height:6px;border-radius:3px;background:var(--fill);overflow:hidden}.track i{display:block;height:100%;background:var(--blue);border-radius:3px;transition:width .3s}
+.qwrap{max-width:620px;margin:0 auto;padding:16px 16px calc(220px + var(--safe-b))}
+.qmeta{font-size:13px;font-weight:600;color:var(--label2);display:flex;gap:8px;align-items:center}
+.qmeta .new{color:#fff;background:var(--red);border-radius:6px;padding:1px 7px;font-size:12px}
+.qmeta .again{color:var(--orange)}
+.media{margin-top:10px;border-radius:16px;overflow:hidden;aspect-ratio:16/10;display:grid;place-items:center;background:var(--cell)}
+.media.sign{background:#fff;box-shadow:inset 0 0 0 .5px var(--sep)}
+.media.sign img{width:auto;height:72%;max-width:80%;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
+.media.emo{background:radial-gradient(120% 120% at 30% 20%,color-mix(in srgb,var(--tint,#007aff) 22%,var(--cell)),color-mix(in srgb,var(--tint,#007aff) 8%,var(--cell)))}
+.media.emo img{width:46%;max-width:180px;height:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.18))}
+.qtext{font-size:22px;line-height:28px;font-weight:700;letter-spacing:.35px;margin:16px 4px 14px;text-wrap:pretty}
+.opts{background:var(--cell);border-radius:14px;overflow:hidden}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 16px;min-height:58px;position:relative;font-size:17px;line-height:1.3}
+.opt+.opt::before{content:"";position:absolute;top:0;left:56px;right:0;height:.5px;background:var(--sep)}
+.opt .rad{width:26px;height:26px;border-radius:50%;flex:none;border:1.5px solid var(--label3);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--label2)}
+.opt:not(:disabled):active{background:var(--fill)}
+.opt.good .rad{background:var(--green);border-color:var(--green);color:#fff}
+.opt.bad .rad{background:var(--red);border-color:var(--red);color:#fff}
+.opt.good{background:color-mix(in srgb,var(--green) 10%,var(--cell))}
+.opt.bad{background:color-mix(in srgb,var(--red) 9%,var(--cell))}
+.opt.sel .rad{background:var(--blue);border-color:var(--blue);color:#fff}
+.opt:disabled{cursor:default;color:var(--label)}
+.opt:disabled:not(.good):not(.bad){color:var(--label2)}
+/* hoja de respuesta */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;transform:translateY(110%);visibility:hidden;transition:transform .34s cubic-bezier(.2,.9,.25,1),visibility 0s .34s}
+.sheet.show{transform:none;visibility:visible;transition:transform .34s cubic-bezier(.2,.9,.25,1)}
+.sheet .in{max-width:620px;margin:0 auto;background:var(--bar);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-radius:22px 22px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);padding:10px 20px calc(16px + var(--safe-b))}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--label3);margin:0 auto 12px}
+.res-h{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;letter-spacing:.35px}
+.res-h svg{width:28px;height:28px;flex:none}
+.sheet p{margin:8px 0 0;font-size:16px;line-height:1.4;color:var(--label)}
+.sheet .corr{color:var(--label2);font-size:15px}
+.tip{margin-top:10px;display:flex;gap:10px;align-items:flex-start;background:var(--fill);border-radius:12px;padding:10px 12px;font-size:15px;font-weight:500}
+.tip img{width:22px;height:22px;flex:none}
+.sheet .btn{margin-top:14px}
 /* resultados */
-.res{text-align:center;padding:26px 16px}
-.res .rbig{font-family:var(--fd);font-size:64px;line-height:1;font-weight:800}
-.res .rbig.ok{color:var(--ok)}.res .rbig.ko{color:var(--red)}
-.res p{color:var(--mut);margin:8px 0 0}
-.rcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r1);padding:14px;margin-top:12px}
-.rcard .qimg{margin-top:8px}
-.rcard h5{font-size:17px;margin:10px 0 6px;font-family:var(--fd);}
-.rw{color:var(--red);font-size:15px;margin:2px 0}.rr{color:var(--ok);font-weight:700;font-size:15px;margin:2px 0}
-.rx{font-size:14.5px;color:var(--mut);margin:6px 0 0}
-.rowb{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
-.primary{min-height:52px;padding:0 22px;border-radius:14px;background:var(--blue);color:#fff;font-weight:700;font-family:var(--fd);font-size:18px}
-/* examen intro */
-.exhero{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
-.exhero svg{width:96px;height:auto}
-.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-.rules div{background:var(--card2);border-radius:var(--r2);padding:10px;text-align:center}
-.rules b{display:block;font-family:var(--fd);font-size:28px;line-height:1}
-.rules span{font-size:12.5px;color:var(--mut)}
-/* fallos y formularios */
-label{font-weight:600;font-size:14px}
-input,textarea{font:inherit;font-size:16px;width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card2);color:var(--ink);margin:4px 0 12px}
-.frow{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-.frow:first-child{border-top:0}
-.frow .ticon{width:44px;height:44px}.frow .ticon svg{width:100%;height:auto}
-.frow small{color:var(--mut)}
-.empty{text-align:center;padding:24px 10px;color:var(--mut)}
-.empty svg{width:80px;margin-bottom:6px}
-.note{font-size:13px;color:var(--mut);margin:24px 0 0;line-height:1.45}
-/* hoja inferior genérica */
-#sheet{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:flex-end}
-#sheet[hidden]{display:none}
-#sheet .card{width:100%;max-width:560px;margin:0 auto;max-height:86vh;overflow-y:auto;background:var(--card);border-radius:22px 22px 0 0;padding:20px 18px calc(20px + var(--safe-b))}
-#sheet h3{margin:0 0 6px;font-size:24px}#sheet h4{margin:16px 0 4px;font-size:18px}#sheet p{margin:0;font-size:15.5px}
-/* chuleta: botones heredados */
-.big{min-height:48px;padding:0 18px;border-radius:12px;background:var(--blue);color:#fff;font-weight:700}
-.ghost{min-height:48px;padding:0 18px;border-radius:12px;border:1.5px solid var(--blue);color:var(--blue);font-weight:700;background:transparent}
-:root[data-theme=dark] .ghost{color:#9fc0ff;border-color:#9fc0ff}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .ghost{color:#9fc0ff;border-color:#9fc0ff}}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.mut{color:var(--mut);font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r1);padding:16px;margin-bottom:16px}
-.bl{animation:bl 1s steps(1) infinite}.bl2{animation:bl 1s steps(1) infinite .5s}@keyframes bl{50%{opacity:.12}}
-.cheat-top{border-top:6px solid var(--blue)}
-.ck{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,4vw,24px);margin-bottom:16px;border-top:8px solid var(--acc)}
-.ck h3{margin:0 0 12px;font-size:21px}.ck h4{margin:18px 0 8px;font-size:16px}
-.c-speed{--acc:#c8102e}.c-light{--acc:#1e88e5}.c-itv{--acc:#2e7d32}.c-alc{--acc:#f59e0b}.c-pts{--acc:#7b1fa2}.c-dist{--acc:#00897b}.c-perm{--acc:#0050b5}.c-mult{--acc:#546e7a}
-.sg{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#fff;border:7px solid #c8102e;color:#111;font-size:19px;font-weight:800;line-height:1;flex:none}
-.sg3{font-size:15px;letter-spacing:-.5px}
-.sg-b{background:#0050b5;border:3px solid #fff;box-shadow:0 0 0 2px #0050b5;color:#fff}
-.spd{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr);gap:8px 10px;align-items:center}
-.spd>div{display:flex;justify-content:center}.spd>.spd-v{justify-content:flex-start;font-size:14.5px;line-height:1.3;display:block}
-.spd-h{font-size:13px;font-weight:700;color:var(--mut);text-align:center}
-.spd>div:nth-child(3n+4),.spd>div:nth-child(3n+5),.spd>div:nth-child(3n+6){border-top:1px dashed var(--line);padding-top:8px}
-.no{font-size:13px;color:var(--mut);font-weight:700}
-.mnemo{margin:14px 0 4px;padding:10px 14px;border-radius:10px;background:color-mix(in srgb,var(--acc) 12%,var(--card));border-left:5px solid var(--acc);font-size:15px}
-.minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:12px}
-.minis>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px}
-.lbl{font-size:13.5px;line-height:1.3}
-.pill{background:color-mix(in srgb,var(--acc) 16%,var(--card));border-radius:999px;padding:4px 10px;font-weight:800;font-size:13.5px;text-align:right}
-.city{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.cv{display:grid;justify-items:center;gap:6px;text-align:center;font-size:13.5px;padding:10px;border-radius:12px;background:light-dark(#f3f5f8,#222a33)}
-.street{width:100%;height:30px;border-radius:6px;background:#4b5158;position:relative}
-.street::after{content:"";position:absolute;inset:13px 8px auto;height:3px;background:repeating-linear-gradient(90deg,#fff 0 10px,transparent 10px 18px)}
-.s1{background:#d9c7a8}.s1::after{display:none}.s3::before{content:"";position:absolute;inset:6px 8px auto;height:2px;background:#fff;box-shadow:0 16px 0 #fff}.s4{background:#3b4046}
-.lights{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.lt{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;background:light-dark(#0f1a2e,#0b1220);color:#e8eef8}
-.lt svg{width:64px;flex:none;background:#000a;border-radius:8px;padding:4px}.lt p{margin:4px 0 0;font-size:14px;line-height:1.4}.lt b{color:#fff}
-.lt .v{color:#ffd54f}
-.itv{margin-bottom:12px}.itv-n{font-weight:700;font-size:14.5px;margin-bottom:4px}
-.itv-bar,.legend{display:flex;gap:2px}.itv-bar{height:30px;border-radius:8px;overflow:hidden}
-.seg{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;min-width:0;white-space:nowrap;overflow:hidden}
-.seg i{font-style:normal;padding:0 4px;overflow:hidden;text-overflow:ellipsis}
-.ex{background:#9e9e9e}.bi{background:#43a047}.an{background:#f59e0b}.se{background:#d81e2c}
-.itv-axis{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:6px}
-.itv-x{font-size:13px;margin-top:3px}.legend{flex-wrap:wrap;gap:6px;margin:6px 0}.legend .seg{padding:3px 8px;border-radius:6px}
-.alc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.al{border-radius:14px;padding:12px;display:grid;justify-items:center;text-align:center;color:#111}
-.al b{font-size:32px;line-height:1.05}.al small{font-size:12.5px;margin-bottom:4px}.al .lbl{font-weight:700;margin-bottom:4px}
-.al.g{background:#ffe082}.al.n{background:#ffb74d}.al.z{background:#ef9a9a}
-.ladder{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.st{border-radius:12px;padding:8px 12px;display:grid;justify-items:center;color:#fff;min-width:56px}.st b{font-size:28px;line-height:1}.st span{font-size:11.5px}
-.s8{background:#ba68c8}.s12{background:#8e24aa}.s14{background:#6a1b9a}.s15{background:#4a148c}.ar{font-size:12px;color:var(--mut)}
-.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
-.pg{border-radius:14px;padding:12px 12px 12px 64px;position:relative;min-height:70px}
-.pg ul{margin:0;padding-left:16px;font-size:14px;line-height:1.45}.pn{position:absolute;left:10px;top:10px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff}
-.p6{background:color-mix(in srgb,#d81e2c 12%,var(--card))}.p6 .pn{background:#d81e2c}
-.p4{background:color-mix(in srgb,#f57c00 12%,var(--card))}.p4 .pn{background:#f57c00}
-.p3{background:color-mix(in srgb,#fbc02d 16%,var(--card))}.p3 .pn{background:#f9a825}
-.pv{background:color-mix(in srgb,#7b1fa2 12%,var(--card))}.pv .pn{background:#7b1fa2;font-size:15px}
-.dist,.ages{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.ds,.ages>div{border-radius:12px;padding:10px 12px;background:color-mix(in srgb,var(--acc) 10%,var(--card));border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);display:grid;gap:2px}
-.ds b,.ages b{font-size:24px;line-height:1.1;color:var(--acc)}.ds span,.ages span{font-size:13.5px;line-height:1.3}
-:root[data-theme=dark] .ds b,:root[data-theme=dark] .ages b{filter:brightness(1.6)}
-.permB .pb{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:14px;align-items:center}
-.pbg{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}.pbg>div{display:grid;border-left:4px solid var(--acc);padding-left:8px}.pbg b{font-size:20px}.pbg span{font-size:13px}
-@media(max-width:600px){.permB .pb{grid-template-columns:1fr}.permB svg{max-width:200px}.sg{width:46px;height:46px;font-size:17px;border-width:6px}.spd>.spd-v{font-size:13.5px}}
-#ch.hide .v:not(.shown){color:transparent!important;background:repeating-linear-gradient(45deg,var(--line) 0 6px,color-mix(in srgb,var(--line) 50%,transparent) 6px 12px)!important;border-radius:6px;cursor:pointer;-webkit-text-fill-color:transparent;filter:none}
-#ch.hide .sg .v:not(.shown){display:inline-block;min-width:28px}
-#ch.hide .seg .v:not(.shown){background:#0003!important}
-
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.result{text-align:center;padding:28px 16px 8px}
+.result .ring{width:160px;height:160px;margin:0 auto}
+.result h2{font-size:28px;margin:14px 0 4px;letter-spacing:.35px}
+.result p{color:var(--label2);margin:0;font-size:16px}
+.rq{background:var(--cell);border-radius:14px;margin:12px 16px 0;padding:14px}
+.rq .media{aspect-ratio:16/8}
+.rq h5{font-size:17px;font-weight:600;margin:10px 0 6px;line-height:1.3}
+.rq .w{color:var(--red);font-size:15px;margin:2px 0}.rq .r{color:var(--green);font-size:15px;font-weight:600;margin:2px 0}.rq .x{color:var(--label2);font-size:14px;margin:6px 0 0}
+/* formularios */
+.field{display:block;width:100%;padding:13px 16px;font:inherit;font-size:17px;border:0;background:transparent;color:var(--label)}
+.field::placeholder{color:var(--label3)}
+.fsep{height:.5px;background:var(--sep);margin-left:16px}
+textarea.field{resize:vertical;min-height:72px}
+/* interruptor iOS */
+.sw{position:relative;width:51px;height:31px;flex:none}
+.sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.sw span{position:absolute;inset:0;border-radius:16px;background:var(--fill);transition:background .2s}
+.sw span::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s}
+.sw input:checked+span{background:var(--green)}.sw input:checked+span::after{transform:translateX(20px)}
+/* hoja genérica */
+#modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.4);display:flex;align-items:flex-end}
+#modal[hidden]{display:none}
+#modal .in{width:100%;max-width:620px;margin:0 auto;max-height:90vh;overflow-y:auto;background:var(--bg);border-radius:14px 14px 0 0;padding:10px 0 calc(24px + var(--safe-b));animation:up .3s cubic-bezier(.2,.9,.25,1)}
+#modal .mt{display:grid;grid-template-columns:80px 1fr 80px;align-items:center;padding:6px 16px 10px}
+#modal .mt b{text-align:center;font-weight:600}
+#modal .mt button{color:var(--blue);text-align:right;font-weight:600;min-height:44px}
+.prose{padding:0 20px}.prose h4{font-size:17px;margin:18px 0 4px}.prose p{margin:0;color:var(--label2);font-size:16px;line-height:1.45}
+.foot{font-size:12px;color:var(--label2);margin:28px 32px 0;line-height:1.45}
+.foot a{color:var(--blue);text-decoration:none}
+/* chuleta */
+.cs{display:grid;grid-template-columns:minmax(0,1fr) 64px 64px;align-items:center;gap:6px 8px;padding:10px 16px;position:relative}
+.cs+.cs::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.cs.head{padding:10px 16px 4px;font-size:12px;font-weight:600;color:var(--label2);text-align:center}
+.cs.head span:first-child{text-align:left}
+.cs .who{font-size:15px;line-height:1.3}
+.cs .who small{display:block;color:var(--label2);font-size:13px}
+.cs .sv{display:grid;place-items:center}
+.cs .sv img{width:44px;height:44px}
+.cs .sv .no{font-size:12px;color:var(--label2);font-weight:600}
+.kv{display:flex;align-items:center;gap:12px;padding:11px 16px;position:relative;min-height:48px}
+.kv+.kv::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.kv.ic+.kv.ic::before{left:60px}
+.kv .k{flex:1;font-size:15.5px;line-height:1.3}
+.kv .k small{display:block;color:var(--label2);font-size:13px;margin-top:2px}
+.kv .val{font-weight:600;font-size:16px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kv img.si{width:34px;height:34px;flex:none}
+.memo{margin:10px 16px 0;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--yellow) 20%,var(--cell));font-size:15px;line-height:1.4}
+.ptag{display:inline-grid;place-items:center;min-width:34px;height:34px;border-radius:9px;color:#fff;font-weight:700;font-size:16px;flex:none}
+.itvbar{display:flex;height:22px;border-radius:6px;overflow:hidden;gap:2px;margin-top:6px}
+.itvbar span{display:grid;place-items:center;color:#fff;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
+.ex{background:#8e8e93}.bi{background:#34c759}.an{background:#ff9500}.se{background:#ff3b30}
+#cheat.hide .val:not(.shown),#cheat.hide .cs .sv:not(.shown) img,#cheat.hide .itvbar:not(.shown) span{filter:blur(9px) saturate(.2);opacity:.6;cursor:pointer}
+#cheat.hide .itvbar:not(.shown){cursor:pointer}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap">
-<svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#1957c2"/><path d="M20 7 L31 18 H24 V33 H16 V18 H9 Z" fill="#fff"/></svg>
-<h1>Atajo</h1>
-<div class="chipS" id="streak" aria-label="Días seguidos estudiando"></div>
-</div></header>
-<main><div class="wrap" id="view"></div></main>
-<nav class="tabs" aria-label="Secciones"><div class="wrap" id="nav">
-<button class="tab" data-v="home"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#1957c2" stroke="#fff" stroke-width="1.5"/><path d="M20 8 L28 17 H23 V31 H17 V17 H12 Z" fill="#fff"/></svg>Estudiar</button>
-<button class="tab" data-v="exam"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M14 2h12l12 12v12L26 38H14L2 26V14z" fill="#d61f2c" stroke="#fff" stroke-width="1.5"/><text x="20" y="24" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="Barlow Semi Condensed,Arial">STOP</text></svg>Examen</button>
-<button class="tab" data-v="cheat"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="3" width="34" height="34" rx="6" fill="#1957c2" stroke="#fff" stroke-width="1.5"/><circle cx="20" cy="12" r="3" fill="#fff"/><rect x="17" y="17" width="6" height="15" rx="2" fill="#fff"/></svg>Chuleta</button>
-<button class="tab" data-v="mine"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L38 35 H2 Z" fill="#fff" stroke="#d61f2c" stroke-width="4.5" stroke-linejoin="round"/><rect x="18" y="14" width="4" height="12" rx="1.5" fill="#111"/><circle cx="20" cy="30" r="2.3" fill="#111"/></svg>Fallos</button>
+<div class="navc" id="navc"></div>
+<div class="page" id="view"></div>
+<nav class="tabbar" aria-label="Secciones"><div class="in" id="nav">
+<button class="tab" data-v="home"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5C4 5.7 4.7 5 5.5 5H11c1.7 0 3 1.3 3 3v15c0-1.1-.9-2-2-2H5.5c-.8 0-1.5-.7-1.5-1.5z"/><path d="M24 6.5c0-.8-.7-1.5-1.5-1.5H17c-1.7 0-3 1.3-3 3v15c0-1.1.9-2 2-2h6.5c.8 0 1.5-.7 1.5-1.5z"/></svg>Estudiar</button>
+<button class="tab" data-v="exam"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="15.5" r="9"/><path d="M14 10.5v5l3 2M11 3h6M14 3v3.5"/></svg>Examen</button>
+<button class="tab" data-v="cheat"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="3.5" width="17" height="21" rx="3"/><path d="M10 9h8M10 13.5h8M10 18h5"/></svg>Chuleta</button>
+<button class="tab" data-v="mine"><span class="badge" id="badge"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12.3 4.9 3.6 20.4c-.8 1.4.2 3.1 1.8 3.1h17.2c1.6 0 2.6-1.7 1.8-3.1L15.7 4.9c-.8-1.4-2.6-1.4-3.4 0z"/><path d="M14 10.5v5.5M14 19.6v.2"/></svg></span>Fallos</button>
 </div></nav>
 <div id="play" hidden></div>
-<div class="fb" id="fb" aria-live="polite"><div class="card" id="fbc"></div></div>
-<div id="sheet" hidden><div class="card" id="sheetc" role="dialog" aria-modal="true"></div></div>
+<div class="sheet" id="sheet"><div class="in" id="sheetc"></div></div>
+<div id="modal" hidden><div class="in" id="modalc" role="dialog" aria-modal="true"></div></div>
 <script>
-
 const B2=[
 // ===== Velocidad =====
 ["Velocidad","¿Velocidad máxima de un ciclomotor?",["45 km/h","50 km/h","25 km/h"],0,"Un ciclomotor no puede superar 45 km/h en ninguna vía.","Ciclomotor = 45."],
@@ -577,210 +524,17 @@ const B3=[
 ];
 
 const IMG=(()=>{
-const R="#c8102e",BL="#0050b5",Y="#f6c400",AS="#4b5158",GR="#8cbf6e",W="#fff",K="#111";
-const V=(c)=>`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Overpass,Arial,sans-serif">${c}</svg>`;
-const T=(x,y,t,s=14,f=K,w=800)=>`<text x="${x}" y="${y}" font-size="${s}" font-weight="${w}" fill="${f}" text-anchor="middle" dominant-baseline="middle">${t}</text>`;
-// --- señales ---
-const cR=(c)=>V(`<circle cx="120" cy="75" r="62" fill="${W}" stroke="${R}" stroke-width="13"/>${c}`);
-const cB=(c)=>V(`<circle cx="120" cy="75" r="62" fill="${BL}" stroke="${W}" stroke-width="3"/>${c}`);
-const tri=(c,bg=W)=>V(`<path d="M120 14 L188 130 L52 130 Z" fill="${bg}" stroke="${R}" stroke-width="11" stroke-linejoin="round"/>${c}`);
-const kid=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="${K}"><circle cy="-22" r="6"/><path d="M-5 -14h10l3 18h-4l-1 16h-3l-1-12-1 12h-3l-1-16h-4z"/></g>`;
-const cyc=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="none" stroke="${K}" stroke-width="3.5"><circle cx="-14" cy="8" r="9"/><circle cx="16" cy="8" r="9"/><path d="M-14 8 L-2 -6 L10 -6 L16 8 M-2 -6 L2 8 L10 -6 M4 -12 L-2 -6"/><circle cx="6" cy="-18" r="4.5" fill="${K}"/></g>`;
-const carS=(x,y,c,s=1,flip=1)=>`<g transform="translate(${x} ${y}) scale(${s*flip} ${s})"><path d="M-26 6 v-10 q2-6 10-7 l8-9 h20 l10 9 q8 1 8 7 v10 z" fill="${c}"/><circle cx="-14" cy="7" r="5" fill="${K}"/><circle cx="14" cy="7" r="5" fill="${K}"/></g>`;
-const S={};
-S.sMax=n=>cR(T(120,78,n,52));
-S.sMin=n=>cB(T(120,78,n,52,W));
-S.sAcons=n=>V(`<rect x="62" y="17" width="116" height="116" rx="12" fill="${BL}" stroke="${W}" stroke-width="3"/>${T(120,78,n,52,W)}`);
-S.sStop=()=>V(`<path d="M95 13h50l35 35v54l-35 35H95l-35-35V48z" fill="${R}" stroke="${W}" stroke-width="4"/>${T(120,77,"STOP",34,W)}`);
-S.sCeda=()=>V(`<path d="M52 18 L188 18 L120 136 Z" fill="${W}" stroke="${R}" stroke-width="12" stroke-linejoin="round"/>`);
-S.sPeligro=()=>tri(`<rect x="114" y="54" width="12" height="44" rx="3" fill="${K}"/><circle cx="120" cy="112" r="7" fill="${K}"/>`);
-S.sObras=()=>tri(`<rect x="114" y="54" width="12" height="44" rx="3" fill="${K}"/><circle cx="120" cy="112" r="7" fill="${K}"/>`,Y);
-S.sNinos=()=>tri(kid(108,112,1.3)+kid(134,114,1.05));
-S.sCiclista=()=>tri(cyc(120,100,1.2));
-S.sCurva=()=>tri(`<path d="M104 120 C104 92 136 92 136 66 L136 58" fill="none" stroke="${K}" stroke-width="10"/><path d="M124 62 L136 44 L148 62 Z" fill="${K}"/>`);
-S.sLoco=()=>tri(`<g fill="${K}"><rect x="94" y="84" width="54" height="22" rx="3"/><rect x="128" y="66" width="20" height="20"/><rect x="100" y="72" width="8" height="12"/><circle cx="104" cy="110" r="6"/><circle cx="122" cy="110" r="6"/><circle cx="140" cy="110" r="6"/></g>`);
-S.sBarreras=()=>tri(`<g fill="${K}"><rect x="92" y="86" width="56" height="6"/><rect x="92" y="100" width="56" height="6"/><rect x="96" y="80" width="6" height="34"/><rect x="117" y="80" width="6" height="34"/><rect x="138" y="80" width="6" height="34"/></g>`);
-const carIcon=(x,c)=>`<g transform="translate(${x} 78)"><path d="M-18 10 v-10 l6-12 h24 l6 12 v10 z" fill="${c}"/><rect x="-14" y="-8" width="28" height="7" fill="${W}"/><circle cx="-10" cy="12" r="4" fill="${c}"/><circle cx="10" cy="12" r="4" fill="${c}"/></g>`;
-S.sNoAdelantar=()=>cR(carIcon(100,R)+carIcon(140,K));
-S.sFinProh=()=>V(`<circle cx="120" cy="75" r="62" fill="${W}" stroke="#999" stroke-width="3"/><g stroke="${K}" stroke-width="5"><path d="M82 125 L170 37 M74 113 L158 29 M94 133 L178 49"/></g>`);
-S.sPrio=()=>V(`<rect x="72" y="27" width="96" height="96" transform="rotate(45 120 75)" fill="${W}" stroke="${K}" stroke-width="2"/><rect x="88" y="43" width="64" height="64" transform="rotate(45 120 75)" fill="${Y}"/>`);
-S.sFinPrio=()=>V(`<rect x="72" y="27" width="96" height="96" transform="rotate(45 120 75)" fill="${W}" stroke="${K}" stroke-width="2"/><rect x="88" y="43" width="64" height="64" transform="rotate(45 120 75)" fill="#bbb"/><g stroke="${K}" stroke-width="4"><path d="M84 118 L156 32 M76 108 L146 26 M94 126 L164 42"/></g>`);
-const arr=(x,y,c,up,s=1)=>`<g transform="translate(${x} ${y}) scale(${s}) ${up?"":"rotate(180)"}"><path d="M0 -40 L16 -18 H6 V40 H-6 V-18 H-16 Z" fill="${c}"/></g>`;
-S.sPrioSobre=()=>V(`<rect x="62" y="17" width="116" height="116" rx="10" fill="${BL}" stroke="${W}" stroke-width="3"/>${arr(100,75,W,true,1.1)}${arr(145,75,R,false,.75)}`);
-S.sPrioContra=()=>cR(arr(100,75,R,true,.95)+arr(140,75,K,false,.95));
-S.sSanAndres=()=>V(`<g transform="rotate(35 120 75)"><rect x="40" y="65" width="160" height="20" fill="${W}" stroke="${R}" stroke-width="3"/></g><g transform="rotate(-35 120 75)"><rect x="40" y="65" width="160" height="20" fill="${W}" stroke="${R}" stroke-width="3"/></g>`);
-S.sPoblado=()=>V(`<rect x="22" y="40" width="196" height="70" rx="6" fill="${W}" stroke="${K}" stroke-width="4"/>${T(120,77,"Villaverde",30,K,700)}`);
-S.sResid=()=>V(`<rect x="52" y="17" width="136" height="116" rx="10" fill="${BL}" stroke="${W}" stroke-width="3"/><path d="M78 92 v-26 l20-16 20 16 v26z" fill="${W}"/>${kid(140,104,.9).replace(/fill="#111"/,'fill="#fff"')}<rect x="60" y="108" width="120" height="4" fill="${W}"/>`);
-S.sCadenas=()=>cB(`<circle cx="120" cy="75" r="34" fill="none" stroke="${W}" stroke-width="12"/><g stroke="${W}" stroke-width="4">${[0,45,90,135].map(a=>`<path d="M120 33 V117" transform="rotate(${a} 120 75)"/>`).join("")}</g>`);
-S.sObl=()=>cB(arr(120,75,W,true,1.1));
-S.sZBE=()=>V(`<rect x="34" y="20" width="172" height="110" rx="8" fill="${W}" stroke="${K}" stroke-width="3"/><circle cx="78" cy="75" r="30" fill="${W}" stroke="${R}" stroke-width="7"/>${carIcon(78,K).replace('translate(78 78)','translate(78 72) scale(.7)')}${T(150,62,"ZBE",28)}${T(150,90,"Zona de bajas",11,K,600)}${T(150,104,"emisiones",11,K,600)}`);
-S.et0=()=>V(`<circle cx="120" cy="75" r="58" fill="#1e88e5"/>${T(120,79,"0",62,W)}${T(120,124,"emisiones",11,W,700)}`);
-S.etECO=()=>V(`<circle cx="120" cy="75" r="58" fill="#1e88e5"/><path d="M62 75 a58 58 0 0 1 116 0 z" fill="#43a047"/>${T(120,79,"ECO",40,W)}`);
-S.v20=()=>V(`<defs><pattern id="st" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="11" height="22" fill="${R}"/><rect x="11" width="11" height="22" fill="${W}"/></pattern></defs><rect x="70" y="25" width="100" height="100" fill="url(#st)" stroke="${K}" stroke-width="2"/>`);
-S.aceite=()=>V(`<rect x="0" y="0" width="240" height="150" rx="10" fill="#111"/><g fill="${R}"><path d="M60 95 h90 l30-26 -10-5 -24 14 h-8 v-10 h-14 v-8 h12 v-6 h-34 v6 h12 v8 h-54 z"/><path d="M186 82 q6 10 0 16 q-6-6 0-16z"/></g>`);
-// --- semáforos ---
-const sem=(r,a,g,blinkA)=>V(`<rect x="94" y="8" width="52" height="134" rx="10" fill="#222"/><circle cx="120" cy="34" r="16" fill="${r?"#ff2d2d":"#4a1010"}"/><circle cx="120" cy="75" r="16" class="${blinkA?"bl":""}" fill="${a?"#ffb000":"#4a3a10"}"/><circle cx="120" cy="116" r="16" fill="${g?"#22d36b":"#0f3a22"}"/>`);
-S.semAmbar=()=>sem(0,1,0,0);
-S.semAmbarBl=()=>sem(0,1,0,1);
-S.semRojoAlt=()=>V(`<rect x="50" y="45" width="140" height="60" rx="10" fill="#222"/><circle cx="88" cy="75" r="20" class="bl" fill="#ff2d2d"/><circle cx="152" cy="75" r="20" class="bl2" fill="#ff2d2d"/>`);
-S.semCarril=()=>V(`<rect x="30" y="35" width="80" height="80" rx="8" fill="#222"/><g stroke="#ff2d2d" stroke-width="12" stroke-linecap="round"><path d="M50 55 L90 95 M90 55 L50 95"/></g><rect x="130" y="35" width="80" height="80" rx="8" fill="#222"/><path d="M170 102 L148 72 H162 V48 H178 V72 H192 Z" fill="#22d36b"/>`);
-S.sRojo=()=>sem(1,0,0,0);
-// --- escenas vista aérea ---
-const road=(c)=>V(`<rect width="240" height="150" fill="${GR}"/>${c}`);
-const car=(x,y,c,r=0,s=1)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})"><rect x="-10" y="-17" width="20" height="34" rx="6" fill="${c}" stroke="#0004"/><rect x="-8" y="-9" width="16" height="7" rx="2" fill="#d6e8ff"/><rect x="-8" y="8" width="16" height="4" rx="2" fill="#d6e8ff"/></g>`;
-const bikeT=(x,y,r=0)=>`<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-1.5" y="-13" width="3" height="26" fill="${K}"/><circle r="5.5" fill="#e65100"/><circle r="3" fill="${Y}"/></g>`;
-const dashV=(x,y1=0,y2=150)=>`<path d="M${x} ${y1} V${y2}" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>`;
-const solV=(x,y1=0,y2=150,c=W,w=3)=>`<path d="M${x} ${y1} V${y2}" stroke="${c}" stroke-width="${w}"/>`;
-const lab=(x,y,t,c="#d81e2c")=>`<rect x="${x-t.length*4.5-6}" y="${y-11}" width="${t.length*9+12}" height="22" rx="5" fill="${W}" stroke="${c}" stroke-width="2"/>${T(x,y+1,t,13,c)}`;
-S.autovia=()=>road(`<rect x="20" width="200" height="150" fill="${AS}"/><rect x="114" width="12" height="150" fill="${GR}"/>${dashV(67)}${dashV(173)}${solV(26)}${solV(108)}${solV(132)}${solV(214)}${car(152,90,"#1565c0")}${car(88,40,"#ef6c00",180)}${lab(60,120,"? km/h")}`);
-S.convencional=()=>road(`<rect x="70" width="100" height="150" fill="${AS}"/>${dashV(120)}${solV(76)}${solV(164)}${car(144,95,"#1565c0")}${car(96,40,"#ef6c00",180)}${lab(205,30,"? km/h")}`);
-const acera=`<rect x="0" width="40" height="150" fill="#cfd3d8"/><rect x="200" width="40" height="150" fill="#cfd3d8"/>`;
-S.calle1=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${dashV(120)}${car(150,92,"#1565c0")}${car(90,40,"#ef6c00",180)}${lab(120,18,"? km/h")}<rect x="8" y="20" width="20" height="30" fill="#8d6e63"/><rect x="212" y="90" width="20" height="30" fill="#8d6e63"/>`);
-S.calle2=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${dashV(80)}${solV(118)}${solV(122)}${dashV(160)}${car(140,95,"#1565c0")}${car(180,60,"#2e7d32")}${car(60,40,"#ef6c00",180)}${lab(100,130,"? km/h")}`);
-S.plataforma=()=>V(`<rect width="240" height="150" fill="#d9c7a8"/><g stroke="#c2ad8a" stroke-width="2">${[20,50,80,110,140].map(y=>`<path d="M0 ${y} H240"/>`).join("")}</g><g fill="#6d4c41">${[30,90,150,210].map(x=>`<rect x="${x}" y="6" width="8" height="8"/><rect x="${x}" y="136" width="8" height="8"/>`).join("")}</g>${car(120,80,"#1565c0")}${kid(70,90,1.1)}${kid(180,70,1)}${lab(120,24,"? km/h")}`);
-S.lineas=()=>road(`<rect x="50" width="140" height="150" fill="${AS}"/>${solV(118)}${dashV(124)}${car(152,90,"#1565c0")}${car(88,40,"#ef6c00",180)}${lab(35,75,"¿cuál?","#0050b5")}`);
-S.lStop=()=>road(`<rect x="0" y="45" width="240" height="60" fill="${AS}"/><rect x="90" y="105" width="60" height="45" fill="${AS}"/>${solV(120,105,150)}<path d="M120 107 H150" stroke="${W}" stroke-width="6"/>${T(135,117,"STOP",10,W)}${car(135,143,"#1565c0")}<path d="M0 75 H240" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>`);
-S.lCeda=()=>road(`<rect x="0" y="45" width="240" height="60" fill="${AS}"/><rect x="90" y="105" width="60" height="45" fill="${AS}"/><path d="M120 107 H150" stroke="${W}" stroke-width="4" stroke-dasharray="6 4"/><path d="M127 115 l8 14 8-14z" fill="${W}"/>${car(135,140,"#1565c0")}<path d="M0 75 H240" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>`);
-S.cuadricula=()=>road(`<rect x="0" y="45" width="240" height="60" fill="${AS}"/><rect x="90" y="0" width="60" height="150" fill="${AS}"/><rect x="92" y="47" width="56" height="56" fill="none" stroke="${Y}" stroke-width="3"/><g stroke="${Y}" stroke-width="2.5"><path d="M92 47 L148 103 M148 47 L92 103 M120 47 L148 75 L120 103 L92 75 Z"/></g>${car(135,130,"#1565c0")}${car(200,62,"#ef6c00",90)}${car(30,88,"#2e7d32",-90)}`);
-S.lAmarilla=()=>road(`<rect x="60" width="120" height="150" fill="${AS}"/>${solV(66)}${solV(174)}<path d="M120 0 V150" stroke="${W}" stroke-width="3" opacity=".35" stroke-dasharray="14 12"/><path d="M104 0 V150" stroke="${Y}" stroke-width="4"/><g>${[20,60,100].map(y=>`<path d="M${150} ${y} l8 18 h-16z" fill="#ff7043"/>`).join("")}</g>${car(88,90,"#1565c0")}`);
-S.bordCont=()=>V(`<rect width="240" height="150" fill="${AS}"/><rect x="190" width="50" height="150" fill="#cfd3d8"/><path d="M188 0 V150" stroke="${Y}" stroke-width="6"/>${dashV(95)}${car(160,70,"#1565c0")}${lab(120,130,"¿parar? ¿aparcar?","#0050b5")}`);
-S.bordDisc=()=>V(`<rect width="240" height="150" fill="${AS}"/><rect x="190" width="50" height="150" fill="#cfd3d8"/><path d="M188 0 V150" stroke="${Y}" stroke-width="6" stroke-dasharray="16 12"/>${dashV(95)}${car(160,70,"#1565c0")}${lab(120,130,"¿parar? ¿aparcar?","#0050b5")}`);
-S.cebreado=()=>road(`<rect x="40" width="160" height="150" fill="${AS}"/><path d="M120 0 L100 70 L120 150 L140 70 Z" fill="none" stroke="${W}" stroke-width="3"/><g stroke="${W}" stroke-width="3">${[20,40,60,80,100,120].map(y=>`<path d="M${108+Math.abs(70-y)*-0.12} ${y} l18 -12"/>`).join("")}</g>${car(70,80,"#1565c0")}${car(170,60,"#ef6c00")}`);
-S.glorieta=()=>road(`<circle cx="120" cy="75" r="72" fill="${AS}"/><rect x="104" y="0" width="32" height="150" fill="${AS}"/><rect x="0" y="59" width="240" height="32" fill="${AS}"/><circle cx="120" cy="75" r="32" fill="${GR}" stroke="${W}" stroke-width="3"/><circle cx="120" cy="75" r="52" fill="none" stroke="${W}" stroke-width="2.5" stroke-dasharray="10 8"/>${car(120,136,"#1565c0")}${car(66,60,"#ef6c00",0,.8)}<path d="M135 125 Q180 75 150 30 L170 4" fill="none" stroke="#ffd54f" stroke-width="3" stroke-dasharray="6 5"/>`);
-S.cruce=()=>road(`<rect x="0" y="50" width="240" height="50" fill="${AS}"/><rect x="95" y="0" width="50" height="150" fill="${AS}"/>${car(132,125,"#1565c0")}${car(200,63,"#ef6c00",-90)}${car(40,87,"#2e7d32",90)}${lab(200,30,"¿quién pasa?","#0050b5")}`);
-S.pendiente=()=>V(`<rect width="240" height="150" fill="#cfe8ff"/><path d="M0 140 L240 40 V150 H0Z" fill="${GR}"/><path d="M0 140 L240 40" stroke="${AS}" stroke-width="12"/>${carS(70,110,"#1565c0",.9)}${carS(180,64,"#ef6c00",.9,-1)}${lab(70,70,"sube","#0050b5")}${lab(180,110,"baja","#0050b5")}`);
-S.tunel=()=>V(`<rect width="240" height="150" fill="#2b2b2b"/><path d="M10 150 V70 Q120 -20 230 70 V150Z" fill="#555"/><rect x="10" y="118" width="220" height="32" fill="${AS}"/>${carS(60,128,"#1565c0",.8)}${carS(180,128,"#ef6c00",.8)}<path d="M85 105 H155" stroke="${Y}" stroke-width="3"/><path d="M85 99 v12 M155 99 v12" stroke="${Y}" stroke-width="3"/>${lab(120,88,"? m","#d81e2c")}`);
-S.dosSeg=()=>road(`<rect x="80" width="80" height="150" fill="${AS}"/>${solV(86)}${solV(154)}${car(120,40,"#ef6c00")}${car(120,120,"#1565c0")}<circle cx="190" cy="40" r="14" fill="#2e7d32"/><path d="M175 40 H160" stroke="${Y}" stroke-width="3" stroke-dasharray="4 3"/>${lab(200,100,"? s","#d81e2c")}`);
-S.adelBici=()=>road(`<rect x="60" width="120" height="150" fill="${AS}"/>${dashV(120)}${solV(66)}${solV(174)}${bikeT(160,60)}${car(118,72,"#1565c0")}<path d="M131 60 H153" stroke="${Y}" stroke-width="3"/><path d="M131 54 v12 M153 54 v12" stroke="${Y}" stroke-width="3"/>${lab(40,40,"? m","#d81e2c")}${lab(205,120,"? km/h","#d81e2c")}`);
-S.bici5m=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${dashV(120)}${bikeT(160,40)}${car(160,115,"#1565c0")}<path d="M180 52 V95" stroke="${Y}" stroke-width="3"/><path d="M174 52 h12 M174 95 h12" stroke="${Y}" stroke-width="3"/>${lab(85,75,"? m","#d81e2c")}`);
-S.sCiclistaCasco=()=>road(`<rect x="70" width="100" height="150" fill="${AS}"/>${dashV(120)}${solV(76)}${solV(164)}${bikeT(150,80)}${lab(40,30,"¿casco?","#0050b5")}<rect x="190" y="105" width="44" height="30" rx="4" fill="${W}" stroke="${K}"/>${T(212,121,"N-232",10)}`);
-const amb=(x,y,r=0)=>`<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-11" y="-20" width="22" height="40" rx="5" fill="${W}" stroke="#0006"/><rect x="-11" y="-6" width="22" height="5" fill="${R}"/><rect x="-6" y="-19" width="12" height="4" fill="#1e88e5"/></g>`;
-S.emer2=()=>road(`<rect x="50" width="140" height="150" fill="${AS}"/>${solV(56)}${solV(184)}${dashV(120)}${car(78,40,"#1565c0")}${car(78,95,"#2e7d32")}${car(162,30,"#ef6c00")}${car(162,90,"#6a1b9a")}${amb(120,135)}<path d="M120 112 V8" stroke="#ffd54f" stroke-width="3" stroke-dasharray="6 5"/>`);
-S.emer3=()=>road(`<rect x="30" width="180" height="150" fill="${AS}"/>${solV(36)}${solV(204)}${dashV(90)}${dashV(150)}${car(52,40,"#1565c0")}${car(52,100,"#2e7d32")}${car(130,30,"#ef6c00")}${car(130,90,"#6a1b9a")}${car(188,50,"#00838f")}${car(188,108,"#c62828")}${amb(92,135)}<path d="M92 112 V8" stroke="#ffd54f" stroke-width="3" stroke-dasharray="6 5"/>`);
-S.nieve=()=>V(`<rect width="240" height="150" fill="#eef4f8"/><rect x="40" width="160" height="150" fill="#9aa3ab"/>${dashV(120)}${car(158,40,"#1565c0")}${car(158,105,"#ef6c00")}<rect x="82" y="60" width="28" height="44" rx="4" fill="#ff8f00"/><rect x="78" y="56" width="36" height="8" fill="#555"/><g fill="${W}">${[[20,20],[220,40],[30,90],[210,120],[60,130],[180,15],[130,70],[100,25]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3"/>`).join("")}</g>`);
-S.inmov=()=>road(`<rect x="40" width="150" height="150" fill="${AS}"/>${solV(46)}${solV(170)}${dashV(108)}<rect x="170" width="20" height="150" fill="#6b7178"/>${car(160,50,"#9e9e9e")}<circle cx="160" cy="50" r="5" fill="#ff9800"/><circle cx="160" cy="50" r="10" fill="none" stroke="#ff9800" stroke-width="2" class="bl"/>${car(124,105,"#1565c0")}<path d="M137 92 H148" stroke="${Y}" stroke-width="3"/>${lab(60,24,"? m","#d81e2c")}${lab(78,126,"? km/h","#d81e2c")}`);
-S.pasoNivel=()=>road(`<rect x="95" width="50" height="150" fill="${AS}"/><rect x="0" y="62" width="240" height="26" fill="#795548"/><g stroke="#333" stroke-width="3"><path d="M0 66 H240 M0 84 H240"/></g><g stroke="${R}" stroke-width="5"><path d="M100 104 L128 92" stroke-dasharray="6 5"/></g><rect x="92" y="100" width="8" height="10" fill="${K}"/>${car(132,128,"#1565c0")}${lab(190,120,"barrera subiendo","#0050b5")}`);
-S.anguloMuerto=()=>road(`<rect x="30" width="180" height="150" fill="${AS}"/>${dashV(120)}<path d="M150 50 L210 30 L210 150 L150 110Z" fill="#d81e2c55"/><path d="M90 90 L30 150 L30 60 Z" fill="#d81e2c33"/><rect x="134" y="20" width="32" height="90" rx="4" fill="#eceff1" stroke="#0006"/><rect x="134" y="20" width="32" height="20" rx="4" fill="#90a4ae"/>${car(185,120,"#1565c0")}`);
-S.agenteV=()=>V(`<rect width="240" height="150" fill="#eef2f6"/><g fill="#1a237e"><circle cx="120" cy="34" r="12"/><rect x="104" y="48" width="32" height="50" rx="6"/><rect x="108" y="98" width="10" height="44"/><rect x="122" y="98" width="10" height="44"/><rect x="132" y="4" width="10" height="56" rx="5"/><rect x="98" y="50" width="10" height="40" rx="5"/></g><rect x="106" y="20" width="28" height="8" fill="#fff"/><rect x="104" y="62" width="32" height="6" fill="#c6ff00"/>`);
-S.agenteH=()=>V(`<rect width="240" height="150" fill="#eef2f6"/><g fill="#1a237e"><circle cx="120" cy="34" r="12"/><rect x="104" y="48" width="32" height="50" rx="6"/><rect x="108" y="98" width="10" height="44"/><rect x="122" y="98" width="10" height="44"/><rect x="134" y="50" width="70" height="10" rx="5"/><rect x="36" y="50" width="70" height="10" rx="5"/></g><rect x="106" y="20" width="28" height="8" fill="#fff"/><rect x="104" y="62" width="32" height="6" fill="#c6ff00"/>`);
-S.neumatico=()=>V(`<rect width="240" height="150" fill="#eef2f6"/><rect x="30" y="50" width="180" height="70" rx="14" fill="#222"/><g fill="#eef2f6">${[60,95,130,165].map(x=>`<rect x="${x}" y="50" width="14" height="22"/>`).join("")}</g><path d="M200 50 V72" stroke="${Y}" stroke-width="3"/>${lab(200,30,"? mm","#d81e2c")}`);
-S.v16=()=>V(`<rect width="240" height="150" fill="#cfe8ff"/><rect y="118" width="240" height="32" fill="${AS}"/>${carS(120,112,"#1565c0",2.2)}<rect x="112" y="50" width="16" height="10" rx="3" fill="#ff9800"/><g stroke="#ff9800" stroke-width="3" class="bl"><path d="M120 44 V30 M104 48 L94 38 M136 48 L146 38"/></g>`);
-// ---- ampliación: señales reales del catálogo y pictogramas ----
-const pic=(c,bg="#eef2f6")=>V(`<rect width="240" height="150" fill="${bg}"/>${c}`);
-const ring=(c)=>`<circle cx="120" cy="75" r="62" fill="${W}" stroke="${R}" stroke-width="13"/>${c}`;
-const bar=`<path d="M78 117 L162 33" stroke="${R}" stroke-width="12"/>`;
-const ped=(x,y,s=1,f=K)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="${f}"><circle cy="-30" r="7"/><path d="M-6 -21h10l6 14-4 2-5-9-1 13 7 22h-6l-6-18-4 18h-6l4-24 1-13-4 6-4-2z"/></g>`;
-// señales de peligro (P)
-S.sPeatones=()=>tri(ped(120,108,1.25));
-S.sAnimales=()=>tri(`<path d="M90 110 l6-22 q10-8 26-6 l10-10 6 2 -4 10 6 4 -4 6 -8-2 -2 18 -5 0 1-14 -18 0 -4 14 -6 0 2-12z" fill="${K}"/>`);
-S.sCiervo=()=>tri(`<g fill="${K}"><path d="M92 112 l8-26 q14-6 26-2 l8-8 4 4 -4 6 4 10 -6 2 -4 16 -5 0 2-14 -18 0 -6 12z"/><path d="M134 76 l-4-14 M138 74 l6-14" stroke="${K}" stroke-width="3"/></g>`);
-S.sDesliz=()=>tri(`${carIcon(118,K).replace('translate(118 78)','translate(118 82) scale(.9)')}<path d="M98 112 q8-8 0-14 q-8-6 0-12 M138 112 q-8-8 0-14 q8-6 0-12" stroke="${K}" stroke-width="3" fill="none"/>`);
-S.sHielo=()=>tri(`<g stroke="${K}" stroke-width="5" stroke-linecap="round">${[0,60,120].map(a=>`<path d="M120 74 V114" transform="rotate(${a} 120 94)"/>`).join("")}</g>`);
-S.sViento=()=>tri(`<path d="M96 116 V66" stroke="${K}" stroke-width="5"/><path d="M98 68 L146 76 L146 92 L98 96 Z" fill="${R}" stroke="${K}" stroke-width="2"/><path d="M114 70 v24 M130 72 v22" stroke="${W}" stroke-width="6"/>`);
-S.sObrasP=()=>tri(`<g fill="${K}"><circle cx="112" cy="70" r="6"/><path d="M104 80 l12-2 6 16 -6 18 -6 0 4-16 -6-6 -6 22 -6 0z"/><path d="M122 92 l22 18 h-36z"/></g>`);
-S.sSemaforoP=()=>tri(`<rect x="108" y="58" width="24" height="56" rx="5" fill="${K}"/><circle cx="120" cy="69" r="6" fill="${R}"/><circle cx="120" cy="86" r="6" fill="${Y}"/><circle cx="120" cy="103" r="6" fill="#22c55e"/>`);
-S.sGlorietaP=()=>tri(`<g fill="none" stroke="${K}" stroke-width="6"><path d="M120 76 a16 16 0 1 1 -14 8"/></g><path d="M100 80 l6 10 8-8z" fill="${K}"/>`);
-S.sEstrecha=()=>tri(`<path d="M102 116 V94 L110 76 V60 M138 116 V94 L130 76 V60" stroke="${K}" stroke-width="6" fill="none"/>`);
-S.sCruceP=()=>tri(`<path d="M120 54 V118 M94 90 H146" stroke="${K}" stroke-width="10"/>`);
-S.sDobleSentido=()=>tri(arr(108,92,K,true,.6)+arr(134,92,K,false,.6));
-S.sDesprend=()=>tri(`<path d="M86 116 L118 58 L120 116Z" fill="${K}"/><g fill="${K}"><circle cx="134" cy="92" r="6"/><circle cx="146" cy="108" r="5"/><circle cx="130" cy="110" r="4"/></g>`);
-S.sResalto=()=>tri(`<path d="M86 106 H104 Q120 84 136 106 H154" stroke="${K}" stroke-width="7" fill="none"/>`);
-// reglamentación (R)
-S.sEntradaProh=()=>V(`<circle cx="120" cy="75" r="62" fill="${R}" stroke="${W}" stroke-width="3"/><rect x="78" y="65" width="84" height="20" fill="${W}"/>`);
-S.sCircProh=()=>V(ring(""));
-S.sNoAparcar=()=>V(`<circle cx="120" cy="75" r="62" fill="${BL}" stroke="${R}" stroke-width="13"/><path d="M80 115 L160 35" stroke="${R}" stroke-width="12"/>`);
-S.sNoParar=()=>V(`<circle cx="120" cy="75" r="62" fill="${BL}" stroke="${R}" stroke-width="13"/><path d="M80 115 L160 35 M80 35 L160 115" stroke="${R}" stroke-width="12"/>`);
-S.sGlorietaR=()=>cB(`<g fill="none" stroke="${W}" stroke-width="8">${[0,120,240].map(a=>`<path d="M120 47 a28 28 0 0 1 24 14" transform="rotate(${a} 120 75)"/>`).join("")}</g>${[0,120,240].map(a=>`<path d="M150 58 l-2 14 -12-6z" fill="${W}" transform="rotate(${a} 120 75)"/>`).join("")}`);
-S.sBiciObl=()=>cB(cyc(120,82,1.35).replace(/stroke="#111"/g,'stroke="#fff"').replace('fill="#111"','fill="#fff"'));
-S.sLucesObl=()=>cB(`<path d="M104 52 q-26 23 0 46 z" fill="${W}"/><g stroke="${W}" stroke-width="6" stroke-linecap="round"><path d="M114 58 l40 6 M114 75 l40 6 M114 92 l40 6"/></g>`);
-S.sNoPeatones=()=>V(ring(ped(120,104,1.15))+bar);
-S.sNoBicis=()=>V(ring(cyc(120,82,1.15))+bar);
-S.sNoMotos=()=>V(ring(`<g fill="${K}"><circle cx="96" cy="94" r="12"/><circle cx="146" cy="94" r="12"/><path d="M96 94 l20-26 h18 l12 26 -8 0 -8-16 -12 0 -12 16z"/></g>`));
-S.sNoGiroIzq=()=>V(ring(`<path d="M132 116 V86 Q132 70 116 70 H100" stroke="${K}" stroke-width="10" fill="none"/><path d="M104 56 L84 70 L104 84Z" fill="${K}"/>`)+bar);
-S.sNoCambioSentido=()=>V(ring(`<path d="M104 116 V76 Q104 56 124 56 Q144 56 144 76 V96" stroke="${K}" stroke-width="10" fill="none"/><path d="M132 92 L144 112 L156 92Z" fill="${K}"/>`)+bar);
-S.sNoClaxon=()=>V(ring(`<path d="M92 66 h16 l26-18 v54 l-26-18 h-16z" fill="${K}"/>`)+bar);
-// indicación (S)
-const sq=(c,bg=BL)=>V(`<rect x="52" y="9" width="136" height="132" rx="12" fill="${bg}" stroke="${W}" stroke-width="3"/>${c}`);
-S.sAutopista=()=>sq(`<path d="M86 128 L112 32 H128 L154 128 Z" fill="${W}"/><path d="M120 40 V128" stroke="${BL}" stroke-width="6" stroke-dasharray="12 8"/><path d="M76 74 H164 V64 H76 Z" fill="${W}"/>`);
-S.sTunel=()=>sq(`<path d="M72 126 V84 Q120 28 168 84 V126" fill="${W}"/><path d="M92 126 V90 Q120 54 148 90 V126" fill="${BL}"/>`);
-S.sPasoPeatones=()=>sq(`<path d="M68 122 L120 28 L172 122 Z" fill="${W}"/>${ped(120,108,1.1)}<g fill="${K}">${[0,1,2,3].map(i=>`<rect x="${92+i*16}" y="114" width="10" height="5"/>`).join("")}</g>`);
-S.sParking=()=>sq(T(120,80,"P",96,W));
-S.sCarrilBus=()=>sq(`<rect x="70" y="40" width="100" height="56" rx="8" fill="${W}"/><rect x="78" y="48" width="84" height="22" fill="${BL}"/><circle cx="90" cy="100" r="7" fill="${W}"/><circle cx="150" cy="100" r="7" fill="${W}"/>${T(120,122,"BUS",20,W)}`);
-S.sZona30=()=>V(`<rect x="44" y="9" width="152" height="132" rx="10" fill="${W}" stroke="${K}" stroke-width="3"/><circle cx="120" cy="66" r="42" fill="${W}" stroke="${R}" stroke-width="9"/>${T(120,70,"30",38)}${T(120,128,"ZONA",18)}`);
-S.sSOS=()=>sq(`<rect x="88" y="34" width="64" height="86" rx="6" fill="${W}"/>${T(120,64,"SOS",24,BL)}<rect x="104" y="80" width="32" height="26" rx="4" fill="${BL}"/>`);
-S.sHospital=()=>sq(`<rect x="74" y="30" width="92" height="92" rx="6" fill="${W}"/>${T(120,80,"H",68,BL)}`);
-S.sAutovia=()=>sq(`<path d="M80 128 L108 32 H118 L104 128 Z M160 128 L132 32 H122 L136 128 Z" fill="${W}"/><path d="M76 72 H164 V62 H76Z" fill="${W}"/>`);
-S.sPlacaL=()=>V(`<rect x="70" y="20" width="100" height="110" rx="6" fill="#2e7d32" stroke="${W}" stroke-width="3"/>${T(120,80,"L",86,W)}`);
-// pictogramas
-const pc=(c,bg="#eaf1fb")=>pic(c,bg);
-S.picCopa=()=>pc(`<circle cx="120" cy="75" r="60" fill="${W}" stroke="${R}" stroke-width="10"/><path d="M98 40 h44 q2 34 -22 40 v26 h14 v6 h-34 v-6 h14 v-26 q-24-6 -16-40z" fill="#7b1fa2"/><path d="M80 116 L160 34" stroke="${R}" stroke-width="10"/>`);
-S.picEtilometro=()=>pc(`<rect x="92" y="28" width="56" height="100" rx="14" fill="#37474f"/><rect x="102" y="40" width="36" height="22" rx="3" fill="#a5d6a7"/>${T(120,52,"0,25",12,"#1b5e20")}<rect x="112" y="10" width="16" height="22" rx="4" fill="#90a4ae"/><circle cx="120" cy="96" r="10" fill="#d81e2c"/>`);
-S.picPastillas=()=>pc(`<rect x="70" y="50" width="70" height="30" rx="15" fill="#ef5350" transform="rotate(-25 105 65)"/><rect x="105" y="50" width="35" height="30" rx="15" fill="#fff" transform="rotate(-25 105 65)"/><path d="M150 98 L182 46 L214 98 Z" fill="${W}" stroke="${R}" stroke-width="6"/>${carIcon(182,K).replace('translate(182 78)','translate(182 84) scale(.55)')}`);
-S.picCarnet=()=>pc(`<rect x="44" y="30" width="152" height="94" rx="10" fill="#f8bbd0" stroke="#ad1457" stroke-width="3"/><rect x="58" y="46" width="40" height="50" rx="4" fill="#fce4ec"/><circle cx="78" cy="64" r="10" fill="#ad1457"/><rect x="108" y="48" width="74" height="8" rx="3" fill="#ad1457"/><rect x="108" y="64" width="54" height="7" rx="3" fill="#ec407a"/><circle cx="170" cy="100" r="18" fill="#7b1fa2"/>${T(170,101,"12",16,W)}`);
-S.picMovil=()=>pc(`<circle cx="120" cy="75" r="60" fill="${W}" stroke="${R}" stroke-width="10"/><rect x="100" y="36" width="40" height="76" rx="7" fill="#263238"/><rect x="105" y="44" width="30" height="56" fill="#90caf9"/><path d="M80 116 L160 34" stroke="${R}" stroke-width="10"/>`);
-S.picCinturon=()=>pc(`<rect x="96" y="40" width="56" height="96" rx="20" fill="#90a4ae"/><circle cx="124" cy="32" r="16" fill="#ffccbc"/><path d="M100 46 L150 120 M100 112 H150" stroke="#d81e2c" stroke-width="9" stroke-linecap="round"/><rect x="146" y="104" width="16" height="16" rx="3" fill="#455a64"/>`);
-S.picCasco=()=>pc(`<path d="M70 104 Q70 40 124 40 Q174 40 174 96 L174 104 Z" fill="#d81e2c"/><path d="M128 64 H174 V92 H136 Q124 80 128 64Z" fill="#263238"/><rect x="66" y="102" width="112" height="10" rx="5" fill="#8b0000"/>`);
-S.picSillita=()=>pc(`<path d="M86 30 Q72 30 72 50 V112 H162 V96 H104 V50 Q104 30 86 30Z" fill="#1e88e5"/><circle cx="124" cy="60" r="13" fill="#ffccbc"/><rect x="112" y="72" width="26" height="24" rx="6" fill="#ffb74d"/><path d="M104 74 L138 96" stroke="#263238" stroke-width="5"/>`);
-S.picAuriculares=()=>pc(`<circle cx="120" cy="75" r="60" fill="${W}" stroke="${R}" stroke-width="10"/><path d="M88 96 V78 Q88 44 120 44 Q152 44 152 78 V96" stroke="#263238" stroke-width="8" fill="none"/><rect x="80" y="82" width="18" height="28" rx="6" fill="#263238"/><rect x="142" y="82" width="18" height="28" rx="6" fill="#263238"/><path d="M80 116 L160 34" stroke="${R}" stroke-width="10"/>`);
-S.picBotiquin=()=>pc(`<rect x="66" y="46" width="108" height="76" rx="10" fill="#d81e2c"/><rect x="100" y="34" width="40" height="14" rx="5" fill="none" stroke="#d81e2c" stroke-width="6"/><path d="M120 62 V106 M98 84 H142" stroke="${W}" stroke-width="14"/>`,"#fdecea");
-S.pic112=()=>pc(`<rect x="88" y="22" width="64" height="110" rx="10" fill="#263238"/><rect x="94" y="32" width="52" height="80" fill="#e3f2fd"/>${T(120,72,"112",26,"#d81e2c")}`,"#fdecea");
-S.picRCP=()=>pc(`<rect x="40" y="96" width="160" height="10" rx="5" fill="#90a4ae"/><ellipse cx="110" cy="88" rx="58" ry="12" fill="#ffccbc"/><circle cx="56" cy="84" r="12" fill="#ffccbc"/><path d="M104 40 V74 M128 40 V74" stroke="#1565c0" stroke-width="10" stroke-linecap="round"/><rect x="96" y="70" width="40" height="10" rx="5" fill="#ffccbc"/>${T(175,50,"30:2",22,"#d81e2c")}`,"#fdecea");
-S.picFuego=()=>pc(`${carS(120,108,"#607d8b",2)}<path d="M120 30 q20 22 8 40 q14-6 12-24 q22 30 0 52 h-40 q-18-24 6-48 q2 14 10 18 q-10-20 4-38z" fill="#ff7043"/>`,"#fff3e0");
-S.picAccidente=()=>pc(`${carS(90,100,"#1565c0",1.6)}${carS(160,92,"#ef6c00",1.6,-1)}<path d="M124 64 l6 12 12-4 -8 10 10 8 -14 -2 -2 14 -6-12 -10 6 4-12z" fill="#ffd54f"/>`,"#fff3e0");
-S.picAirbag=()=>pc(`<circle cx="100" cy="80" r="40" fill="none" stroke="#263238" stroke-width="10"/><ellipse cx="150" cy="78" rx="44" ry="40" fill="#fafafa" stroke="#b0bec5" stroke-width="3"/>${T(150,80,"AIRBAG",14,"#90a4ae")}`);
-S.picReposa=()=>pc(`<path d="M96 140 V70 Q96 58 108 58 H140 Q152 58 152 70 V140" fill="#546e7a"/><rect x="104" y="18" width="40" height="30" rx="10" fill="#37474f"/><circle cx="124" cy="40" r="15" fill="#ffccbc"/><path d="M104 22 H160" stroke="#d81e2c" stroke-width="3" stroke-dasharray="5 4"/>`);
-S.picMotor=()=>pc(`<rect x="70" y="56" width="100" height="56" rx="8" fill="#546e7a"/><rect x="84" y="44" width="72" height="16" rx="4" fill="#78909c"/><rect x="176" y="40" width="18" height="70" rx="9" fill="#fff" stroke="#d81e2c" stroke-width="3"/><rect x="181" y="56" width="8" height="50" rx="4" fill="#d81e2c"/><path d="M40 70 q8-8 0-16 M52 70 q8-8 0-16" stroke="#90a4ae" stroke-width="4" fill="none"/>`);
-S.picFrenos=()=>pc(`<circle cx="120" cy="78" r="52" fill="#455a64"/><circle cx="120" cy="78" r="38" fill="#90a4ae"/><circle cx="120" cy="78" r="10" fill="#455a64"/><path d="M150 40 h30 v76 h-30 q16-38 0-76z" fill="#d81e2c"/>${T(204,30,"ABS",16,"#d81e2c")}`);
-S.picITV=()=>pc(`<circle cx="120" cy="75" r="52" fill="#43a047"/><circle cx="120" cy="75" r="40" fill="#fff"/>${T(120,70,"ITV",24,"#2e7d32")}${T(120,94,"2026",14,"#2e7d32")}<g fill="#2e7d32">${Array.from({length:12},(_,i)=>`<rect x="118" y="25" width="4" height="8" transform="rotate(${i*30} 120 75)"/>`).join("")}</g>`);
-S.picSeguro=()=>pc(`<rect x="70" y="20" width="100" height="120" rx="8" fill="${W}" stroke="#90a4ae" stroke-width="3"/><path d="M120 40 l28 10 v22 q0 26 -28 36 q-28-10 -28-36 v-22z" fill="#1e88e5"/><path d="M108 74 l10 10 18-20" stroke="#fff" stroke-width="6" fill="none"/>`);
-S.picMulta=()=>pc(`<rect x="66" y="22" width="108" height="112" rx="8" fill="${W}" stroke="#90a4ae" stroke-width="3"/><rect x="80" y="38" width="80" height="8" rx="3" fill="#90a4ae"/><rect x="80" y="54" width="60" height="7" rx="3" fill="#cfd8dc"/>${T(120,100,"200 €",28,"#d81e2c")}`);
-S.picCalendario=()=>pc(`<rect x="70" y="30" width="100" height="96" rx="10" fill="${W}" stroke="#90a4ae" stroke-width="3"/><rect x="70" y="30" width="100" height="26" rx="10" fill="#d81e2c"/>${T(120,92,"2",44,"#263238")}${T(120,118,"años",12,"#546e7a")}`);
-S.picOjo=()=>pc(`<path d="M50 75 Q120 10 190 75 Q120 140 50 75Z" fill="${W}" stroke="#263238" stroke-width="5"/><circle cx="120" cy="75" r="26" fill="#1e88e5"/><circle cx="120" cy="75" r="11" fill="#111"/><path d="M60 52 L72 62 M92 34 L98 48 M148 34 L142 48 M180 52 L168 62" stroke="#263238" stroke-width="4"/>`);
-S.picCafe=()=>pc(`<path d="M80 60 h70 v34 q0 26 -35 26 q-35 0 -35-26z" fill="#6d4c41"/><path d="M150 70 q22 0 22 14 q0 14 -22 14" stroke="#6d4c41" stroke-width="7" fill="none"/><path d="M100 50 q6-10 0-20 M120 50 q6-10 0-20" stroke="#a1887f" stroke-width="4" fill="none"/>${T(190,40,"Zz",22,"#7b1fa2")}`,"#f3e5f5");
-S.picEco=()=>pc(`<rect x="70" y="40" width="62" height="92" rx="6" fill="#43a047"/><rect x="80" y="52" width="42" height="26" rx="3" fill="#c8e6c9"/><path d="M132 60 h14 l10 12 v40 q0 8 -8 8 q-8 0 -8-8 v-26" stroke="#43a047" stroke-width="6" fill="none"/><path d="M168 40 q26 6 22 38 q-30 2 -30-22 q2-12 8-16z" fill="#66bb6a"/>`,"#e8f5e9");
-S.picCuentarrev=()=>pc(`<path d="M50 112 A70 70 0 0 1 190 112" stroke="#263238" stroke-width="14" fill="none"/><path d="M155 63 A70 70 0 0 1 190 112" stroke="#d81e2c" stroke-width="14" fill="none"/><path d="M78 72 A70 70 0 0 1 110 46" stroke="#43a047" stroke-width="14" fill="none"/><path d="M120 112 L96 60" stroke="#111" stroke-width="6" stroke-linecap="round"/><circle cx="120" cy="112" r="9" fill="#111"/>${T(120,136,"rpm",13,"#546e7a")}`,"#e8f5e9");
-S.picNiebla=()=>V(`<rect width="240" height="150" fill="#b0bec5"/><rect x="70" y="80" width="100" height="70" fill="#78909c"/><g stroke="#eceff1" stroke-width="10" stroke-linecap="round" opacity=".85">${[30,52,74,96].map((y,i)=>`<path d="M${10+i*12} ${y} H${230-i*10}"/>`).join("")}</g><circle cx="98" cy="118" r="7" fill="#fff59d"/><circle cx="142" cy="118" r="7" fill="#fff59d"/>`);
-S.picLluvia=()=>V(`<rect width="240" height="150" fill="#90a4ae"/><rect y="105" width="240" height="45" fill="#546e7a"/><g stroke="#e3f2fd" stroke-width="3">${Array.from({length:22},(_,i)=>`<path d="M${(i*23)%240} ${(i*37)%90} l-8 18"/>`).join("")}</g>${carS(120,118,"#1565c0",1.5)}<ellipse cx="120" cy="134" rx="70" ry="5" fill="#bbdefb" opacity=".6"/>`);
-S.picSol=()=>V(`<rect width="240" height="150" fill="#ffcc80"/><circle cx="120" cy="96" r="34" fill="#fff59d"/><rect y="100" width="240" height="50" fill="#5d4037"/><path d="M100 150 L118 100 H122 L140 150Z" fill="#8d6e63"/><path d="M60 0 L0 50 V0Z" fill="#37474f"/>`);
-S.picNoche=()=>V(`<rect width="240" height="150" fill="#0d1b2a"/><circle cx="196" cy="30" r="14" fill="#fff9c4"/><path d="M80 150 L112 70 H128 L160 150Z" fill="#37474f"/><path d="M120 150 V70" stroke="#fff" stroke-width="3" stroke-dasharray="10 8"/><path d="M96 150 L112 96 L128 96 L144 150Z" fill="#fff59d" opacity=".35"/>`);
-S.picMoto=()=>pc(`<g><circle cx="78" cy="104" r="22" fill="none" stroke="#263238" stroke-width="9"/><circle cx="168" cy="104" r="22" fill="none" stroke="#263238" stroke-width="9"/><path d="M78 104 L110 66 H146 L168 104" stroke="#d81e2c" stroke-width="10" fill="none"/><path d="M110 66 L100 52 H90" stroke="#263238" stroke-width="6" fill="none"/><circle cx="128" cy="36" r="13" fill="#d81e2c"/><path d="M118 48 L132 66" stroke="#263238" stroke-width="12"/></g>`);
-S.picBici=()=>pc(cyc(120,88,2.4).replace(/stroke="#111"/g,'stroke="#1565c0"'));
-S.picPatinete=()=>pc(`<circle cx="76" cy="116" r="12" fill="none" stroke="#263238" stroke-width="6"/><circle cx="168" cy="116" r="12" fill="none" stroke="#263238" stroke-width="6"/><path d="M76 116 H168 L150 30 H136" stroke="#00897b" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="88" y="104" width="64" height="8" rx="4" fill="#263238"/>`);
-S.picCamion=()=>pc(`<rect x="40" y="46" width="112" height="62" rx="4" fill="#eceff1" stroke="#90a4ae" stroke-width="3"/><path d="M152 62 h30 l18 22 v24 h-48z" fill="#1565c0"/><rect x="160" y="68" width="20" height="16" fill="#bbdefb"/><circle cx="70" cy="112" r="12" fill="#263238"/><circle cx="120" cy="112" r="12" fill="#263238"/><circle cx="182" cy="112" r="12" fill="#263238"/>`);
-S.picAutobus=()=>pc(`<rect x="40" y="40" width="160" height="70" rx="12" fill="#ffb300"/><g fill="#e3f2fd">${[52,82,112,142].map(x=>`<rect x="${x}" y="52" width="24" height="22" rx="3"/>`).join("")}</g><rect x="172" y="52" width="20" height="46" rx="3" fill="#e3f2fd"/><circle cx="74" cy="112" r="12" fill="#263238"/><circle cx="166" cy="112" r="12" fill="#263238"/>`);
-S.picAmbulancia=()=>pc(`<rect x="40" y="48" width="120" height="62" rx="6" fill="${W}" stroke="#90a4ae" stroke-width="3"/><path d="M160 64 h24 l16 20 v26 h-40z" fill="${W}" stroke="#90a4ae" stroke-width="3"/><path d="M100 62 V96 M83 79 H117" stroke="#d81e2c" stroke-width="10"/><rect x="128" y="38" width="24" height="10" rx="3" fill="#1e88e5"/><circle cx="74" cy="112" r="12" fill="#263238"/><circle cx="170" cy="112" r="12" fill="#263238"/>`);
-S.picTranvia=()=>pc(`<rect x="44" y="44" width="152" height="64" rx="16" fill="#e53935"/><g fill="#e3f2fd">${[58,92,126,160].map(x=>`<rect x="${x}" y="56" width="24" height="24" rx="3"/>`).join("")}</g><path d="M120 44 L104 20 H136" stroke="#263238" stroke-width="4" fill="none"/><path d="M30 122 H210 M30 130 H210" stroke="#263238" stroke-width="4"/>`);
-S.picPeatonMayor=()=>pc(`${ped(110,118,2.2,"#37474f")}<path d="M140 70 L150 136" stroke="#795548" stroke-width="6" stroke-linecap="round"/>`);
-S.picEspejos=()=>pc(`<rect x="40" y="30" width="160" height="44" rx="22" fill="#263238"/><rect x="50" y="38" width="140" height="28" rx="14" fill="#90caf9"/><path d="M120 74 V96" stroke="#263238" stroke-width="8"/>${carS(150,52,"#ef6c00",.6)}`);
-S.picVolante=()=>pc(`<circle cx="120" cy="80" r="52" fill="none" stroke="#263238" stroke-width="14"/><circle cx="120" cy="80" r="14" fill="#263238"/><path d="M68 80 H106 M134 80 H172 M120 94 V132" stroke="#263238" stroke-width="12"/>`);
-S.picDocumento=()=>pc(`<rect x="70" y="20" width="100" height="120" rx="8" fill="${W}" stroke="#90a4ae" stroke-width="3"/>${[44,60,76,92].map(y=>`<rect x="84" y="${y}" width="${y==92?48:72}" height="7" rx="3" fill="#b0bec5"/>`).join("")}<circle cx="150" cy="116" r="14" fill="#1565c0"/>`);
-S.picMascota=()=>pc(`<rect x="60" y="56" width="120" height="70" rx="12" fill="#8d6e63"/><g stroke="#5d4037" stroke-width="4">${[80,100,120,140,160].map(x=>`<path d="M${x} 66 V116"/>`).join("")}</g><circle cx="120" cy="92" r="16" fill="#ffb74d"/><path d="M106 80 l-6-12 10 6 M134 80 l6-12 -10 6" fill="#ffb74d"/>`);
-S.picCarga=()=>pc(`${carS(110,104,"#1565c0",2)}<rect x="54" y="50" width="70" height="14" rx="3" fill="#8d6e63"/><path d="M150 62 h40 v30 h-40z" fill="url(#st2)"/><defs><pattern id="st2" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="12" fill="#c8102e"/><rect x="6" width="6" height="12" fill="#fff"/></pattern></defs>`);
-S.picGrua=()=>pc(`<rect x="30" y="70" width="110" height="40" rx="5" fill="#ffb300"/><path d="M120 70 L170 30 L176 36 L132 72" fill="#ffb300"/><path d="M172 34 V70" stroke="#263238" stroke-width="3"/>${carS(190,96,"#607d8b",1)}<circle cx="60" cy="112" r="11" fill="#263238"/><circle cx="116" cy="112" r="11" fill="#263238"/>`);
-S.picConos=()=>road(`<rect x="60" width="120" height="150" fill="${AS}"/>${dashV(120)}${[0,1,2,3].map(i=>`<path d="M${150-i*8} ${30+i*28} l8 18 h-16z" fill="#ff7043"/>`).join("")}${car(96,110,"#1565c0")}`);
-S.picAdelantar=()=>road(`<rect x="70" width="100" height="150" fill="${AS}"/>${dashV(120)}${solV(76)}${solV(164)}${car(144,60,"#9e9e9e")}${car(98,96,"#1565c0")}<path d="M98 76 Q100 50 140 36" stroke="#ffd54f" stroke-width="3" fill="none" stroke-dasharray="6 5"/>`);
-S.picIncorporacion=()=>road(`<rect x="110" width="90" height="150" fill="${AS}"/>${dashV(155)}<path d="M40 150 Q100 110 112 60" stroke="${AS}" stroke-width="34" fill="none"/>${car(178,60,"#ef6c00")}${car(72,120,"#1565c0",35)}`);
-S.picAparcar=()=>V(`<rect width="240" height="150" fill="${AS}"/><rect x="190" width="50" height="150" fill="#cfd3d8"/>${car(170,40,"#9e9e9e")}${car(170,120,"#9e9e9e")}${car(165,80,"#1565c0",-12)}<path d="M120 112 Q150 96 160 82" stroke="#ffd54f" stroke-width="3" fill="none" stroke-dasharray="6 5"/>`);
-S.picPuerta=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}${car(150,80,"#1565c0")}<path d="M140 74 L116 60" stroke="#1565c0" stroke-width="5"/>${bikeT(104,32)}`);
-S.picGiroIzq=()=>road(`<rect x="0" y="50" width="240" height="50" fill="${AS}"/><rect x="95" y="0" width="50" height="150" fill="${AS}"/>${dashV(120)}<path d="M0 75 H240" stroke="${W}" stroke-width="3" stroke-dasharray="14 12"/>${car(126,120,"#1565c0")}<path d="M126 100 Q126 66 90 64" stroke="#ffd54f" stroke-width="3" fill="none" stroke-dasharray="6 5"/>`);
-S.picMarchaAtras=()=>road(`<rect x="80" width="80" height="150" fill="${AS}"/>${car(120,60,"#1565c0")}<path d="M120 84 V130" stroke="#ffd54f" stroke-width="4"/><path d="M110 122 L120 140 L130 122Z" fill="#ffd54f"/>${lab(190,110,"? m","#d81e2c")}`);
-S.picGrupoBicis=()=>road(`<rect x="0" y="50" width="240" height="50" fill="${AS}"/><rect x="95" y="0" width="50" height="150" fill="${AS}"/>${bikeT(130,60,90)}${bikeT(160,62,90)}${bikeT(190,60,90)}${car(108,120,"#1565c0")}`);
-S.picPeatonCruce=()=>road(`<rect x="0" y="50" width="240" height="50" fill="${AS}"/><rect x="95" y="0" width="50" height="150" fill="${AS}"/><g fill="${W}">${[0,1,2,3,4].map(i=>`<rect x="${150+i*10}" y="54" width="6" height="42"/>`).join("")}</g>${ped(176,90,.7)}${car(132,124,"#1565c0")}<path d="M132 104 Q132 80 160 76" stroke="#ffd54f" stroke-width="3" fill="none" stroke-dasharray="6 5"/>`);
-S.picEmergenciaLuces=()=>V(`<rect width="240" height="150" fill="#cfe8ff"/><rect y="118" width="240" height="32" fill="${AS}"/>${carS(120,112,"#1565c0",2.2)}<circle cx="68" cy="102" r="7" fill="#ff9800" class="bl"/><circle cx="174" cy="102" r="7" fill="#ff9800" class="bl"/>`);
-S.picCurvaMontana=()=>V(`<rect width="240" height="150" fill="#a5d6a7"/><path d="M0 150 L80 60 L140 120 L240 30 V150Z" fill="#6d8f5c"/><path d="M40 150 Q60 70 140 70 Q210 70 200 0" stroke="${AS}" stroke-width="26" fill="none"/>${car(80,108,"#1565c0",20)}`);
-S.picAutopistaTres=()=>road(`<rect x="30" width="180" height="150" fill="${AS}"/>${solV(36)}${solV(204)}${dashV(90)}${dashV(150)}${car(180,90,"#1565c0")}${car(120,40,"#9e9e9e")}${car(60,70,"#9e9e9e")}`);
-S.picSalida=()=>road(`<rect x="60" width="100" height="150" fill="${AS}"/>${dashV(110)}<path d="M160 150 V100 Q160 50 220 0" stroke="${AS}" stroke-width="40" fill="none"/>${car(176,90,"#1565c0",15)}<rect x="164" y="20" width="56" height="24" rx="3" fill="${BL}"/>${T(192,33,"Salida",11,W)}`);
-S.picViajeros=()=>V(`<rect width="240" height="150" fill="${AS}"/>${acera}<rect x="150" y="30" width="44" height="100" rx="6" fill="#ffb300"/>${ped(130,110,.8,"#eceff1")}${car(100,70,"#1565c0")}`);
-S.picRetencion=()=>road(`<rect x="50" width="140" height="150" fill="${AS}"/>${dashV(120)}${[20,60,100].map(y=>car(88,y,"#9e9e9e")+car(152,y+10,"#9e9e9e")).join("")}<g fill="#ff1744">${[20,60,100].map(y=>`<rect x="80" y="${y+15}" width="5" height="3"/><rect x="91" y="${y+15}" width="5" height="3"/>`).join("")}</g>${car(152,140,"#1565c0")}`);
-S.picDefinicion=()=>pc(`<rect x="60" y="30" width="120" height="96" rx="6" fill="#1565c0"/><rect x="70" y="38" width="100" height="80" rx="3" fill="#fff"/>${[52,66,80,94].map(y=>`<rect x="82" y="${y}" width="${y==94?50:76}" height="6" rx="3" fill="#90a4ae"/>`).join("")}${carS(180,120,"#ef6c00",.9)}`);
-S.picEstadistica=()=>pc(`<g>${[[60,70],[96,50],[132,90],[168,40]].map(([x,h])=>`<rect x="${x}" y="${120-h}" width="26" height="${h}" rx="4" fill="#d81e2c"/>`).join("")}</g><path d="M50 122 H200" stroke="#263238" stroke-width="3"/>`,"#fdecea");
-S.picChaleco=()=>pc(`<path d="M86 30 L104 30 Q120 50 136 30 L154 30 L170 60 V134 H70 V60Z" fill="#c6ff00"/><path d="M70 92 H170 M70 112 H170" stroke="#cfd8dc" stroke-width="8"/>`,"#f1f8e9");
-S.picVideo=()=>pc(`<rect x="40" y="26" width="160" height="100" rx="10" fill="#263238"/><path d="M106 56 L144 76 L106 96Z" fill="${W}"/><rect x="52" y="112" width="136" height="4" rx="2" fill="#546e7a"/><rect x="52" y="112" width="60" height="4" rx="2" fill="#d81e2c"/>`);
-S.picCatalogo=()=>pc(`<svg x="4" y="18" width="80" height="114" viewBox="45 5 150 140">${tri("").replace(/<svg[^>]*>|<\/svg>/g,"")}</svg><svg x="80" y="18" width="80" height="114" viewBox="45 5 150 140">${cR(T(120,78,"50",52)).replace(/<svg[^>]*>|<\/svg>/g,"")}</svg><svg x="156" y="18" width="80" height="114" viewBox="45 5 150 140">${cB(arr(120,75,W,true,1.1)).replace(/<svg[^>]*>|<\/svg>/g,"")}</svg>`);
-S.picTesting=()=>pc(`<rect x="60" y="24" width="120" height="104" rx="10" fill="${W}" stroke="#90a4ae" stroke-width="3"/>${[44,70,96].map((y,i)=>`<circle cx="82" cy="${y}" r="8" fill="${i==1?"#43a047":"none"}" stroke="#90a4ae" stroke-width="3"/><rect x="98" y="${y-4}" width="64" height="8" rx="3" fill="#cfd8dc"/>`).join("")}`);
-S.picAnimal=()=>V(`<rect width="240" height="150" fill="#0d1b2a"/><path d="M60 150 L110 60 H130 L180 150Z" fill="#37474f"/><g fill="#fff59d"><circle cx="186" cy="74" r="4"/><circle cx="198" cy="74" r="4"/></g><path d="M80 150 L112 96 H128 L160 150Z" fill="#fff59d" opacity=".3"/>`);
-
-// reglas por palabras clave (se aplican si la pregunta no tiene imagen propia)
+const MAP=[
+["Turismo en autovía, sin ninguna señal","autovia"],["Turismo en carretera convencional, sin señal","convencional"],["Calle urbana con un solo carril por sentido","calle1"],["plataforma única). ¿Límite","plataforma"],["Calle urbana con dos carriles por sentido","calle2"],
+["señal redonda con borde rojo y el número 70","r70"],["señal redonda de fondo azul con el número 30","min30"],["señal rectangular azul con el número 60","ac60"],["zona residencial (señal azul","sResid"],["panel de mensaje variable indica 80","r80"],
+["señal triangular con borde rojo indica","sPeligro"],["señal circular de fondo azul indica","sObl"],["cruce sin ninguna señal ni semáforo","cruce"],["Vas a entrar en una glorieta","glorieta"],["En una glorieta se circula","glorieta"],["Ves una pelota y varios niños","sNinos"],["Tramo estrecho de gran pendiente","pendiente"],["Semáforo en ámbar fijo","semAmbar"],["Semáforo en ámbar intermitente","semAmbarBl"],["levanta el brazo verticalmente","agenteV"],["Llegas a un STOP","sStop"],["Un agente te indica que pases y el semáforo","sRojo"],
+["En un túnel, un turismo debe dejar","tunel"],["distancia de seguridad se recomienda","dosSeg"],["Adelantas a un ciclista en carretera. ¿Separación","adelBici"],
+["señalizar avería","v16"],["Tu coche se avería en carretera en diciembre","v16"],["¿Dónde se coloca la baliza V16?","v16"],["Profundidad mínima legal del dibujo","neumatico"],["Circulas detrás de un camión y no ves","anguloMuerto"],["Zona de Bajas Emisiones (ZBE). ¿Qué","sZBE"],["coche 100% eléctrico de batería","et0"],["híbridos no enchufables","etECO"],
+["señales verticales con fondo amarillo","sObras"],["línea amarilla continua en el bordillo","bordCont"],["línea amarilla discontinua en el bordillo","bordDisc"],["cuadrícula amarilla","cuadricula"],["línea transversal continua en un cruce","lStop"],["triángulos blancos pintados","lCeda"],["línea continua al lado de una discontinua","lineas"],
+["Dos luces rojas que se encienden alternativamente","semRojoAlt"],["aspa roja encima de tu carril","semCarril"],["brazo extendido horizontalmente","agenteH"],["rombo amarillo de borde blanco","sPrio"],["flecha blanca grande hacia arriba","sPrioSobre"],["flecha roja hacia arriba y negra","sPrioContra"],["línea diagonal negra o gris","sFinProh"],["Cruz de San Andrés","sSanAndres"],["señal blanca con el nombre de una localidad","sPoblado"],["silueta de una locomotora","sLoco"],["forma de triángulo con el vértice hacia abajo","sCeda"],["señal octogonal roja","sStop"],
+["salir de una glorieta?","glorieta"],["por qué carril debes salir","glorieta"],["no puedes cambiar al exterior","glorieta"],["neumático con cadenas","sCadenas"],["presión de aceite","aceite"],["sobresale por detrás del vehículo","v20"],["Autovía con dos carriles por sentido. Para adelantar a un ciclista","adelBici"]
+];
+const extra=[["placa L","sPlacaL"],["parada de más de un minuto","picEco"],["carretera convencional sin señal, ¿a qué velocidad mínima","convencional"],["Circular muy por debajo del límite","convencional"],["más ocupantes que plazas","picSillita"],["temperatura del motor","picMotor"],["Saltarte un semáforo en rojo","sRojo"],["No respetar una señal de STOP","sStop"],["Adelantar a un ciclista sin dejar","adelBici"],["Circular en sentido contrario","sEntradaProh"],["calle de sentido único, ¿en qué lado","picAparcar"],["zona azul","sParking"],["paso de peatones","sPasoPeatones"],["prohibido estacionar","sNoAparcar"],["¿Dónde está prohibido estacionar","sNoAparcar"],["línea amarilla pintada en la calzada","lAmarilla"],["¿Se puede pisar una línea continua","lineas"],["balón sale rodando","sNinos"],["autobús está parado en su parada","picViajeros"],["luz amarilla giratoria","picGrua"],["prioritarios (policía","picAmbulancia"],["curva de visibilidad reducida","sCurva"],["Autopista con tres carriles","picAutopistaTres"],["autovía de tres carriles por sentido, ¿puede un turismo con remolque","picAutopistaTres"],["Un grupo de ciclistas","picGrupoBicis"],["Giras a la derecha y un peatón","picPeatonCruce"],["Giras a la derecha y cruzas un carril bici","sBiciObl"],["tranvía por tu izquierda","picTranvia"],["vía está asfaltada y la otra es de tierra","cruce"],["estrechamiento sin señalizar y sin pendiente","sEstrecha"],["Sales de un garaje","picAparcar"],["Te incorporas a una vía","picIncorporacion"],["En el carril de aceleración","picIncorporacion"],["Vas a salir de la autopista","picSalida"],["Te pasas la salida","picSalida"],["calle de doble sentido, te colocas","picGiroIzq"],["calle de sentido único, te colocas","picGiroIzq"],["luces de freno en cadena","picRetencion"],["retención repentina","picRetencion"],["vehículo parado en el arcén con la V16","inmov"],["Un camión gira a la derecha","anguloMuerto"],["dos ojos brillantes","picAnimal"],["peatón mayor","picPeatonMayor"],["peatones son los más imprevisibles","picPeatonMayor"],["Un medicamento lleva un pictograma","picPastillas"],["menor de edad conduce un ciclomotor","picEtilometro"],["mueve a un herido","picAccidente"],["¿Debes mover a un herido","picAccidente"],["vídeos que la DGT","picVideo"],["catálogo de señales","picCatalogo"],["municipios están obligados","sZBE"],["Ciclomotor de dos ruedas, ¿qué velocidad","sMax45"],["¿Velocidad máxima de un ciclomotor","picMoto"],["Una motocicleta, ¿es un automóvil","picMoto"],["cuatriciclo ligero","picDefinicion"],["calle estrecha con coches aparcados","picPuerta"],["Un coche aparcado tiene las ruedas giradas","picAparcar"],["El ciclista que va delante mira","picBici"],["Un niño en bicicleta","picBici"],["curva cerrada sin visibilidad","picCurvaMontana"],["Un coche que va delante frena","picRetencion"],["Un coche en la vía de al lado","picAutopistaTres"],["intermitente puesto","picAutopistaTres"],["Delante de ti, un conductor da bandazos","picAdelantar"],["autopista o autovía supone","picMarchaAtras"],["Te detectan cannabis","picPastillas"],["cocaína","picPastillas"],["cannabis al volante","picPastillas"],["Mezclar alcohol con algunos medicamentos","picPastillas"],["Una carga que sobresale","v20"],["Tienes que bajarte del coche","picChaleco"],["animales por una carretera convencional","sAnimales"],["estado de frenos y neumáticos","picFrenos"],["peatón que camina por una carretera sin arcén","picNoche"],["peatón que camina de noche","picNoche"],["accidente leve sin heridos","picAccidente"]];
 const RULES=[
 [/v16|baliza/,"v16"],[/seguro obligatorio|seguro/,"picSeguro"],[/muertes|jóvenes|preventiva/,"picEstadistica"],[/mantenimiento|fallos del vehículo/,"picMotor"],[/«detención»/,"picDefinicion"],[/cambio de sentido/,"sNoCambioSentido"],[/intermitente|emergencia \(todos/,"picEmergenciaLuces"],[/inmovilizado/,"picEmergenciaLuces"],[/primera marcha|revoluciones/,"picCuentarrev"],[/temperatura del motor|arrancar el motor|motor parado/,"picMotor"],[/triángulos/,"v16"],[/chaleco/,"picChaleco"],
 [/glorieta/,"glorieta"],[/paso a nivel/,"pasoNivel"],[/túnel/,"sTunel"],
@@ -811,24 +565,15 @@ const RULES=[
 [/espejos/,"picEspejos"],[/titular/,"picDocumento"],[/midgt/,"picCarnet"]
 ];
 const TOPIC_IMG={"Velocidad":"convencional","Alcohol y drogas":"picEtilometro","Puntos y permisos":"picCarnet","Señales y prioridad":"picCatalogo","Maniobras":"picAdelantar","Emergencias":"picBotiquin","Vehículo":"picMotor","Novedades 2025-26":"sZBE","Percepción del riesgo":"sPeligro","Luces":"sLucesObl","Motos y bicis":"picMoto","Conducción eficiente":"picEco","Factores humanos":"picOjo","Clima y vía":"picLluvia","Reforma oct. 2026":"picBici","Definiciones":"picDefinicion"};
+const O2N={"sStop": "stop", "sCeda": "ceda", "sPeligro": "p50", "sObras": "e:construction", "sNinos": "p21", "sCiclista": "p22", "sCurva": "p13a", "sLoco": "p8", "sBarreras": "p7", "sNoAdelantar": "r305", "sFinProh": "r500", "sPrio": "r3", "sFinPrio": "r4", "sPrioSobre": "r6", "sPrioContra": "r5", "sSanAndres": "p11", "sPoblado": "s500", "sResid": "s28", "sCadenas": "r412", "sObl": "r400a", "sZBE": "etiq", "et0": "cero", "etECO": "eco", "v20": "e:articulated-lorry", "aceite": "e:oil-drum", "semAmbar": "e:vertical-traffic-light", "semAmbarBl": "e:vertical-traffic-light", "semRojoAlt": "p7", "semCarril": "e:motorway", "sRojo": "e:vertical-traffic-light", "autovia": "s1a", "convencional": "e:oncoming-automobile", "calle1": "e:cityscape", "calle2": "e:cityscape", "plataforma": "e:person-walking", "lineas": "e:motorway", "lStop": "stop", "lCeda": "ceda", "cuadricula": "e:vertical-traffic-light", "bordCont": "r307", "bordDisc": "r308", "cebreado": "e:prohibited", "lAmarilla": "e:construction", "glorieta": "r402", "cruce": "p2", "pendiente": "e:mountain", "tunel": "s5", "dosSeg": "e:stopwatch", "adelBici": "p22", "bici5m": "e:bicycle", "sCiclistaCasco": "e:bicycle", "emer2": "e:ambulance", "emer3": "e:ambulance", "nieve": "r412", "inmov": "e:warning", "pasoNivel": "p7", "anguloMuerto": "e:articulated-lorry", "agenteV": "e:police-officer", "agenteH": "e:police-officer", "neumatico": "e:wrench", "v16": "e:police-car-light", "sPeatones": "p20", "sAnimales": "p23", "sCiervo": "p24", "sDesliz": "p19", "sHielo": "p34", "sViento": "p29", "sObrasP": "p18", "sSemaforoP": "p3", "sGlorietaP": "p4", "sEstrecha": "p17", "sCruceP": "p1", "sDobleSentido": "p25", "sDesprend": "e:mountain", "sResalto": "e:warning", "sEntradaProh": "r101", "sCircProh": "r100", "sNoAparcar": "r308", "sNoParar": "r307", "sGlorietaR": "r402", "sBiciObl": "r407a", "sLucesObl": "r413", "sNoPeatones": "r116", "sNoBicis": "r114", "sNoMotos": "r104", "sNoGiroIzq": "r303", "sNoCambioSentido": "r304", "sNoClaxon": "r310", "sAutopista": "s1", "sTunel": "s5", "sPasoPeatones": "s13", "sParking": "s17", "sCarrilBus": "s51", "sZona30": "s30old", "sSOS": "e:telephone-receiver", "sHospital": "e:hospital", "sAutovia": "s1a", "sPlacaL": "e:identification-card", "picCopa": "e:wine-glass", "picEtilometro": "e:wine-glass", "picPastillas": "e:pill", "picCarnet": "e:identification-card", "picMovil": "e:no-mobile-phones", "picCinturon": "e:seat", "picCasco": "e:motorcycle", "picSillita": "e:baby", "picAuriculares": "e:headphone", "picBotiquin": "e:adhesive-bandage", "pic112": "e:telephone-receiver", "picRCP": "e:stethoscope", "picFuego": "e:fire", "picAccidente": "e:collision", "picAirbag": "e:collision", "picReposa": "e:seat", "picMotor": "e:mechanic", "picFrenos": "e:racing-car", "picITV": "e:hammer-and-wrench", "picSeguro": "e:shield", "picMulta": "e:money-with-wings", "picCalendario": "e:calendar", "picOjo": "e:eye", "picCafe": "e:yawning-face", "picEco": "e:leaf-fluttering-in-wind", "picCuentarrev": "e:fuel-pump", "picNiebla": "e:fog", "picLluvia": "e:cloud-with-rain", "picSol": "e:sunset", "picNoche": "e:night-with-stars", "picMoto": "e:motorcycle", "picBici": "e:bicycle", "picPatinete": "e:kick-scooter", "picCamion": "e:articulated-lorry", "picAutobus": "e:bus", "picAmbulancia": "e:ambulance", "picTranvia": "e:tram", "picPeatonMayor": "e:old-woman", "picEspejos": "e:eye", "picVolante": "e:automobile", "picDocumento": "e:memo", "picMascota": "e:dog", "picCarga": "e:delivery-truck", "picGrua": "e:tractor", "picConos": "e:construction", "picAdelantar": "e:automobile", "picIncorporacion": "e:motorway", "picAparcar": "s17", "picPuerta": "e:bicycle", "picGiroIzq": "e:automobile", "picMarchaAtras": "e:automobile", "picGrupoBicis": "e:bicycle", "picPeatonCruce": "s13", "picEmergenciaLuces": "e:warning", "picCurvaMontana": "e:snow-capped-mountain", "picAutopistaTres": "e:motorway", "picSalida": "s1", "picViajeros": "e:bus-stop", "picRetencion": "e:police-car-light", "picDefinicion": "e:books", "picEstadistica": "e:bar-chart", "picChaleco": "e:safety-vest", "picVideo": "e:movie-camera", "picCatalogo": "p50", "picTesting": "e:clipboard", "picAnimal": "e:deer", "sMax45": "e:motor-scooter", "sStopX": "stop"};
+const SURL={"r20": "https://upload.wikimedia.org/wikipedia/commons/7/75/Spain_traffic_signal_r301-20.svg", "r30": "https://upload.wikimedia.org/wikipedia/commons/3/39/Spain_traffic_signal_r301-30.svg", "r50": "https://upload.wikimedia.org/wikipedia/commons/4/48/Spain_traffic_signal_r301-50.svg", "r70": "https://upload.wikimedia.org/wikipedia/commons/6/63/Spain_traffic_signal_r301-70.svg", "r80": "https://upload.wikimedia.org/wikipedia/commons/7/78/Spain_traffic_signal_r301-80.svg", "r90": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Spain_traffic_signal_r301-90.svg", "r120": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Spain_traffic_signal_r301-120.svg", "min30": "https://upload.wikimedia.org/wikipedia/commons/2/24/Spain_traffic_signal_R-411_%2830%29.svg", "ac60": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Spain_traffic_signal_s7-60.svg", "s28": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Spain_traffic_signal_s28.svg", "stop": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Spain_traffic_signal_r2%2C_2023_set.svg", "ceda": "https://upload.wikimedia.org/wikipedia/commons/7/79/Spain_traffic_signal_r1.svg", "p50": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Spain_traffic_sign_p50.svg", "p18": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Spain_traffic_signal_P-18_%282023%29.svg", "p21": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Spain_traffic_signal_p21-a%2C_2023_set.svg", "p22": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Spain_traffic_signal_p22-a%2C_2023_set.svg", "p13a": "https://upload.wikimedia.org/wikipedia/commons/1/10/Spain_traffic_signal_p13a.svg", "p8": "https://upload.wikimedia.org/wikipedia/commons/0/08/Spain_traffic_signal_p8%2C_2023_set.svg", "p7": "https://upload.wikimedia.org/wikipedia/commons/1/18/Spain_traffic_signal_p7.svg", "r305": "https://upload.wikimedia.org/wikipedia/commons/8/87/Spain_traffic_signal_r305.svg", "r500": "https://upload.wikimedia.org/wikipedia/commons/8/88/Spain_traffic_signal_r500.svg", "r3": "https://upload.wikimedia.org/wikipedia/commons/7/73/Spain_traffic_signal_r3.svg", "r4": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Spain_traffic_signal_r4.svg", "r6": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Spain_traffic_signal_r6.svg", "r5": "https://upload.wikimedia.org/wikipedia/commons/5/52/Spain_traffic_signal_r5.svg", "p11": "https://upload.wikimedia.org/wikipedia/commons/5/57/Spain_traffic_signal_p11.svg", "s500": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Spain_traffic_signal_S-500_%282025%29_Puerto_Lope.svg", "r400a": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Spain_traffic_signal_r400a.svg", "r402": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Spain_traffic_signal_r402.svg", "r407a": "https://upload.wikimedia.org/wikipedia/commons/8/89/Spain_traffic_signal_R-407a.svg", "r101": "https://upload.wikimedia.org/wikipedia/commons/7/75/Spain_traffic_signal_r101.svg", "r100": "https://upload.wikimedia.org/wikipedia/commons/9/91/Spain_traffic_signal_r100.svg", "r308": "https://upload.wikimedia.org/wikipedia/commons/0/01/Spain_traffic_signal_r308.svg", "r307": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Spain_traffic_signal_r307.svg", "r304": "https://upload.wikimedia.org/wikipedia/commons/9/98/Spain_traffic_signal_r304.svg", "r310": "https://upload.wikimedia.org/wikipedia/commons/0/07/Spain_traffic_signal_r310.svg", "r303": "https://upload.wikimedia.org/wikipedia/commons/1/18/Spain_traffic_signal_r303.svg", "s1": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Spain_traffic_signal_s1.svg", "s1a": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Spain_traffic_signal_s1a.svg", "s5": "https://upload.wikimedia.org/wikipedia/commons/4/46/Spain_traffic_signal_s5.svg", "s13": "https://upload.wikimedia.org/wikipedia/commons/8/88/Spain_traffic_signal_s13%2C_2023_set.svg", "s17": "https://upload.wikimedia.org/wikipedia/commons/0/07/Spain_traffic_signal_s17.svg", "s11": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Spain_traffic_signal_s11.svg", "s30": "https://upload.wikimedia.org/wikipedia/commons/6/63/Spain_traffic_signal_s30a%2C_2023_set.svg", "p20": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Spain_traffic_signal_P-20a.svg", "p23": "https://upload.wikimedia.org/wikipedia/commons/1/19/Spain_traffic_signal_p23.svg", "p24": "https://upload.wikimedia.org/wikipedia/commons/0/04/Spain_traffic_signal_p24.svg", "p19": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Spain_traffic_signal_p19.svg", "p34": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Spain_traffic_signal_p34.svg", "p29": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Spain_traffic_signal_p29.svg", "p3": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Spain_traffic_signal_p3.svg", "p4": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Spain_traffic_signal_p4.svg", "p17": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Spain_traffic_signal_p17.svg", "p1": "https://upload.wikimedia.org/wikipedia/commons/8/89/Spain_traffic_sign_p1.svg", "p25": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Spain_traffic_signal_p25.svg", "p2": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Spain_traffic_signal_p2.svg", "r412": "https://upload.wikimedia.org/wikipedia/commons/7/75/Se%C3%B1al_r412_nieve.svg", "r413": "https://upload.wikimedia.org/wikipedia/commons/6/65/Se%C3%B1al_luces_obligatorias_r-413.svg", "eco": "https://upload.wikimedia.org/wikipedia/commons/b/b1/DistAmbDGT_ECO.svg", "cero": "https://upload.wikimedia.org/wikipedia/commons/d/d1/DistAmbDGT_CeroEmisiones.svg", "etiq": "https://upload.wikimedia.org/wikipedia/commons/1/18/DistAmbDGT_esquema.svg", "r100k": "https://upload.wikimedia.org/wikipedia/commons/0/02/Spain_traffic_signal_r301-100.svg", "r60": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Spain_traffic_signal_r301-60.svg", "min60": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Spain_traffic_signal_R-411_%2860%29.svg", "r40": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Spain_traffic_signal_r301-40.svg", "s51": "https://upload.wikimedia.org/wikipedia/commons/7/76/Spain_traffic_signal_s51.svg", "s30old": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Spain_traffic_signal_s30.svg", "r116": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Spain_traffic_signal_r116.svg", "r104": "https://upload.wikimedia.org/wikipedia/commons/9/95/Spain_traffic_signal_r104.svg", "r114": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Spain_traffic_signal_r114_%282022%29.svg"};
+const SFILE={"r20": "Spain_traffic_signal_r301-20.svg", "r30": "Spain_traffic_signal_r301-30.svg", "r50": "Spain_traffic_signal_r301-50.svg", "r70": "Spain_traffic_signal_r301-70.svg", "r80": "Spain_traffic_signal_r301-80.svg", "r90": "Spain_traffic_signal_r301-90.svg", "r120": "Spain_traffic_signal_r301-120.svg", "min30": "Spain_traffic_signal_R-411_(30).svg", "ac60": "Spain_traffic_signal_s7-60.svg", "s28": "Spain_traffic_signal_s28.svg", "stop": "Spain_traffic_signal_r2,_2023_set.svg", "ceda": "Spain_traffic_signal_r1.svg", "p50": "Spain_traffic_sign_p50.svg", "p18": "Spain_traffic_signal_P-18_(2023).svg", "p21": "Spain_traffic_signal_p21-a,_2023_set.svg", "p22": "Spain_traffic_signal_p22-a,_2023_set.svg", "p13a": "Spain_traffic_signal_p13a.svg", "p8": "Spain_traffic_signal_p8,_2023_set.svg", "p7": "Spain_traffic_signal_p7.svg", "r305": "Spain_traffic_signal_r305.svg", "r500": "Spain_traffic_signal_r500.svg", "r3": "Spain_traffic_signal_r3.svg", "r4": "Spain_traffic_signal_r4.svg", "r6": "Spain_traffic_signal_r6.svg", "r5": "Spain_traffic_signal_r5.svg", "p11": "Spain_traffic_signal_p11.svg", "s500": "Spain_traffic_signal_S-500_(2025)_Puerto_Lope.svg", "r400a": "Spain_traffic_signal_r400a.svg", "r402": "Spain_traffic_signal_r402.svg", "r407a": "Spain_traffic_signal_R-407a.svg", "r101": "Spain_traffic_signal_r101.svg", "r100": "Spain_traffic_signal_r100.svg", "r308": "Spain_traffic_signal_r308.svg", "r307": "Spain_traffic_signal_r307.svg", "r304": "Spain_traffic_signal_r304.svg", "r310": "Spain_traffic_signal_r310.svg", "r303": "Spain_traffic_signal_r303.svg", "s1": "Spain_traffic_signal_s1.svg", "s1a": "Spain_traffic_signal_s1a.svg", "s5": "Spain_traffic_signal_s5.svg", "s13": "Spain_traffic_signal_s13,_2023_set.svg", "s17": "Spain_traffic_signal_s17.svg", "s11": "Spain_traffic_signal_s11.svg", "s30": "Spain_traffic_signal_s30a,_2023_set.svg", "p20": "Spain_traffic_signal_P-20a.svg", "p23": "Spain_traffic_signal_p23.svg", "p24": "Spain_traffic_signal_p24.svg", "p19": "Spain_traffic_signal_p19.svg", "p34": "Spain_traffic_signal_p34.svg", "p29": "Spain_traffic_signal_p29.svg", "p3": "Spain_traffic_signal_p3.svg", "p4": "Spain_traffic_signal_p4.svg", "p17": "Spain_traffic_signal_p17.svg", "p1": "Spain_traffic_sign_p1.svg", "p25": "Spain_traffic_signal_p25.svg", "p2": "Spain_traffic_signal_p2.svg", "r412": "Señal_r412_nieve.svg", "r413": "Señal_luces_obligatorias_r-413.svg", "eco": "DistAmbDGT_ECO.svg", "cero": "DistAmbDGT_CeroEmisiones.svg", "etiq": "DistAmbDGT_esquema.svg"};
+const norm=k=>{k=O2N[k]||k;return k};
+const findR=(q,t)=>{for(const [s,k] of MAP)if(q.includes(s))return norm(k);for(const [s,k] of extra)if(q.includes(s))return norm(k);const l=q.toLowerCase();for(const [r,k] of RULES)if(r.test(l))return norm(k);return norm(TOPIC_IMG[t]||"sPeligro")};
+const src=k=>{k=norm(k);if(k.startsWith("e:"))return "img/e/"+k.slice(2)+".webp";return SURL[k]||"img/e/warning.webp"};
+const isSign=k=>!norm(k).startsWith("e:");
+return {find:findR,src,isSign,norm,SFILE,SURL}})();
 
-// banco de búsqueda: subcadena de pregunta -> imagen
-const MAP=[
-["Turismo en autovía, sin ninguna señal","autovia"],["Turismo en carretera convencional, sin señal","convencional"],["Calle urbana con un solo carril por sentido","calle1"],["plataforma única). ¿Límite","plataforma"],["Calle urbana con dos carriles por sentido","calle2"],
-["señal redonda con borde rojo y el número 70",()=>S.sMax(70)],["señal redonda de fondo azul con el número 30",()=>S.sMin(30)],["señal rectangular azul con el número 60",()=>S.sAcons(60)],["zona residencial (señal azul","sResid"],["panel de mensaje variable indica 80",()=>S.sMax(80)],
-["señal triangular con borde rojo indica","sPeligro"],["señal circular de fondo azul indica","sObl"],["cruce sin ninguna señal ni semáforo","cruce"],["Vas a entrar en una glorieta","glorieta"],["En una glorieta se circula","glorieta"],["Ves una pelota y varios niños","sNinos"],["Tramo estrecho de gran pendiente","pendiente"],["Semáforo en ámbar fijo","semAmbar"],["Semáforo en ámbar intermitente","semAmbarBl"],["levanta el brazo verticalmente","agenteV"],["Llegas a un STOP","sStop"],["Un agente te indica que pases y el semáforo","sRojo"],
-["En un túnel, un turismo debe dejar","tunel"],["distancia de seguridad se recomienda","dosSeg"],["Adelantas a un ciclista en carretera. ¿Separación","adelBici"],
-["señalizar avería","v16"],["Tu coche se avería en carretera en diciembre","v16"],["¿Dónde se coloca la baliza V16?","v16"],["Profundidad mínima legal del dibujo","neumatico"],["Circulas detrás de un camión y no ves","anguloMuerto"],["Zona de Bajas Emisiones (ZBE). ¿Qué","sZBE"],["coche 100% eléctrico de batería","et0"],["híbridos no enchufables","etECO"],
-["señales verticales con fondo amarillo","sObras"],["línea amarilla continua en el bordillo","bordCont"],["línea amarilla discontinua en el bordillo","bordDisc"],["cuadrícula amarilla","cuadricula"],["línea transversal continua en un cruce","lStop"],["triángulos blancos pintados","lCeda"],["línea continua al lado de una discontinua","lineas"],
-["Dos luces rojas que se encienden alternativamente","semRojoAlt"],["aspa roja encima de tu carril","semCarril"],["brazo extendido horizontalmente","agenteH"],["rombo amarillo de borde blanco","sPrio"],["flecha blanca grande hacia arriba","sPrioSobre"],["flecha roja hacia arriba y negra","sPrioContra"],["línea diagonal negra o gris","sFinProh"],["Cruz de San Andrés","sSanAndres"],["señal blanca con el nombre de una localidad","sPoblado"],["silueta de una locomotora","sLoco"],["forma de triángulo con el vértice hacia abajo","sCeda"],["señal octogonal roja","sStop"],
-["salir de una glorieta?","glorieta"],["por qué carril debes salir","glorieta"],["no puedes cambiar al exterior","glorieta"],["neumático con cadenas","sCadenas"],["presión de aceite","aceite"],["sobresale por detrás del vehículo","v20"],["Autovía con dos carriles por sentido. Para adelantar a un ciclista","adelBici"]
-];
-const get=(k)=>{if(!k)return"";const f=typeof k=="function"?k:S[k];return f?f():""};
-const extra=[["placa L","sPlacaL"],["parada de más de un minuto","picEco"],["carretera convencional sin señal, ¿a qué velocidad mínima","convencional"],["Circular muy por debajo del límite","convencional"],["más ocupantes que plazas","picSillita"],["temperatura del motor","picMotor"],["Saltarte un semáforo en rojo","sRojo"],["No respetar una señal de STOP","sStop"],["Adelantar a un ciclista sin dejar","adelBici"],["Circular en sentido contrario","sEntradaProh"],["calle de sentido único, ¿en qué lado","picAparcar"],["zona azul","sParking"],["paso de peatones","sPasoPeatones"],["prohibido estacionar","sNoAparcar"],["¿Dónde está prohibido estacionar","sNoAparcar"],["línea amarilla pintada en la calzada","lAmarilla"],["¿Se puede pisar una línea continua","lineas"],["balón sale rodando","sNinos"],["autobús está parado en su parada","picViajeros"],["luz amarilla giratoria","picGrua"],["prioritarios (policía","picAmbulancia"],["curva de visibilidad reducida","sCurva"],["Autopista con tres carriles","picAutopistaTres"],["autovía de tres carriles por sentido, ¿puede un turismo con remolque","picAutopistaTres"],["Un grupo de ciclistas","picGrupoBicis"],["Giras a la derecha y un peatón","picPeatonCruce"],["Giras a la derecha y cruzas un carril bici","sBiciObl"],["tranvía por tu izquierda","picTranvia"],["vía está asfaltada y la otra es de tierra","cruce"],["estrechamiento sin señalizar y sin pendiente","sEstrecha"],["Sales de un garaje","picAparcar"],["Te incorporas a una vía","picIncorporacion"],["En el carril de aceleración","picIncorporacion"],["Vas a salir de la autopista","picSalida"],["Te pasas la salida","picSalida"],["calle de doble sentido, te colocas","picGiroIzq"],["calle de sentido único, te colocas","picGiroIzq"],["luces de freno en cadena","picRetencion"],["retención repentina","picRetencion"],["vehículo parado en el arcén con la V16","inmov"],["Un camión gira a la derecha","anguloMuerto"],["dos ojos brillantes","picAnimal"],["peatón mayor","picPeatonMayor"],["peatones son los más imprevisibles","picPeatonMayor"],["Un medicamento lleva un pictograma","picPastillas"],["menor de edad conduce un ciclomotor","picEtilometro"],["mueve a un herido","picAccidente"],["¿Debes mover a un herido","picAccidente"],["vídeos que la DGT","picVideo"],["catálogo de señales","picCatalogo"],["municipios están obligados","sZBE"],["Ciclomotor de dos ruedas, ¿qué velocidad","sMax45"],["¿Velocidad máxima de un ciclomotor","picMoto"],["Una motocicleta, ¿es un automóvil","picMoto"],["cuatriciclo ligero","picDefinicion"],["calle estrecha con coches aparcados","picPuerta"],["Un coche aparcado tiene las ruedas giradas","picAparcar"],["El ciclista que va delante mira","picBici"],["Un niño en bicicleta","picBici"],["curva cerrada sin visibilidad","picCurvaMontana"],["Un coche que va delante frena","picRetencion"],["Un coche en la vía de al lado","picAutopistaTres"],["intermitente puesto","picAutopistaTres"],["Delante de ti, un conductor da bandazos","picAdelantar"],["autopista o autovía supone","picMarchaAtras"],["Te detectan cannabis","picPastillas"],["cocaína","picPastillas"],["cannabis al volante","picPastillas"],["Mezclar alcohol con algunos medicamentos","picPastillas"],["Una carga que sobresale","v20"],["Tienes que bajarte del coche","picChaleco"],["animales por una carretera convencional","sAnimales"],["estado de frenos y neumáticos","picFrenos"],["peatón que camina por una carretera sin arcén","picNoche"],["peatón que camina de noche","picNoche"],["accidente leve sin heridos","picAccidente"]];
-const findR=(q,t)=>{for(const [s,k] of MAP)if(q.includes(s))return k;for(const [s,k] of extra)if(q.includes(s))return k;const l=q.toLowerCase();for(const [r,k] of RULES)if(r.test(l))return k;return TOPIC_IMG[t]||"sPeligro"};
-S.sMax45=()=>S.sMax(45);
-return {get,find:findR,svg:(k)=>get(k)};
-})();
 
 
 </script>
@@ -921,281 +666,207 @@ const B=[
 ];
 B.push(...B2,...B3);
 const hash=s=>{let h=5381;for(const ch of s)h=(h*33^ch.charCodeAt(0))>>>0;return h.toString(36)};
-const BK=B.map(x=>({id:"b"+hash(x[1]+(x[6]||"")),t:x[0],q:x[1],o:x[2],a:x[3],w:x[4],h:x[5],img:x[6]||IMG.find(x[1],x[0])}));
-const ORDER=["Reforma oct. 2026","Velocidad","Señales y prioridad","Maniobras","Alcohol y drogas","Puntos y permisos","Luces","Emergencias","Vehículo","Motos y bicis","Percepción del riesgo","Clima y vía","Factores humanos","Conducción eficiente","Definiciones","Novedades 2025-26"];
-const TOPICS=ORDER.filter(t=>BK.some(c=>c.t==t)).concat([...new Set(BK.map(c=>c.t))].filter(t=>!ORDER.includes(t)));
-const TICON={"Reforma oct. 2026":"sCiclista","Señales y prioridad":"sCeda","Maniobras":"sGlorietaR","Alcohol y drogas":"picCopa","Puntos y permisos":"picCarnet","Luces":"sLucesObl","Emergencias":"picBotiquin","Vehículo":"picMotor","Motos y bicis":"sBiciObl","Percepción del riesgo":"sPeligro","Clima y vía":"sHielo","Factores humanos":"picOjo","Conducción eficiente":"picEco","Definiciones":"picDefinicion","Novedades 2025-26":"sZBE"};
-const ticon=t=>t=="Velocidad"?IMG.get("sMax45").replace(">45<",">50<"):IMG.get(TICON[t]||"sPeligro");
+const BK=B.map(x=>({id:"b"+hash(x[1]+(x[6]||"")),t:x[0],q:x[1],o:x[2],a:x[3],w:x[4],h:x[5],img:IMG.norm(x[6]||IMG.find(x[1],x[0]))}));
+const ORDER=["Reforma oct. 2026","Señales y prioridad","Velocidad","Maniobras","Alcohol y drogas","Puntos y permisos","Luces","Emergencias","Vehículo","Motos y bicis","Percepción del riesgo","Clima y vía","Factores humanos","Conducción eficiente","Definiciones","Novedades 2025-26"];
+const TOPICS=ORDER.filter(t=>BK.some(c=>c.t==t));
+const TI={"Reforma oct. 2026":"p22","Señales y prioridad":"ceda","Velocidad":"r50","Maniobras":"r402","Alcohol y drogas":"e:wine-glass","Puntos y permisos":"e:identification-card","Luces":"r413","Emergencias":"e:adhesive-bandage","Vehículo":"e:mechanic","Motos y bicis":"e:motorcycle","Percepción del riesgo":"p50","Clima y vía":"e:cloud-with-snow","Factores humanos":"e:yawning-face","Conducción eficiente":"e:leaf-fluttering-in-wind","Definiciones":"e:books","Novedades 2025-26":"eco"};
+const TINT={"Reforma oct. 2026":"#ff3b30","Alcohol y drogas":"#af52de","Puntos y permisos":"#007aff","Emergencias":"#ff3b30","Vehículo":"#8e8e93","Motos y bicis":"#ff9500","Percepción del riesgo":"#ff9500","Clima y vía":"#30b0c7","Factores humanos":"#5856d6","Conducción eficiente":"#34c759","Definiciones":"#007aff","Novedades 2025-26":"#34c759","Velocidad":"#007aff","Maniobras":"#007aff","Luces":"#ffcc00","Señales y prioridad":"#007aff"};
 const NEW=new Set(["Novedades 2025-26","Reforma oct. 2026"]);
-const DAY=864e5, IV=[0,0,1,3,7,16];
+const DAY=864e5, IV=[0,0,1,3,7,16], GOAL=10;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const KEY="atajo1";
-let S={c:{},mine:[],streak:0,last:"",sel:[],t:{},ex:[]};
+let S={c:{},mine:[],streak:0,last:"",sel:[],t:{},ex:[],day:"",dn:0};
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 {let moved=false;for(const k of Object.keys(S.c)){const m=k.match(/^b(\d+)$/);if(m&&BK[+m[1]]){S.c[BK[+m[1]].id]=S.c[k];delete S.c[k];moved=true}}if(moved)try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+const today=()=>new Date().toDateString();
+if(S.day!=today()){S.day=today();S.dn=0}
+if(S.last&&S.last!=today()&&S.last!=new Date(Date.now()-DAY).toDateString())S.streak=0;
 const cards=()=>BK.concat(S.mine.map((m,i)=>({id:"m"+i,t:"Mis notas",q:m.q,ans:m.a,w:m.w||"",flash:true})));
 const st=id=>S.c[id]||{b:0,d:0};
 const isM=c=>st(c.id).b>=4;
-const mastered=()=>cards().filter(isM).length;
+const mastered=()=>BK.filter(isM).length;
 const due=()=>cards().filter(c=>st(c.id).b>0&&st(c.id).d<=Date.now()).length;
 const fails=()=>BK.filter(c=>st(c.id).b==1);
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const track=(t,ok)=>{const r=S.t[t]||{ok:0,n:0};r.n++;if(ok)r.ok++;S.t[t]=r};
-const qimg=c=>`<div class="qimg">${IMG.get(c.img)}</div>`;
 const vib=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}};
-const X=`<svg viewBox="0 0 20 20"><path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+const CHEV=`<svg class="chev" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ico=(k,tint)=>IMG.isSign(k)?`<span class="ico sign"><img src="${IMG.src(k)}" alt="" loading="lazy"></span>`:`<span class="ico" style="background:${tint||"#007aff"}22"><img src="${IMG.src(k)}" alt="" loading="lazy"></span>`;
+const media=(c,cls="")=>IMG.isSign(c.img)?`<div class="media sign ${cls}"><img src="${IMG.src(c.img)}" alt="Señal de la pregunta"></div>`:`<div class="media emo ${cls}" style="--tint:${TINT[c.t]||"#007aff"}"><img src="${IMG.src(c.img)}" alt=""></div>`;
+function ringSVG(outer,inner,size=132){const R1=56,R2=40,C1=2*Math.PI*R1,C2=2*Math.PI*R2;return `<svg class="rings" viewBox="0 0 132 132" width="${size}" height="${size}" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a6f04a"/><stop offset="1" stop-color="#30d158"/></linearGradient><linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ef0f5"/><stop offset="1" stop-color="#1fb6d5"/></linearGradient></defs><g transform="rotate(-90 66 66)"><circle cx="66" cy="66" r="${R1}" stroke="#30d15833" stroke-width="14"/><circle cx="66" cy="66" r="${R1}" stroke="url(#gg)" stroke-width="14" stroke-dasharray="${C1}" stroke-dashoffset="${C1*(1-Math.min(1,outer))}" style="transition:stroke-dashoffset .8s"/>${inner==null?"":`<circle cx="66" cy="66" r="${R2}" stroke="#1fb6d533" stroke-width="14"/><circle cx="66" cy="66" r="${R2}" stroke="url(#gc)" stroke-width="14" stroke-dasharray="${C2}" stroke-dashoffset="${C2*(1-Math.min(1,inner))}" style="transition:stroke-dashoffset .8s"/>`}</g></svg>`}
+function bumpStreak(){if(S.last==today())return;const y=new Date(Date.now()-DAY).toDateString();S.streak=S.last==y?S.streak+1:1;S.last=today()}
+function badge(){const n=fails().length;$("#badge").querySelector("i")?.remove();if(n)$("#badge").insertAdjacentHTML("beforeend",`<i>${n>99?"99+":n}</i>`)}
 
-function streakUI(){$("#streak").innerHTML=`<svg viewBox="0 0 20 20"><rect x="7" y="1" width="6" height="18" rx="2" fill="#fff"/><rect x="7" y="1" width="6" height="5" rx="2" fill="#d61f2c"/></svg>${S.streak} ${S.streak==1?"día":"días"}`}
-function bumpStreak(){const t=new Date().toDateString();if(S.last==t)return;const y=new Date(Date.now()-DAY).toDateString();S.streak=S.last==y?S.streak+1:1;S.last=t}
-if(S.last&&S.last!=new Date().toDateString()&&S.last!=new Date(Date.now()-DAY).toDateString()){S.streak=0}
-
-function go(v){closePlay();document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-current",b.dataset.v==v));R[v]();streakUI();window.scrollTo(0,0)}
+let cur="home";
+function go(v){closePlay();cur=v;document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-current",b.dataset.v==v));R[v]();badge();window.scrollTo(0,0);onScroll()}
 $("#nav").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)go(b.dataset.v)});
-
-function hitoSVG(km){return `<svg class="hito" viewBox="0 0 80 110" aria-hidden="true"><path d="M8 40 Q8 6 40 6 Q72 6 72 40 V104 H8Z" fill="#fff"/><path d="M8 40 Q8 6 40 6 Q72 6 72 40 V44 H8Z" fill="#d61f2c"/><text x="40" y="34" font-size="13" font-weight="700" fill="#fff" text-anchor="middle" font-family="Barlow Semi Condensed,Arial">km</text><text x="40" y="82" font-size="${km>99?28:34}" font-weight="800" fill="#14171c" text-anchor="middle" font-family="Barlow Semi Condensed,Arial">${km}</text><rect x="4" y="102" width="72" height="6" rx="2" fill="#9aa4b2"/></svg>`}
-function laneSVG(p){return `<svg viewBox="0 0 400 54" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="54" fill="#2e333b"/><path d="M0 27 H400" stroke="#fff" stroke-width="3" stroke-dasharray="22 16"/><path d="M0 3 H400 M0 51 H400" stroke="#f7c600" stroke-width="2.5"/></svg><svg viewBox="0 0 60 54" style="left:calc(${Math.min(100,p)}% - ${Math.min(100,p)*0.6}px);width:60px;right:auto" aria-hidden="true"><g transform="translate(6 12)"><rect width="46" height="30" rx="8" fill="#d61f2c"/><rect x="28" y="6" width="12" height="18" rx="3" fill="#cfe3ff"/></g></svg>`}
+const TITLES={home:"Estudiar",exam:"Examen",cheat:"Chuleta",mine:"Fallos"};
+function onScroll(){const on=window.scrollY>44;const n=$("#navc");n.textContent=TITLES[cur];n.classList.toggle("on",on)}
+window.addEventListener("scroll",onScroll,{passive:true});
+const lt=(t,right="")=>`<div class="lt"><h1>${t}</h1>${right}</div>`;
+const fecha=()=>{const t=new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"});return t.charAt(0).toUpperCase()+t.slice(1)};
 
 const R={
-home(){const n=cards().length,m=mastered(),pct=Math.round(m/n*100),dd=due(),nw=BK.filter(c=>st(c.id).b==0).length;
+home(){const n=BK.length,m=mastered(),pct=Math.round(m/n*100),dd=due(),f=fails().length;
 const last=S.ex.slice(-3),apt=last.length==3&&last.every(e=>e.f<=3);
-const st3=apt&&pct>=80?["g","Lista para pedir fecha","Tres simulacros aptos seguidos y más del 80 % dominado."]:pct>=80?["a","Casi lista","Ya dominas lo necesario. Haz simulacros hasta aprobar tres seguidos."]:["r","En camino",`Llega al 80 % de dominio antes de los simulacros. Vas por el ${pct} %.`];
-$("#view").innerHTML=`
-<section class="hero"><div class="hero-in">${hitoSVG(pct)}<div><h2>Kilómetro ${pct}</h2><p>${m} de ${n} preguntas dominadas. El aprobado está en el 100.</p></div></div><div class="lane">${laneSVG(pct)}</div></section>
-<button class="cta" id="start"><div><b>${dd?"Repasar y aprender":"Empezar a estudiar"}</b><span>10 preguntas · unos 5 minutos</span></div><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="14" fill="#fff"/><path d="M12 9 L19 15 L12 21" stroke="#1957c2" stroke-width="3" fill="none" stroke-linecap="round"/></svg></button>
-<div class="today"><div><b>${dd}</b><span>para repasar hoy</span></div><div><b>${nw}</b><span>sin ver aún</span></div><div><b>${fails().length}</b><span>fallos por corregir</span></div></div>
-<section class="sec"><h3>¿Estás lista para el examen?</h3><div class="panel"><div class="ready"><div class="tl" aria-hidden="true"><i class="r ${st3[0]=="r"?"on":""}"></i><i class="a ${st3[0]=="a"?"on":""}"></i><i class="g ${st3[0]=="g"?"on":""}"></i></div><div><h4>${st3[1]}</h4><p>${st3[2]}</p></div></div>
-${S.ex.length?`<div class="dots" aria-label="Últimos simulacros">${S.ex.slice(-12).map(e=>`<span class="dot ${e.f<=3?"ok":"ko"}" title="${e.f} fallos">${e.f}</span>`).join("")}</div><p class="mut" style="margin:6px 0 0">Fallos en tus últimos simulacros</p>`:""}
-<div style="margin-top:12px"><button class="btn2" id="toexam">Hacer un simulacro</button></div></div></section>
-<section class="sec"><h3>Estudiar por temas</h3><div class="topics">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,p=Math.round(mm/cs.length*100);return `<button class="trow ${t=="Reforma oct. 2026"?"reform":""}" data-t="${esc(t)}"><span class="ticon">${ticon(t)}</span><span><span class="tname">${esc(t)}</span><span class="tbar"><i style="width:${p}%"></i></span></span><span class="tpct">${mm}/${cs.length}</span></button>`}).join("")}</div>
-<button class="linkrow" id="how"><span>Cómo funciona este método</span><span aria-hidden="true">›</span></button></section>
-<p class="note">Preguntas propias redactadas con la normativa vigente a 26/11/2026: Reglamento General de Circulación con la reforma del Real Decreto 518/2026 (en vigor desde el 1/10/2026), catálogo de señales de 2025 y baliza V16. El examen es el mismo en toda España. No sustituye al material de tu autoescuela.</p>`;
-$("#start").onclick=()=>startSess(null);$("#toexam").onclick=()=>go("exam");$("#how").onclick=howSheet;
-$("#view").querySelectorAll(".trow").forEach(b=>b.onclick=()=>startSess(b.dataset.t))},
-exam(){const ex=S.ex.slice(-8).reverse();
-$("#view").innerHTML=`<section class="panel"><div class="exhero">${IMG.get("sStop").replace('viewBox="0 0 240 150"','viewBox="50 5 140 140"')}<div><h2 style="margin:0;font-size:28px">Simulacro de examen</h2><p class="mut" style="margin:4px 0 0">Igual que el día del examen: sin pistas hasta el final.</p></div></div>
-<div class="rules"><div><b>30</b><span>preguntas</span></div><div><b>30</b><span>minutos</span></div><div><b>3</b><span>fallos máximo</span></div></div>
-<button class="cta" id="go" style="margin-top:16px"><div><b>Empezar simulacro</b><span>Las que falles pasan a tus repasos</span></div><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="14" fill="#fff"/><path d="M12 9 L19 15 L12 21" stroke="#1957c2" stroke-width="3" fill="none" stroke-linecap="round"/></svg></button></section>
-<section class="sec"><h3>Tus simulacros</h3>${ex.length?`<div class="topics">${ex.map(e=>`<div class="trow" style="grid-template-columns:44px 1fr auto"><span class="dot ${e.f<=3?"ok":"ko"}" style="width:40px;height:40px;font-size:16px">${e.f}</span><span><span class="tname">${e.f<=3?"Apto":"No apto"}</span><span class="mut" style="display:block">${new Date(e.d).toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}</span></span><span class="tpct">${30-e.f}/30</span></div>`).join("")}</div>`:`<div class="panel empty">Todavía no has hecho ninguno. Cuando pases del 80 % de dominio, haz uno al día.</div>`}</section>`;
+const rd=apt&&pct>=80?["#34c759","Lista para pedir fecha","Tres simulacros aptos seguidos y más del 80 % dominado."]:pct>=80?["#ff9500","Casi lista","Ya dominas lo necesario. Haz simulacros hasta aprobar tres seguidos."]:["#ff3b30","Todavía no","Llega al 80 % de dominio y después empieza con los simulacros."];
+$("#view").innerHTML=`${lt("Estudiar",`<span class="chip"><img src="img/e/fire.webp" alt="">${S.streak} ${S.streak==1?"día":"días"}</span>`)}
+<p class="gf" style="margin:-4px 20px 12px">${fecha()}</p>
+<section class="sum">${ringSVG(m/n,S.dn/GOAL)}<div><p class="k">Dominadas</p><p class="n g">${m}<small>/${n}</small></p><p class="k">Hoy</p><p class="n c" style="margin:0">${Math.min(S.dn,99)}<small>/${GOAL}</small></p></div></section>
+<div class="pad"><button class="btn" id="start">${dd?`Repasar ahora · ${Math.min(dd,10)} pendientes`:"Empezar sesión de 10 preguntas"}</button></div>
+<h2 class="gh">Para el examen</h2>
+<div class="group"><button class="cell" id="toexam"><span class="dotS" style="background:${rd[0]}"></span><span class="t"><b style="font-weight:600">${rd[1]}</b><small>${rd[2]}</small></span>${CHEV}</button>
+${S.ex.length?`<div class="hist" aria-label="Últimos simulacros">${S.ex.slice(-10).map(e=>`<span style="background:${e.f<=3?"var(--green)":"var(--red)"}">${e.f}</span>`).join("")}</div>`:""}
+${f?`<button class="cell ic" id="tofails">${ico("e:warning","#ff9500")}<span class="t"><b>Corregir mis fallos</b></span><span class="v">${f}</span>${CHEV}</button>`:""}</div>
+<p class="gf">Llevas el ${pct} % del temario dominado. Una pregunta cuenta como dominada cuando la aciertas varias veces seguidas en días distintos.</p>
+<h2 class="gh">Temas</h2>
+<div class="group">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,p=mm/cs.length*100;return `<button class="cell ic" data-t="${esc(t)}">${ico(TI[t],TINT[t])}<span class="t"><b>${esc(t)}${NEW.has(t)&&t.startsWith("Reforma")?' <span style="color:var(--red);font-size:13px;font-weight:600">· Nuevo</span>':""}</b><span class="minibar"><i style="width:${p}%"></i></span></span><span class="v">${mm}/${cs.length}</span>${CHEV}</button>`}).join("")}</div>
+<h2 class="gh">Más</h2>
+<div class="group"><button class="cell ic" id="how">${ico("e:light-bulb","#ffcc00")}<span class="t"><b>Cómo funciona el método</b></span>${CHEV}</button><button class="cell ic" id="install">${ico("e:mobile-phone","#007aff")}<span class="t"><b>Instalar en el iPhone</b></span>${CHEV}</button><button class="cell ic" id="credits">${ico("e:memo","#8e8e93")}<span class="t"><b>Fuentes y créditos</b></span>${CHEV}</button></div>
+<p class="foot">Normativa vigente a 26/11/2026, incluida la reforma del Reglamento General de Circulación (Real Decreto 518/2026, en vigor desde el 1/10/2026). El examen teórico es el mismo en toda España. No sustituye al material de tu autoescuela.</p>`;
+$("#start").onclick=()=>startSess(null);$("#toexam").onclick=()=>go("exam");$("#how").onclick=howModal;$("#install").onclick=installModal;$("#credits").onclick=creditsModal;
+const tf=$("#tofails");if(tf)tf.onclick=()=>startSess("__fails");
+$("#view").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>startSess(b.dataset.t))},
+exam(){const ex=S.ex.slice(-10).reverse(),best=S.ex.length?Math.min(...S.ex.map(e=>e.f)):null;
+$("#view").innerHTML=`${lt("Examen")}
+<section class="sum" style="grid-template-columns:96px 1fr"><img src="${IMG.src("stop")}" alt="" style="width:96px;height:96px"><div><p class="n" style="font-size:22px;margin:0 0 4px">Simulacro oficial</p><p class="k" style="font-weight:400;font-size:15px">30 preguntas · 30 minutos · aprobado con 3 fallos como máximo. Sin pistas hasta el final.</p></div></section>
+<div class="pad"><button class="btn" id="go">Empezar simulacro</button></div>
+<h2 class="gh">Historial</h2>
+${ex.length?`<div class="group">${ex.map(e=>`<div class="cell"><span class="dotS" style="background:${e.f<=3?"var(--green)":"var(--red)"}"></span><span class="t"><b>${e.f<=3?"Apto":"No apto"} · ${e.f} ${e.f==1?"fallo":"fallos"}</b><small style="text-transform:capitalize">${new Date(e.d).toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}</small></span><span class="v">${30-e.f}/30</span></div>`).join("")}</div><p class="gf">Mejor resultado: ${best} ${best==1?"fallo":"fallos"}. Las preguntas que fallas pasan a tus repasos.</p>`:`<div class="group"><div class="cell"><span class="t"><b>Todavía no hay simulacros</b><small>Empieza cuando tengas más del 80 % dominado.</small></span></div></div>`}`;
 $("#go").onclick=startExam},
 cheat(){
-const sg=(n,c="r")=>`<span class="sg sg-${c}${String(n).length>2?" sg3":""}"><b class="v">${n}</b></span>`;
-const V=(t)=>`<b class="v">${t}</b>`;
-const light=(k)=>({
-pos:`<svg viewBox="0 0 60 40"><circle cx="14" cy="20" r="9" fill="#ffd54f"/></svg>`,
-cruce:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#4fc3f7"/><g stroke="#4fc3f7" stroke-width="4" stroke-linecap="round"><path d="M26 14 L42 22 M26 22 L42 28 M26 30 L42 34"/></g></svg>`,
-largo:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#1e88e5"/><g stroke="#1e88e5" stroke-width="4" stroke-linecap="round"><path d="M26 10 H56 M26 20 H56 M26 30 H56"/></g></svg>`,
-nieblaD:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#26a69a"/><g stroke="#26a69a" stroke-width="4" stroke-linecap="round"><path d="M26 12 L44 16 M26 20 L44 22 M26 28 L44 28"/></g><path d="M48 8 V32" stroke="#26a69a" stroke-width="3" stroke-dasharray="3 3"/></svg>`,
-nieblaT:`<svg viewBox="0 0 60 40"><circle cx="12" cy="20" r="9" fill="#e53935"/><g stroke="#e53935" stroke-width="4" stroke-linecap="round"><path d="M26 12 L44 16 M26 20 L44 22 M26 28 L44 28"/></g><path d="M48 8 V32" stroke="#e53935" stroke-width="3" stroke-dasharray="3 3"/></svg>`,
-emer:`<svg viewBox="0 0 60 40"><path d="M30 4 L52 36 H8 Z" fill="none" stroke="#fb8c00" stroke-width="5" stroke-linejoin="round"/><path d="M30 14 L42 31 H18 Z" fill="none" stroke="#fb8c00" stroke-width="3"/></svg>`
-})[k];
-const itv=(name,segs,note)=>`<div class="itv"><div class="itv-n">${name}</div><div class="itv-bar">${segs.map(s=>`<span class="seg ${s[1]}" style="flex:${s[0]}"><i class="v">${s[2]}</i></span>`).join("")}</div>${note?`<div class="mut itv-x">${note}</div>`:""}</div>`;
-$("#view").innerHTML=`<div class="card cheat-top"><h2>Chuleta de memoria</h2><p class="mut" style="margin:0">Todo lo que se aprende de memoria, con la normativa a noviembre de 2026. Activa <b>Modo tapar</b>: las cifras se ocultan y tienes que decirlas antes de tocar para verlas. Así se memoriza de verdad.</p>
-<div class="row" style="margin-top:12px"><button class="big" id="tapar" style="width:auto" aria-pressed="false">Modo tapar: no</button><button class="ghost" id="destap">Destapar todo</button></div></div>
-<div id="ch">
+const si=k=>`<img class="si" src="${IMG.src(k)}" alt="" loading="lazy">`;
+const sv=k=>k?`<span class="sv"><img src="${IMG.src(k)}" alt="${k.replace(/\D/g,"")} km/h" loading="lazy"></span>`:`<span class="sv"><span class="no">Prohibido</span></span>`;
+const kv=(k,v,img)=>`<div class="kv${img?" ic":""}">${img?(img.startsWith("e:")?`<span class="ico" style="background:var(--fill)"><img src="${IMG.src(img)}" alt=""></span>`:si(img)):""}<span class="k">${k}</span><span class="val">${v}</span></div>`;
+const pts=(n,col,items)=>`<div class="kv ic" style="align-items:flex-start"><span class="ptag" style="background:${col}">${n}</span><span class="k">${items.join("<br>")}</span></div>`;
+const itv=(name,segs,note)=>`<div class="kv" style="display:block"><span class="k" style="display:block;font-weight:600">${name}</span><div class="itvbar">${segs.map(s=>`<span class="${s[1]}" style="flex:${s[0]}">${s[2]}</span>`).join("")}</div>${note?`<span class="k" style="display:block"><small>${note}</small></span>`:""}</div>`;
+$("#view").innerHTML=`${lt("Chuleta")}
+<div class="group"><div class="kv"><span class="k"><b style="font-weight:600">Modo tapar</b><small>Oculta las cifras. Dilas en voz alta y toca para comprobar.</small></span><label class="sw"><input type="checkbox" id="tapar" aria-label="Modo tapar"><span></span></label></div></div>
+<div id="cheat">
+<h2 class="gh">Velocidades fuera de poblado</h2>
+<div class="group"><div class="cs head"><span>Vehículo</span><span>Autopista y autovía</span><span>Carretera</span></div>
+<div class="cs"><span class="who">Turismo, moto, autocaravana hasta 3.500 kg</span>${sv("r120")}${sv("r90")}</div>
+<div class="cs"><span class="who">Autobús, derivado de turismo, mixto adaptable</span>${sv("r100k")}${sv("r90")}</div>
+<div class="cs"><span class="who">Camión, furgón, furgoneta, autocaravana de más de 3.500 kg, articulado y cualquiera con remolque</span>${sv("r90")}${sv("r80")}</div>
+<div class="cs"><span class="who">Vehículo de 3 ruedas y cuadriciclo</span><span class="sv"><span class="no">—</span></span>${sv("r70")}</div>
+<div class="cs"><span class="who">Ciclomotor y cuadriciclo ligero <small>No puede ir por autopista ni autovía</small></span>${sv(null)}<span class="sv"><span class="val">45</span></span></div>
+<div class="cs"><span class="who">Bicicleta <small>Por el arcén de autovía, desde 14 años</small></span><span class="sv"><span class="val">45</span></span><span class="sv"><span class="val">45</span></span></div></div>
+<div class="memo">En autovía <b>120 · 100 · 90</b>, en carretera <b>90 · 90 · 80</b> (coche, autobús, camión). El autobús solo se distingue en autovía.</div>
+<div class="group" style="margin-top:12px">${kv("Mínima en autopista y autovía","60","min60")}${kv("Mínima en otras vías","mitad de la genérica")}${kv("Autobús con viajeros de pie o derivado con mercancías peligrosas","80","r80")}${kv("Vía sin pavimentar","30","r30")}${kv("Margen para adelantar","ninguno")}${kv("Adelantar a un ciclista fuera de poblado","límite − 20","p22")}</div>
+<h2 class="gh">Velocidades en ciudad</h2>
+<div class="group">${kv("Plataforma única (acera y calzada al mismo nivel). El peatón tiene prioridad","20","r20")}${kv("Un carril por sentido","30","r30")}${kv("Dos o más carriles por sentido","50","r50")}${kv("Autopista o autovía dentro de poblado","80","r80")}${kv("Calle residencial","20","s28")}${kv("Patinete eléctrico (VMP), máximo por diseño","25","e:kick-scooter")}</div>
 
-<section class="ck c-speed"><h3>Velocidades máximas fuera de poblado</h3>
-<div class="spd">
-<div class="spd-h"></div><div class="spd-h">Autopista y autovía</div><div class="spd-h">Carretera convencional</div>
-<div class="spd-v"><b>Turismo, moto, autocaravana ≤ 3.500 kg, pick-up</b></div><div>${sg(120)}</div><div>${sg(90)}</div>
-<div class="spd-v"><b>Autobús, derivado de turismo, mixto adaptable</b></div><div>${sg(100)}</div><div>${sg(90)}</div>
-<div class="spd-v"><b>Camión, furgón y furgoneta, autocaravana &gt; 3.500 kg, articulado, cualquier coche con remolque</b></div><div>${sg(90)}</div><div>${sg(80)}</div>
-<div class="spd-v"><b>Ciclomotor</b> y cuadriciclo ligero</div><div class="no">Prohibido</div><div>${sg(45)}</div>
-<div class="spd-v"><b>Bicicleta</b> (autovía: arcén, desde 14 años)</div><div>${sg(45)}</div><div>${sg(45)}</div>
-<div class="spd-v"><b>Vehículo de 3 ruedas y cuadriciclo</b></div><div class="no">—</div><div>${sg(70)}</div>
-</div>
-<div class="mnemo">Truco: en autovía <b>12 · 10 · 9</b>, en carretera <b>9 · 9 · 8</b> (coche, autobús, camión). El autobús solo se distingue en autovía.</div>
-<div class="minis">
-<div><span class="lbl">Bus con viajeros de pie o derivado con mercancías peligrosas</span>${sg(80)}</div>
-<div><span class="lbl">Vía sin pavimentar, cualquier vehículo</span>${sg(30)}</div>
-<div><span class="lbl">Mínima en autopista y autovía</span>${sg(60,"b")}</div>
-<div><span class="lbl">Mínima en otras vías</span><span class="pill v">la mitad de la genérica</span></div>
-<div><span class="lbl">Margen para adelantar</span><span class="pill v">0, ya no hay +20</span></div>
-<div><span class="lbl">Adelantar a un ciclista fuera de poblado</span><span class="pill v">límite − 20</span></div>
-</div>
-<h4>En ciudad</h4>
-<div class="city">
-<div class="cv"><div class="street s1"></div>${sg(20)}<span>Plataforma única (acera y calzada al mismo nivel). Prioridad del peatón.</span></div>
-<div class="cv"><div class="street s2"></div>${sg(30)}<span>Un carril por sentido</span></div>
-<div class="cv"><div class="street s3"></div>${sg(50)}<span>Dos o más carriles por sentido</span></div>
-<div class="cv"><div class="street s4"></div>${sg(80)}<span>Autopista o autovía dentro de poblado</span></div>
-</div>
-<p class="mut">Ciclomotor 45 y patinete (VMP) 25, en cualquier vía por la que puedan circular. Con señal, manda la señal.</p>
-</section>
+<h2 class="gh">Luces</h2>
+<div class="group">${kv("Posición<small>Siempre con cualquier otra luz, y con el coche parado de noche en vía poco iluminada</small>","",null)}${kv("Cruce<small>De noche en ciudad iluminada y al cruzarte o seguir a otro. Siempre en túneles y carriles reversibles o adicionales, también de día. Motos, siempre</small>","","r413")}${kv("Largas<small>De noche en carretera sin iluminar y sin nadie delante. Prohibidas en ciudad iluminada. Ráfagas para avisar de un adelantamiento</small>","",null)}${kv("Antiniebla delantera<small>Niebla, lluvia o nieve intensas, humo o polvo, y tramos estrechos con muchas curvas señalizados</small>","","e:fog")}${kv("Antiniebla trasera<small>Solo con niebla espesa, lluvia muy intensa o nieve. Nunca con lluvia normal</small>","",null)}${kv("Emergencia<small>Vehículo inmovilizado que supone peligro, junto a la baliza V16 en el techo</small>","","e:police-car-light")}</div>
+<div class="memo"><b>Largas</b>: lejos y a oscuras. <b>Cruce</b>: cuando hay alguien (otro coche, túnel, ciudad). <b>Antiniebla trasera</b>: solo lo peor de lo peor.</div>
 
-<section class="ck c-light"><h3>Luces: cuál, cuándo y dónde</h3>
-<div class="lights">
-<div class="lt">${light("pos")}<div><b>Posición</b><p>Siempre que lleves cualquier otra luz. Y con el coche parado de noche en vía poco iluminada.</p></div></div>
-<div class="lt">${light("cruce")}<div><b>Cruce (corto alcance)</b><p>De noche en <b class="v">ciudad iluminada</b> y en carretera al cruzarte o seguir a otro. <b class="v">Siempre</b> en túneles y carriles reversibles o adicionales, también de día. Las <b>motos</b>, siempre encendida.</p></div></div>
-<div class="lt">${light("largo")}<div><b>Largas (largo alcance)</b><p>De noche en <b class="v">carretera sin iluminar</b> y sin nadie delante. <b>Prohibidas</b> en ciudad iluminada. Ráfagas para avisar de un adelantamiento.</p></div></div>
-<div class="lt">${light("nieblaD")}<div><b>Antiniebla delantera</b><p>Niebla, lluvia o nieve intensas, humo o polvo. También en <b class="v">tramos estrechos con muchas curvas</b> señalizados.</p></div></div>
-<div class="lt">${light("nieblaT")}<div><b>Antiniebla trasera</b><p>Solo en condiciones <b class="v">especialmente desfavorables</b>: niebla espesa, lluvia muy intensa, nieve. <b>Nunca con lluvia normal</b>: deslumbra al de detrás.</p></div></div>
-<div class="lt">${light("emer")}<div><b>Emergencia</b><p>Vehículo <b class="v">inmovilizado</b> que supone peligro. Junto con la baliza <b>V16</b> en el techo (los triángulos ya no valen desde enero de 2026).</p></div></div>
-</div>
-<div class="mnemo">Truco: <b>largas = lejos y a oscuras</b>, <b>cruce = cuando hay alguien</b> (otro coche, túnel, ciudad), <b>antiniebla trasera = solo lo peor de lo peor</b>.</div>
-</section>
+<h2 class="gh">ITV</h2>
+<div class="group">${itv("Turismo y autocaravana",[[4,"ex","Libre 4 años"],[6,"bi","Cada 2"],[2,"an","Anual"]],"Libre 4 años, cada 2 hasta los 10 y después cada año")}${itv("Moto, quad y cuadriciclo",[[4,"ex","Libre 4"],[8,"bi","Cada 2 años"]])}${itv("Ciclomotor",[[3,"ex","Libre 3"],[9,"bi","Cada 2 años"]])}${itv("Furgoneta y mercancías hasta 3.500 kg",[[2,"ex","2"],[4,"bi","Cada 2"],[4,"an","Anual"],[2,"se","6 m"]],"Libre 2, cada 2 hasta los 6, anual hasta los 10 y después cada 6 meses")}${itv("Camión de más de 3.500 kg",[[10,"an","Anual"],[2,"se","6 m"]],"Anual desde el principio y semestral a partir de los 10")}${itv("Autobús, taxi y ambulancia",[[5,"an","Anual"],[7,"se","Cada 6 meses"]])}${itv("Caravana remolcada de más de 750 kg",[[6,"ex","Libre 6 años"],[6,"bi","Cada 2"]])}</div>
+<p class="gf">Gris: libre. Verde: cada 2 años. Naranja: anual. Rojo: cada 6 meses. Responsable: el titular. Si es desfavorable, 2 meses para reparar.</p>
 
-<section class="ck c-itv"><h3>ITV: cuándo pasa cada vehículo</h3>
-<div class="itv-axis"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12 años</span></div>
-${itv("Turismo y autocaravana",[[4,"ex","Libre 4 años"],[6,"bi","Cada 2"],[2,"an","Anual"]],"4 · 2 · 1: libre 4 años, cada 2 hasta los 10, luego cada año")}
-${itv("Moto, quad, cuadriciclo",[[4,"ex","Libre 4"],[8,"bi","Cada 2 años, siempre"]])}
-${itv("Ciclomotor",[[3,"ex","Libre 3"],[9,"bi","Cada 2 años, siempre"]])}
-${itv("Furgoneta y mercancías ≤ 3.500 kg",[[2,"ex","2"],[4,"bi","Cada 2"],[4,"an","Anual"],[2,"se","6 m"]],"Libre 2 · cada 2 hasta 6 · anual hasta 10 · luego cada 6 meses")}
-${itv("Camión de más de 3.500 kg",[[10,"an","Anual"],[2,"se","6 m"]],"Anual desde el principio; semestral a partir de los 10")}
-${itv("Autobús, taxi, ambulancia",[[5,"an","Anual"],[7,"se","Cada 6 meses"]],"Anual hasta los 5; semestral después")}
-${itv("Caravana remolcada de más de 750 kg",[[6,"ex","Libre 6 años"],[6,"bi","Cada 2"]])}
-<div class="legend"><span class="seg ex">libre</span><span class="seg bi">cada 2 años</span><span class="seg an">anual</span><span class="seg se">cada 6 meses</span></div>
-<p class="mut">Responsable de pasarla: el <b>titular</b>. Desfavorable: <b class="v">2 meses</b> para reparar. Tras una reforma importante, ITV extraordinaria.</p>
-</section>
+<h2 class="gh">Alcohol</h2>
+<div class="group">${kv("General","0,25 aire · 0,5 sangre","e:wine-glass")}${kv("Novel (2 años) y profesional","0,15 aire · 0,3 sangre","e:identification-card")}${kv("Menores de edad","0,0","e:child")}${kv("Entre 0,25 y 0,50 en aire","500 € · 4 puntos")}${kv("Más de 0,50 en aire","1.000 € · 6 puntos")}${kv("Delito","más de 0,60 aire")}${kv("Entre las dos pruebas","10 minutos")}${kv("Drogas: basta con dar positivo","1.000 € · 6 puntos","e:pill")}${kv("Negarse a la prueba","delito")}</div>
+<p class="gf">En aire es la mitad que en sangre. La rebaja a 0,2 g/l en sangre sigue en trámite y hoy no está en vigor.</p>
 
-<section class="ck c-alc"><h3>Alcohol</h3>
-<div class="alc">
-<div class="al g"><span class="lbl">General</span><b class="v">0,25</b><small>mg/l aire</small><b class="v">0,5</b><small>g/l sangre</small></div>
-<div class="al n"><span class="lbl">Novel (2 años) y profesional</span><b class="v">0,15</b><small>mg/l aire</small><b class="v">0,3</b><small>g/l sangre</small></div>
-<div class="al z"><span class="lbl">Menores de edad</span><b class="v">0,0</b><small>ni una gota</small></div>
-</div>
-<div class="minis">
-<div><span class="lbl">Entre 0,25 y 0,50 en aire</span><span class="pill v">500 € y 4 puntos</span></div>
-<div><span class="lbl">Más de 0,50 en aire</span><span class="pill v">1.000 € y 6 puntos</span></div>
-<div><span class="lbl">Delito</span><span class="pill v">más de 0,60 aire o 1,2 sangre</span></div>
-<div><span class="lbl">Entre las dos pruebas</span><span class="pill v">10 minutos</span></div>
-<div><span class="lbl">Drogas</span><span class="pill v">basta con dar positivo: 1.000 € y 6</span></div>
-<div><span class="lbl">Negarse a la prueba</span><span class="pill v">delito</span></div>
-</div>
-<div class="mnemo">Aire = la mitad que sangre. La reforma a 0,2 g/l en sangre sigue en trámite: hoy no está en vigor.</div>
-</section>
+<h2 class="gh">Puntos</h2>
+<div class="group">${kv("Novel","8")}${kv("Tras 2 años sin perder puntos","12")}${kv("3 años más sin infracciones","14")}${kv("Máximo","15")}</div>
+<div class="group" style="margin-top:12px">${pts(6,"var(--red)",["Móvil en la mano","Drogas en el organismo","Negarse a las pruebas","Temeraria, sentido contrario o carreras","Tirar colillas u objetos","Adelantar a un ciclista en peligro o sin 1,5 m","Alcohol de más de 0,50 en aire (0,30 novel)"])}${pts(4,"var(--orange)",["Semáforo en rojo, STOP o ceda el paso","Sin distancia de seguridad","Sin cinturón, casco o sillita","Adelantar en peligro o sin visibilidad","Marcha atrás en autopista o autovía","No obedecer a un agente","Alcohol de 0,25 a 0,50 en aire"])}${pts(3,"#d4a000",["Auriculares o manipular el móvil","Detector de radar","Cambio de sentido prohibido"])}${pts("2–6","var(--indigo)",["Exceso de velocidad, según cuánto"])}</div>
+<div class="group" style="margin-top:12px">${kv("Curso de recuperación parcial","hasta 4 puntos")}${kv("Curso de conducción segura sin haber perdido","+2")}${kv("Sin infracciones (3 si fue muy grave)","2 años → 12")}${kv("Sin puntos","6 meses sin carné")}</div>
+<div class="memo"><b>6</b> = lo que mata. <b>4</b> = lo que no respetas. <b>3</b> = lo que te distrae.</div>
 
-<section class="ck c-pts"><h3>Puntos del carné</h3>
-<div class="ladder"><div class="st s8"><b class="v">8</b><span>novel</span></div><div class="ar">2 años limpio</div><div class="st s12"><b class="v">12</b><span>estándar</span></div><div class="ar">+3 años</div><div class="st s14"><b class="v">14</b></div><div class="ar">+3 años</div><div class="st s15"><b class="v">15</b><span>máximo</span></div></div>
-<div class="pgrid">
-<div class="pg p6"><div class="pn">6</div><ul><li>Móvil en la mano</li><li>Drogas en el organismo</li><li>Negarse a las pruebas de alcohol o drogas</li><li>Temeraria, sentido contrario, carreras</li><li>Tirar una colilla u objetos a la vía</li><li>Adelantar a un ciclista poniéndolo en peligro o sin 1,5 m</li><li>Alcohol: más de 0,50 en aire (0,30 si eres novel)</li></ul></div>
-<div class="pg p4"><div class="pn">4</div><ul><li>Semáforo en rojo, STOP, ceda el paso</li><li>No guardar la distancia de seguridad</li><li>Cinturón, casco o sillita</li><li>Adelantar poniendo en peligro o sin visibilidad</li><li>Marcha atrás en autopista o autovía</li><li>No obedecer a un agente</li><li>Conducir con permiso que no habilita</li><li>Alcohol: 0,25 a 0,50 en aire</li></ul></div>
-<div class="pg p3"><div class="pn">3</div><ul><li>Auriculares o manipular dispositivos</li><li>Detector de radar</li><li>Cambio de sentido prohibido</li></ul></div>
-<div class="pg pv"><div class="pn">2–6</div><ul><li>Exceso de velocidad, según cuánto te pases</li></ul></div>
-</div>
-<div class="minis">
-<div><span class="lbl">Curso de recuperación parcial</span><span class="pill v">hasta 4 puntos, cada 2 años</span></div>
-<div><span class="lbl">Curso de conducción segura sin haber perdido</span><span class="pill v">+2 puntos</span></div>
-<div><span class="lbl">2 años sin infracciones</span><span class="pill v">vuelves a 12 (3 años si fue muy grave)</span></div>
-<div><span class="lbl">Te quedas sin puntos</span><span class="pill v">6 meses sin carné (12 si reincides)</span></div>
-<div><span class="lbl">Máximo que se pierde en un día</span><span class="pill v">8 puntos, salvo casos muy graves</span></div>
-</div>
-<div class="mnemo">Truco: <b>6 = lo que mata</b> (móvil, drogas, alcohol alto, temeraria). <b>4 = lo que no respetas</b> (rojo, STOP, cinturón, distancia). <b>3 = lo que te distrae</b>.</div>
-</section>
+<h2 class="gh">Distancias y tiempos</h2>
+<div class="group">${kv("Separación lateral con ciclista o vehículo parado en tu carril","1,5 m","p22")}${kv("Reducir al rebasarlos fuera de poblado","− 20 km/h")}${kv("Detrás de una bici en ciudad","5 m","e:bicycle")}${kv("Distancia de seguridad normal","2 s","e:stopwatch")}${kv("En túneles (turismo)","100 m · 4 s","s5")}${kv("Camión de más de 3.500 kg y 10 m, fuera de poblado","50 m","e:articulated-lorry")}${kv("Marcha atrás máxima","15 m")}${kv("Parada máxima","2 min")}${kv("Descanso en viaje","2 h · 200 km","e:hot-beverage")}${kv("Moto por el arcén en atasco, tramos señalizados","30 km/h","e:motorcycle")}${kv("Hasta esta altura, sillita y asiento trasero","135 cm","e:baby")}${kv("Dibujo mínimo del neumático","1,6 mm")}</div>
 
-<section class="ck c-dist"><h3>Distancias y tiempos</h3>
-<div class="dist">
-<div class="ds"><b class="v">1,5 m</b><span>separación lateral al adelantar a un ciclista o a un vehículo parado en tu carril</span></div>
-<div class="ds"><b class="v">− 20</b><span>km/h respecto al límite al hacerlo, fuera de poblado</span></div>
-<div class="ds"><b class="v">5 m</b><span>detrás de una bici en ciudad, en el mismo carril</span></div>
-<div class="ds"><b class="v">2 s</b><span>distancia de seguridad normal (el doble con lluvia)</span></div>
-<div class="ds"><b class="v">100 m · 4 s</b><span>en túneles, turismos</span></div>
-<div class="ds"><b class="v">50 m</b><span>camión de más de 3.500 kg y más de 10 m de largo, fuera de poblado</span></div>
-<div class="ds"><b class="v">15 m</b><span>marcha atrás como máximo, sin invadir un cruce</span></div>
-<div class="ds"><b class="v">2 min</b><span>parada máxima; más tiempo es estacionar</span></div>
-<div class="ds"><b class="v">2 h · 200 km</b><span>descanso recomendado en viaje</span></div>
-<div class="ds"><b class="v">30</b><span>km/h: moto por el arcén en atasco, solo en tramos señalizados</span></div>
-<div class="ds"><b class="v">135 cm</b><span>hasta esa altura, sillita y asiento trasero</span></div>
-<div class="ds"><b class="v">1,6 mm</b><span>dibujo mínimo del neumático</span></div>
-</div>
-</section>
+<h2 class="gh">Permisos y plazos</h2>
+<div class="group">${kv("Masa máxima con el permiso B","3.500 kg","e:automobile")}${kv("Plazas con el conductor","9")}${kv("Remolque ligero, siempre","750 kg")}${kv("Remolque mayor si el conjunto no pasa de","3.500 kg")}${kv("Moto con 3 años de B (en España)","125 cc","e:motorcycle")}${kv("Placa L","1 año")}${kv("Novel (alcohol y puntos)","2 años")}${kv("Validez del teórico aprobado","2 años")}${kv("Renovar el B (5 desde los 65)","10 años")}</div>
+<div class="group" style="margin-top:12px">${kv("AM (ciclomotor) y patinete","15 años")}${kv("A1","16 años")}${kv("B y A2","18 años")}${kv("Pasajero de moto (7 si conduce padre o madre)","12 años")}${kv("Bici: casco en cualquier vía","menores de 16")}</div>
 
-<section class="ck c-perm"><h3>Permisos y vehículos</h3>
-<div class="permB">
-<div class="pb"><svg viewBox="0 0 120 60"><rect x="4" y="20" width="70" height="26" rx="6" fill="#0050b5"/><rect x="14" y="10" width="40" height="16" rx="5" fill="#0050b5"/><circle cx="20" cy="48" r="7" fill="#222"/><circle cx="58" cy="48" r="7" fill="#222"/><rect x="82" y="26" width="34" height="20" rx="3" fill="#f6c400"/><circle cx="99" cy="48" r="6" fill="#222"/><path d="M74 36 H82" stroke="#222" stroke-width="3"/></svg>
-<div class="pbg"><div><b class="v">3.500 kg</b><span>MMA máxima con B</span></div><div><b class="v">9</b><span>plazas con el conductor</span></div><div><b class="v">750 kg</b><span>remolque ligero, siempre</span></div><div><b class="v">≤ 3.500 kg</b><span>conjunto si el remolque es mayor</span></div><div><b class="v">B96 / BE</b><span>para conjuntos más pesados</span></div><div><b class="v">125 cc</b><span>moto con 3 años de B, en España</span></div></div></div>
-</div>
-<h4>Edades</h4>
-<div class="ages"><div><b class="v">15</b><span>AM (ciclomotor) y patinete</span></div><div><b class="v">16</b><span>A1</span></div><div><b class="v">18</b><span>B y A2</span></div><div><b class="v">12</b><span>pasajero de moto (7 si conduce padre o madre)</span></div><div><b class="v">14</b><span>bici por arcén de autovía</span></div><div><b class="v">&lt; 16</b><span>bici: casco en cualquier vía</span></div></div>
-<h4>Plazos</h4>
-<div class="ages"><div><b class="v">1 año</b><span>placa L</span></div><div><b class="v">2 años</b><span>novel (alcohol y puntos)</span></div><div><b class="v">2 años</b><span>vale el teórico aprobado</span></div><div><b class="v">10 años</b><span>renovar el B (5 desde los 65)</span></div></div>
-</section>
-
-<section class="ck c-mult"><h3>Multas</h3>
-<div class="ages"><div><b class="v">100 €</b><span>leve (hasta)</span></div><div><b class="v">200 €</b><span>grave</span></div><div><b class="v">500 €</b><span>muy grave</span></div><div><b class="v">50 %</b><span>descuento pagando en 20 días</span></div><div><b class="v">3 / 6 meses</b><span>prescriben leves / graves y muy graves</span></div><div><b class="v">80 €</b><span>no llevar baliza V16</span></div><div><b class="v">200 €</b><span>sin guantes o calzado cerrado en moto, o patinete sin casco</span></div></div>
-</section>
+<h2 class="gh">Multas</h2>
+<div class="group">${kv("Leve","hasta 100 €")}${kv("Grave","200 €")}${kv("Muy grave","500 €")}${kv("Pagando en 20 días","50 % de descuento")}${kv("Prescripción leves / graves","3 / 6 meses")}${kv("Sin baliza V16","80 €")}${kv("Moto sin guantes o calzado cerrado, patinete sin casco","200 €")}</div>
 </div>`;
-const ch=$("#ch"),tb=$("#tapar");let on=false;
-tb.onclick=()=>{on=!on;ch.classList.toggle("hide",on);ch.querySelectorAll(".v.shown").forEach(e=>e.classList.remove("shown"));tb.textContent="Modo tapar: "+(on?"sí":"no");tb.setAttribute("aria-pressed",on)};
-$("#destap").onclick=()=>ch.querySelectorAll(".v").forEach(e=>e.classList.add("shown"));
-ch.addEventListener("click",e=>{const v=e.target.closest(".v");if(v&&on)v.classList.toggle("shown")})},
+const ch=$("#cheat");
+$("#tapar").onchange=e=>{ch.classList.toggle("hide",e.target.checked);ch.querySelectorAll(".shown").forEach(x=>x.classList.remove("shown"))};
+ch.addEventListener("click",e=>{if(!ch.classList.contains("hide"))return;const t=e.target.closest(".val,.sv,.itvbar");if(t)t.classList.toggle("shown")})},
 mine(){const f=fails();
-$("#view").innerHTML=`<section class="panel"><h2 style="margin:0 0 4px;font-size:26px">Tus fallos</h2><p class="mut" style="margin:0 0 12px">Cada pregunta que fallas aquí o en un simulacro se guarda sola. Corrígelas hasta que desaparezcan.</p>
-${f.length?`<button class="cta" id="fixall" style="margin-top:0"><div><b>Corregir mis fallos</b><span>${f.length} pendientes</span></div><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="14" fill="#fff"/><path d="M12 9 L19 15 L12 21" stroke="#1957c2" stroke-width="3" fill="none" stroke-linecap="round"/></svg></button><div style="margin-top:12px">${f.slice(0,40).map(c=>`<div class="frow"><span class="ticon">${IMG.get(c.img)}</span><span><b style="font-weight:600">${esc(c.q)}</b><br><small>${esc(c.o[c.a])}</small></span></div>`).join("")}</div>`:`<div class="empty">${IMG.get("sPrio").replace('viewBox="0 0 240 150"','viewBox="50 5 140 140"')}<p>Sin fallos pendientes. Buen trabajo.</p></div>`}</section>
-<section class="sec"><h3>Fallos de los tests de la autoescuela</h3><div class="panel"><p class="mut" style="margin:0 0 10px">Si fallas una pregunta en otra app, apúntala con tus palabras y entra en tus repasos.</p>
-<form id="f"><label for="mq">Pregunta</label><input id="mq" required placeholder="Resumen de la pregunta"><label for="ma">Respuesta correcta</label><input id="ma" required placeholder="La que diga el test"><label for="mw">Por qué (opcional)</label><textarea id="mw" rows="2"></textarea><button class="big" type="submit" style="width:100%">Guardar nota</button></form>
-${S.mine.length?`<div style="margin-top:12px">${S.mine.map((m,i)=>`<div class="frow" style="grid-template-columns:1fr auto"><span><b style="font-weight:600">${esc(m.q)}</b><br><small>${esc(m.a)}</small></span><button class="btn2" data-del="${i}">Borrar</button></div>`).join("")}</div>`:""}</div></section>
-<section class="sec"><h3>Copia de seguridad</h3><div class="panel"><p class="mut" style="margin:0 0 10px">El progreso se guarda en este móvil. Antes de cambiar de móvil o borrar datos del navegador, copia tu código y pégalo en el nuevo.</p><div class="row" style="justify-content:flex-start"><button class="btn2" id="cp">Copiar mi código</button><button class="btn2" id="rs">Restaurar</button></div><textarea id="bk" rows="3" placeholder="Aquí aparece o se pega el código" style="margin-top:10px"></textarea><p class="mut" id="bkm" aria-live="polite" style="margin:0"></p></div></section>`;
+$("#view").innerHTML=`${lt("Fallos")}
+${f.length?`<div class="pad" style="margin-top:4px"><button class="btn" id="fixall">Corregir ${f.length} ${f.length==1?"fallo":"fallos"}</button></div><h2 class="gh">Pendientes</h2><div class="group">${f.slice(0,60).map(c=>`<div class="cell ic">${ico(c.img,TINT[c.t])}<span class="t"><b style="white-space:normal;font-size:15.5px;line-height:1.3">${esc(c.q)}</b><small>${esc(c.o[c.a])}</small></span></div>`).join("")}</div><p class="gf">Cada pregunta que fallas se guarda aquí sola y desaparece cuando la aciertas.</p>`:`<div class="group"><div class="cell ic">${ico("e:shield","#34c759")}<span class="t"><b>Sin fallos pendientes</b><small>Las preguntas que falles aparecerán aquí.</small></span></div></div>`}
+<h2 class="gh">Fallos de otros tests</h2>
+<form id="f"><div class="group"><input class="field" id="mq" required placeholder="Pregunta"><div class="fsep"></div><input class="field" id="ma" required placeholder="Respuesta correcta"><div class="fsep"></div><textarea class="field" id="mw" placeholder="Por qué (opcional)"></textarea></div><div class="pad"><button class="btn tint" type="submit">Guardar en mis repasos</button></div></form>
+${S.mine.length?`<div class="group" style="margin-top:12px">${S.mine.map((m,i)=>`<div class="cell"><span class="t"><b style="white-space:normal">${esc(m.q)}</b><small>${esc(m.a)}</small></span><button style="color:var(--red);font-size:15px;min-height:44px" data-del="${i}">Borrar</button></div>`).join("")}</div>`:""}
+<p class="gf">Si fallas una pregunta en el test de la autoescuela, apúntala con tus palabras y entrará en tus repasos.</p>
+<h2 class="gh">Copia de seguridad</h2>
+<div class="group"><button class="cell" id="cp"><span class="t"><b style="color:var(--blue)">Copiar mi código de progreso</b></span></button><button class="cell" id="rs"><span class="t"><b style="color:var(--blue)">Restaurar desde un código</b></span></button></div>
+<div class="group" style="margin-top:10px"><textarea class="field" id="bk" placeholder="Aquí aparece o se pega el código"></textarea></div>
+<p class="gf" id="bkm">El progreso se guarda en este móvil. Antes de cambiar de móvil o borrar datos del navegador, copia el código.</p>`;
 const fx=$("#fixall");if(fx)fx.onclick=()=>startSess("__fails");
 $("#f").onsubmit=e=>{e.preventDefault();S.mine.push({q:$("#mq").value.trim(),a:$("#ma").value.trim(),w:$("#mw").value.trim()});save();R.mine()};
 $("#view").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const i=+b.dataset.del;S.mine.splice(i,1);const c={};for(const k in S.c){if(k[0]!="m")c[k]=S.c[k];else{const j=+k.slice(1);if(j<i)c[k]=S.c[k];else if(j>i)c["m"+(j-1)]=S.c[k]}}S.c=c;save();R.mine()});
-$("#cp").onclick=async()=>{const code="ATAJO1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S))));$("#bk").value=code;try{await navigator.clipboard.writeText(code);$("#bkm").textContent="Copiado. Guárdalo en una nota o mándatelo por WhatsApp."}catch(e){$("#bk").select();$("#bkm").textContent="Selecciónalo y cópialo a mano."}};
-$("#rs").onclick=()=>{const v=$("#bk").value.trim();try{if(!v.startsWith("ATAJO1:"))throw 0;const d=JSON.parse(decodeURIComponent(escape(atob(v.slice(7)))));if(!d||typeof d.c!="object")throw 0;S=Object.assign({c:{},mine:[],streak:0,last:"",sel:[],t:{},ex:[]},d);save();streakUI();$("#bkm").textContent="Progreso restaurado."}catch(e){$("#bkm").textContent="Ese código no es válido. Cópialo entero, empieza por ATAJO1."}}}
+$("#cp").onclick=async()=>{const code="ATAJO1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S))));$("#bk").value=code;try{await navigator.clipboard.writeText(code);$("#bkm").textContent="Código copiado. Guárdalo en Notas o mándatelo por WhatsApp."}catch(e){$("#bk").select();$("#bkm").textContent="Selecciónalo y cópialo a mano."}};
+$("#rs").onclick=()=>{const v=$("#bk").value.trim();try{if(!v.startsWith("ATAJO1:"))throw 0;const d=JSON.parse(decodeURIComponent(escape(atob(v.slice(7)))));if(!d||typeof d.c!="object")throw 0;S=Object.assign({c:{},mine:[],streak:0,last:"",sel:[],t:{},ex:[],day:"",dn:0},d);save();badge();$("#bkm").textContent="Progreso restaurado."}catch(e){$("#bkm").textContent="Ese código no es válido. Cópialo entero: empieza por ATAJO1."}}}
 };
 
-function howSheet(){const s=$("#sheet");$("#sheetc").innerHTML=`<h3>Cómo funciona</h3>
-<h4>Recordar, no releer</h4><p>Cada pregunta te obliga a sacar la respuesta de la cabeza antes de verla. Ese esfuerzo es lo que la fija.</p>
-<h4>Repasar justo antes de olvidar</h4><p>Cada acierto aleja la pregunta (mañana, en 3 días, en una semana, en dos). Cada fallo la trae de vuelta enseguida. No pierdes tiempo con lo que ya sabes.</p>
-<h4>Poco y a diario</h4><p>Diez minutos al día rinden más que una tarde de maratón. Por eso cuenta la racha.</p>
-<h4>Ver y entender</h4><p>Todas las preguntas llevan su señal o escena, y cada respuesta trae el porqué y, a veces, un truco.</p>
-<h4>El plan</h4><p>Sesión diaria hasta el 80 % de dominio. Después, un simulacro al día. Con tres aptos seguidos, a pedir fecha.</p>
-<h4>Trampas típicas</h4><p>Desconfía de «siempre» y «nunca», lee hasta el final por si hay un «no» escondido y, si dudas, elige la opción que más protege a peatones y ciclistas.</p>
-<h4>Instálala</h4><p>En el navegador del móvil, «Añadir a pantalla de inicio». Se abre a pantalla completa, funciona sin conexión y conserva mejor tu progreso.</p>
-<button class="go" id="shx">Entendido</button>`;s.hidden=false;$("#shx").onclick=()=>s.hidden=true;s.onclick=e=>{if(e.target==s)s.hidden=true}}
+function modal(title,html){const m=$("#modal");$("#modalc").innerHTML=`<div class="mt"><span></span><b>${title}</b><button id="mx">OK</button></div>${html}`;m.hidden=false;$("#mx").onclick=()=>m.hidden=true;m.onclick=e=>{if(e.target==m)m.hidden=true}}
+function howModal(){modal("Cómo funciona",`<div class="prose"><h4>Recordar, no releer</h4><p>Cada pregunta te obliga a sacar la respuesta de memoria antes de verla. Ese esfuerzo es lo que la fija.</p><h4>Repasar justo antes de olvidar</h4><p>Cada acierto aleja la pregunta: mañana, en 3 días, en una semana, en dos. Cada fallo la trae de vuelta enseguida.</p><h4>Poco y a diario</h4><p>El anillo azul es tu objetivo del día: 10 preguntas. El verde, todo lo que ya dominas.</p><h4>El plan</h4><p>Sesión diaria hasta el 80 % de dominio. Después, un simulacro al día. Con tres aptos seguidos, a pedir fecha.</p><h4>Trampas típicas</h4><p>Desconfía de «siempre» y «nunca», lee hasta el final por si hay un «no» escondido y, si dudas, elige la opción que más protege a peatones y ciclistas.</p></div>`)}
+function installModal(){modal("Instalar",`<div class="prose"><h4>En iPhone (Safari)</h4><p>Pulsa el botón Compartir y elige «Añadir a pantalla de inicio». Se abrirá a pantalla completa, como una app.</p><h4>En Android (Chrome)</h4><p>Menú de los tres puntos y «Añadir a pantalla de inicio» o «Instalar aplicación».</p><h4>Por qué conviene</h4><p>Instalada, funciona sin conexión y el móvil conserva mejor tu progreso. Safari puede borrar los datos de una web que no se abre en una semana; instalada, no.</p></div>`)}
+function creditsModal(){const fs=[...new Set(Object.values(IMG.SFILE))];modal("Fuentes y créditos",`<div class="prose"><h4>Señales de tráfico</h4><p>Imágenes oficiales del catálogo español alojadas en Wikimedia Commons, en dominio público o con licencias libres de sus autores. Toca cualquiera para ver su ficha y licencia.</p></div><div class="group" style="margin-top:10px">${fs.map(f=>`<a class="cell" style="color:inherit;text-decoration:none;min-height:44px" href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(f)}" target="_blank" rel="noopener"><span class="t"><b style="font-size:14px">${esc(f.replace(/_/g," "))}</b></span>${CHEV}</a>`).join("")}</div><div class="prose"><h4>Ilustraciones</h4><p>Fluent Emoji de Microsoft, licencia MIT.</p><h4>Normativa</h4><p>Reglamento General de Circulación (con la reforma del Real Decreto 518/2026), Ley de Tráfico y Seguridad Vial, Real Decreto 920/2017 (ITV) y notas oficiales de la DGT, a 26/11/2026.</p></div>`)}
 
-// ---- capa de juego ----
+// ---- juego ----
 let sess=null,exam=null,timerId=null;
-const play=$("#play"),fb=$("#fb");
+const play=$("#play"),sh=$("#sheet");
+const CHECK=`<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="var(--green)"/><path d="M8 14.5l4 4 8-9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CROSS=`<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="var(--red)"/><path d="M9.5 9.5l9 9M18.5 9.5l-9 9" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>`;
 function openPlay(){play.hidden=false;document.body.style.overflow="hidden"}
-function closePlay(){clearInterval(timerId);document.onkeydown=null;play.hidden=true;fb.classList.remove("show","bad");document.body.style.overflow="";sess=null;exam=null}
-function head(i,n,right){return `<div class="phead"><div class="wrap"><button class="x" id="px" aria-label="Salir">${X}</button><div class="prog"><i style="width:${i/n*100}%"></i></div><span class="pcount" id="pc">${right}</span></div></div>`}
-
+function closePlay(){clearInterval(timerId);document.onkeydown=null;play.hidden=true;sh.classList.remove("show");document.body.style.overflow="";sess=null;exam=null}
+function mhead(i,n,right,close="Cerrar"){return `<div class="mh"><button class="close" id="px">${close}</button><div class="track"><i style="width:${i/n*100}%"></i></div><span class="cnt" id="pc">${right}</span></div>`}
 function startSess(topic){let pool=cards();
 if(topic=="__fails")pool=fails();else if(topic)pool=pool.filter(c=>c.t==topic);
 const now=Date.now(),d=shuffle(pool.filter(c=>st(c.id).b>0&&st(c.id).d<=now)).sort((a,b)=>st(a.id).b-st(b.id).b),n=shuffle(pool.filter(c=>st(c.id).b==0));
 let q=topic=="__fails"?shuffle(pool.slice()).slice(0,10):d.slice(0,10);if(q.length<10)q=q.concat(n.slice(0,10-q.length));
 if(q.length<10){const rest=shuffle(pool.filter(c=>!q.includes(c))).sort((a,b)=>st(a.id).d-st(b.id).d);q=q.concat(rest.slice(0,10-q.length))}
-if(!q.length)return;
-sess={q:q.map(c=>({c,miss:false})),i:0,ok:0,tot:q.length,topic};openPlay();showCard()}
-function showCard(){fb.classList.remove("show","bad");const it=sess.q[sess.i];if(!it)return endSess();const c=it.c;
-const tag=`<span class="qtag ${NEW.has(c.t)?"new":""}">${esc(c.t)}</span>${it.miss?' <span class="qtag again">otra vez</span>':""}`;
-if(c.flash){play.innerHTML=head(sess.i,sess.q.length,`${sess.i+1}/${sess.q.length}`)+`<div class="wrap qbody">${tag}<p class="qtext">${esc(c.q)}</p><p class="mut">Piensa la respuesta antes de darle la vuelta.</p><button class="go" id="rev">Ver respuesta</button></div>`;
-$("#px").onclick=()=>go("home");$("#rev").onclick=()=>{feedback(null,c,`<h4 style="color:var(--blue)">${esc(c.ans)}</h4>${c.w?`<p>${esc(c.w)}</p>`:""}<div class="row" style="margin-top:14px;flex-wrap:nowrap"><button class="go" id="no" style="margin:0;background:var(--asf)">No la sabía</button><button class="go" id="si" style="margin:0">La sabía</button></div>`);$("#si").onclick=()=>grade(true);$("#no").onclick=()=>grade(false)};return}
+if(!q.length)return;sess={q:q.map(c=>({c,miss:false})),i:0,ok:0,tot:q.length,topic};openPlay();showCard()}
+function meta(c,extra=""){return `<div class="qmeta"><span>${esc(c.t)}</span>${NEW.has(c.t)?'<span class="new">Nuevo</span>':""}${extra}</div>`}
+function showCard(){sh.classList.remove("show");const it=sess.q[sess.i];if(!it)return endSess();const c=it.c;
+const extra=it.miss?'<span class="again">· Otra vez</span>':"";
+if(c.flash){play.innerHTML=mhead(sess.i,sess.q.length,`${sess.i+1} de ${sess.q.length}`)+`<div class="qwrap">${meta(c,extra)}<p class="qtext">${esc(c.q)}</p><p class="gf" style="margin:0 4px">Piensa la respuesta antes de verla.</p><div style="margin-top:16px"><button class="btn" id="rev">Ver respuesta</button></div></div>`;
+$("#px").onclick=()=>go(cur);$("#rev").onclick=()=>{sheet(`<div class="res-h" style="color:var(--blue)">${esc(c.ans)}</div>${c.w?`<p>${esc(c.w)}</p>`:""}<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn gray" id="no">No la sabía</button><button class="btn" id="si">La sabía</button></div>`);$("#si").onclick=()=>grade(true);$("#no").onclick=()=>grade(false)};return}
 const ord=shuffle([0,1,2]);
-play.innerHTML=head(sess.i,sess.q.length,`${sess.i+1}/${sess.q.length}`)+`<div class="wrap qbody">${tag}${qimg(c)}<p class="qtext">${esc(c.q)}</p><div class="opts" id="opts">${ord.map((o,k)=>`<button class="opt" data-o="${o}"><i>${"ABC"[k]}</i><span>${esc(c.o[o])}</span></button>`).join("")}</div></div>`;
-play.scrollTop=0;$("#px").onclick=()=>go("home");
+play.innerHTML=mhead(sess.i,sess.q.length,`${sess.i+1} de ${sess.q.length}`)+`<div class="qwrap">${meta(c,extra)}${media(c)}<p class="qtext">${esc(c.q)}</p><div class="opts" id="opts">${ord.map((o,k)=>`<button class="opt" data-o="${o}"><span class="rad">${"ABC"[k]}</span><span>${esc(c.o[o])}</span></button>`).join("")}</div></div>`;
+play.scrollTop=0;$("#px").onclick=()=>go(cur);
 $("#opts").onclick=e=>{const b=e.target.closest(".opt");if(b&&!b.disabled)answer(+b.dataset.o)};
 document.onkeydown=e=>{const k="abc".indexOf(e.key.toLowerCase());if(k>=0&&!$("#opts .opt:disabled"))answer(+$("#opts").children[k].dataset.o)}}
-function feedback(ok,c,html){$("#fbc").innerHTML=html;fb.classList.toggle("bad",ok===false);fb.classList.add("show")}
+function sheet(html){$("#sheetc").innerHTML=`<div class="grab"></div>${html}`;sh.classList.add("show")}
 function answer(o){const it=sess.q[sess.i],c=it.c,right=o==c.a;if(!it.miss)track(c.t,right);
-$("#opts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;const v=+b.dataset.o;if(v==c.a)b.classList.add("good");else if(v==o)b.classList.add("bad")});
-if(!right)vib(60);
-feedback(right,c,`<h4>${right?"Correcto":"No es esa"}</h4>${right?"":`<p><b>Correcta:</b> ${esc(c.o[c.a])}</p>`}<p>${esc(c.w)}</p>${c.h?`<div class="hook">${esc(c.h)}</div>`:""}<button class="go" id="nx">Continuar</button>`);
-$("#nx").onclick=()=>grade(right);setTimeout(()=>{try{$("#nx").focus({preventScroll:true})}catch(e){}},50);document.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();grade(right)}}}
+$("#opts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;const v=+b.dataset.o;if(v==c.a){b.classList.add("good");b.querySelector(".rad").textContent="✓"}else if(v==o){b.classList.add("bad");b.querySelector(".rad").textContent="✕"}});
+if(!right)vib([30,40,30]);
+sheet(`<div class="res-h" style="color:${right?"var(--green)":"var(--red)"}">${right?CHECK:CROSS}${right?"Correcto":"Incorrecto"}</div>${right?"":`<p class="corr">Respuesta correcta: <b style="color:var(--label)">${esc(c.o[c.a])}</b></p>`}<p>${esc(c.w)}</p>${c.h?`<div class="tip"><img src="img/e/light-bulb.webp" alt="">${esc(c.h)}</div>`:""}<button class="btn" id="nx">Continuar</button>`);
+$("#nx").onclick=()=>grade(right);setTimeout(()=>{try{$("#nx").focus({preventScroll:true})}catch(e){}},60);document.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();grade(right)}}}
 function grade(right){document.onkeydown=null;const it=sess.q[sess.i],s=st(it.c.id);
+if(!it.miss&&!it.c.flash)S.dn++;
 if(right){if(!it.miss){s.b=Math.min(5,s.b+1);sess.ok++}else s.b=Math.max(2,s.b);s.d=Date.now()+IV[s.b]*DAY}
 else{s.b=1;s.d=Date.now();if(!it.miss)sess.q.splice(Math.min(sess.i+4,sess.q.length),0,{c:it.c,miss:true})}
 S.c[it.c.id]=s;save();sess.i++;showCard()}
-function endSess(){bumpStreak();save();const m=mastered(),n=cards().length,t=sess.topic;fb.classList.remove("show","bad");
-play.innerHTML=head(1,1,"")+`<div class="wrap"><div class="res"><p style="margin:0">Aciertos a la primera</p><div class="rbig">${sess.ok}/${sess.tot}</div><p>Llevas el ${Math.round(m/n*100)} % dominado · racha de ${S.streak} ${S.streak==1?"día":"días"}</p><p>${due()?`Te quedan ${due()} preguntas para repasar hoy.`:"Por hoy está hecho. Mañana la app sabrá qué preguntarte."}</p><div class="rowb"><button class="primary" id="again">Otras 10</button><button class="btn2" id="home">Volver al inicio</button></div></div></div>`;
-$("#px").onclick=()=>go("home");$("#again").onclick=()=>startSess(t);$("#home").onclick=()=>go("home")}
-
+function endSess(){bumpStreak();save();sh.classList.remove("show");const m=mastered(),n=BK.length,t=sess.topic;
+play.innerHTML=mhead(1,1,"","Listo")+`<div class="qwrap" style="padding-bottom:40px"><div class="result"><div class="ring">${ringSVG(m/n,S.dn/GOAL,160)}</div><h2>${sess.ok} de ${sess.tot} a la primera</h2><p>${S.dn>=GOAL?"Objetivo de hoy cumplido.":`Te faltan ${GOAL-S.dn} para el objetivo de hoy.`} Racha de ${S.streak} ${S.streak==1?"día":"días"}.</p></div>
+<div class="group" style="margin:18px 0 0"><div class="cell"><span class="t"><b>Dominadas</b></span><span class="v">${m} de ${n}</span></div><div class="cell"><span class="t"><b>Pendientes para hoy</b></span><span class="v">${due()}</span></div><div class="cell"><span class="t"><b>Fallos por corregir</b></span><span class="v">${fails().length}</span></div></div>
+<div style="display:grid;gap:10px;margin-top:18px"><button class="btn" id="again">Otras 10 preguntas</button><button class="btn gray" id="home">Volver</button></div></div>`;
+$("#px").onclick=()=>go(cur);$("#again").onclick=()=>startSess(t);$("#home").onclick=()=>go(cur)}
 function startExam(){const q=shuffle(BK.map((x,i)=>i)).slice(0,30);exam={q,ord:q.map(()=>shuffle([0,1,2])),i:0,ans:[],end:Date.now()+30*60e3,done:false};openPlay();timerId=setInterval(tick,1000);showQ()}
-function tick(){if(!exam||exam.done)return;const t=Math.max(0,exam.end-Date.now()),el=$("#pc");if(el){el.textContent=`${Math.floor(t/60e3)}:${String(Math.floor(t/1e3)%60).padStart(2,"0")}`;el.classList.toggle("low",t<5*60e3);el.classList.add("timer")}if(!t)finishExam()}
+function tick(){if(!exam||exam.done)return;const t=Math.max(0,exam.end-Date.now()),el=$("#pc");if(el){el.textContent=`${Math.floor(t/60e3)}:${String(Math.floor(t/1e3)%60).padStart(2,"0")}`;el.classList.toggle("low",t<5*60e3)}if(!t)finishExam()}
 function showQ(){if(exam.i>=30)return finishExam();const c=BK[exam.q[exam.i]];
-play.innerHTML=head(exam.i,30,"")+`<div class="wrap qbody"><span class="qtag">Pregunta ${exam.i+1} de 30</span>${qimg(c)}<p class="qtext">${esc(c.q)}</p><div class="opts" id="opts">${exam.ord[exam.i].map((o,k)=>`<button class="opt" data-o="${o}"><i>${"ABC"[k]}</i><span>${esc(c.o[o])}</span></button>`).join("")}</div></div>`;
-play.scrollTop=0;tick();$("#px").onclick=()=>{if(exam.i==0||confirmExit())go("exam")};
-const pick=(o,b)=>{if(exam.lock)return;exam.lock=true;if(b)b.classList.add("sel");setTimeout(()=>{exam.lock=false;exam.ans.push(o);exam.i++;showQ()},180)};
+play.innerHTML=mhead(exam.i,30,"","Salir")+`<div class="qwrap"><div class="qmeta"><span>Pregunta ${exam.i+1} de 30</span></div>${media(c)}<p class="qtext">${esc(c.q)}</p><div class="opts" id="opts">${exam.ord[exam.i].map((o,k)=>`<button class="opt" data-o="${o}"><span class="rad">${"ABC"[k]}</span><span>${esc(c.o[o])}</span></button>`).join("")}</div></div>`;
+play.scrollTop=0;tick();$("#px").onclick=()=>go("exam");
+const pick=(o,b)=>{if(exam.lock)return;exam.lock=true;if(b)b.classList.add("sel");setTimeout(()=>{exam.lock=false;exam.ans.push(o);exam.i++;showQ()},200)};
 $("#opts").onclick=e=>{const b=e.target.closest(".opt");if(b)pick(+b.dataset.o,b)};
 document.onkeydown=e=>{const k="abc".indexOf(e.key.toLowerCase());if(k>=0)pick(exam.ord[exam.i][k],$("#opts").children[k])}}
-function confirmExit(){return true}
 function finishExam(){if(exam.done)return;exam.done=true;clearInterval(timerId);document.onkeydown=null;const wrong=[];
 exam.q.forEach((qi,k)=>{const c=BK[qi],ok=exam.ans[k]==c.a;if(k<exam.ans.length)track(c.t,ok);if(!ok){wrong.push({c,a:exam.ans[k]});S.c[c.id]={b:1,d:Date.now()}}});
 S.ex.push({d:Date.now(),f:wrong.length});S.ex=S.ex.slice(-30);bumpStreak();save();const ok=wrong.length<=3;
-play.innerHTML=head(1,1,"")+`<div class="wrap" style="padding-bottom:calc(40px + var(--safe-b))"><div class="res"><div class="rbig ${ok?"ok":"ko"}">${ok?"Apto":"No apto"}</div><p>${wrong.length} ${wrong.length==1?"fallo":"fallos"} de 30. Se aprueba con 3 como máximo.</p><div class="rowb"><button class="primary" id="hm">Volver</button>${wrong.length?`<button class="btn2" id="fx">Corregir estos fallos</button>`:""}</div></div>
-${wrong.map(w=>{const c=w.c;return`<div class="rcard"><span class="qtag ${NEW.has(c.t)?"new":""}">${esc(c.t)}</span>${qimg(c)}<h5>${esc(c.q)}</h5>${w.a!=null?`<p class="rw">Tu respuesta: ${esc(c.o[w.a])}</p>`:'<p class="rw">Sin responder</p>'}<p class="rr">Correcta: ${esc(c.o[c.a])}</p><p class="rx">${esc(c.w)}</p></div>`}).join("")}</div>`;
+play.innerHTML=mhead(1,1,"","Listo")+`<div style="max-width:620px;margin:0 auto;padding-bottom:calc(40px + var(--safe-b))"><div class="result"><div class="ring">${ringSVG((30-wrong.length)/30,null,160)}</div><h2 style="color:${ok?"var(--green)":"var(--red)"}">${ok?"Apto":"No apto"}</h2><p>${30-wrong.length} de 30 correctas · ${wrong.length} ${wrong.length==1?"fallo":"fallos"} (máximo 3)</p></div>
+<div style="display:grid;gap:10px;margin:18px 16px 0">${wrong.length?`<button class="btn" id="fx">Corregir estos fallos</button>`:""}<button class="btn gray" id="hm">Volver</button></div>
+${wrong.length?`<h2 class="gh">Revisión</h2>`:""}${wrong.map(w=>{const c=w.c;return`<div class="rq">${meta(c)}${media(c)}<h5>${esc(c.q)}</h5>${w.a!=null?`<p class="w">Tu respuesta: ${esc(c.o[w.a])}</p>`:'<p class="w">Sin responder</p>'}<p class="r">Correcta: ${esc(c.o[c.a])}</p><p class="x">${esc(c.w)}</p></div>`}).join("")}</div>`;
 play.scrollTop=0;$("#px").onclick=()=>go("exam");$("#hm").onclick=()=>go("exam");const f=$("#fx");if(f)f.onclick=()=>startSess("__fails")}
 
 try{if("serviceWorker" in navigator&&/github\.io$/.test(location.hostname))navigator.serviceWorker.register("sw.js")}catch(e){}
