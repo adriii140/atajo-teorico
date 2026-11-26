@@ -119,6 +119,7 @@ img{display:block}
 .opt:disabled:not(.good):not(.bad){color:var(--label2)}
 .media.photo{background:#000}.media.photo img{width:100%;height:100%;object-fit:cover}.media{position:relative}.cred{position:absolute;right:8px;bottom:6px;font-size:10.5px;color:#fff;background:rgba(0,0,0,.45);padding:2px 7px;border-radius:6px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ico.ph img{width:100%;height:100%;object-fit:cover}
+.tsub{display:block;font-size:12px;color:var(--l2,#8e8e93);margin-top:3px;font-weight:400}
 /* hoja de respuesta */
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;transform:translateY(110%);visibility:hidden;transition:transform .34s cubic-bezier(.2,.9,.25,1),visibility 0s .34s}
 .sheet.show{transform:none;visibility:visible;transition:transform .34s cubic-bezier(.2,.9,.25,1)}
@@ -733,7 +734,7 @@ ${S.ex.length?`<div class="hist" aria-label="Últimos simulacros">${S.ex.slice(-
 ${f?`<button class="cell ic" id="tofails">${ico("e:warning","#ff9500")}<span class="t"><b>Corregir mis fallos</b></span><span class="v">${f}</span>${CHEV}</button>`:""}</div>
 <p class="gf">Cada acierto sube un nivel la pregunta y llena el anillo verde. Una pregunta queda dominada al acertarla 4 veces: dos el primer día, otra al día siguiente y otra unos días después. Si la fallas, vuelve a empezar.</p>
 <h2 class="gh">Temas</h2>
-<div class="group">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,p=prog(cs)*100;return `<button class="cell ic" data-t="${esc(t)}">${ico(TI[t],TINT[t])}<span class="t"><b>${esc(t)}${NEW.has(t)&&t.startsWith("Reforma")?' <span style="color:var(--red);font-size:13px;font-weight:600">· Nuevo</span>':""}</b><span class="minibar"><i style="width:${p}%"></i></span></span><span class="v">${mm}/${cs.length}</span>${CHEV}</button>`}).join("")}</div>
+<div class="group">${TOPICS.map(t=>{const cs=BK.filter(c=>c.t==t),mm=cs.filter(isM).length,ok=cs.filter(c=>{const x=st(c.id);return x.b>=1&&!x.f}).length,p=prog(cs)*100;return `<button class="cell ic" data-t="${esc(t)}">${ico(TI[t],TINT[t])}<span class="t"><b>${esc(t)}${NEW.has(t)&&t.startsWith("Reforma")?' <span style="color:var(--red);font-size:13px;font-weight:600">· Nuevo</span>':""}</b><span class="minibar"><i style="width:${p}%"></i></span><small class="tsub">${ok} acertadas · ${mm} dominadas</small></span><span class="v">${ok}/${cs.length}</span>${CHEV}</button>`}).join("")}</div>
 <h2 class="gh">Más</h2>
 <div class="group"><button class="cell ic" id="how">${ico("e:light-bulb","#ffcc00")}<span class="t"><b>Cómo funciona el método</b></span>${CHEV}</button><button class="cell ic" id="install">${ico("e:mobile-phone","#007aff")}<span class="t"><b>Instalar en el iPhone</b></span>${CHEV}</button><button class="cell ic" id="credits">${ico("e:memo","#8e8e93")}<span class="t"><b>Fuentes y créditos</b></span>${CHEV}</button></div>
 <p class="foot">Normativa vigente a 26/11/2026, incluida la reforma del Reglamento General de Circulación (Real Decreto 518/2026, en vigor desde el 1/10/2026). El examen teórico es el mismo en toda España. No sustituye al material de tu autoescuela.</p>`;
